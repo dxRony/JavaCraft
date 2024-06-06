@@ -1,0 +1,64 @@
+package olc1_vj24_3363565520917.backend.analisis;
+
+//importaciones 
+import java_cup.runtime.Symbol;
+
+//definiendo el parser
+parser code
+{:
+    scanner s;
+    parser(scanner s) {this.s = s;}
+    
+    public void syntax_error(Symbol s){
+        System.out.println("Error Sintactico en la linea " + 
+        (s.left) + " y columna " + (s.right) +
+        ". No se esperaba el componente: " + (s.value) + ".");
+    }
+
+    public void unrecovered_syntax_error(Symbol s ){
+        System.out.println("Error Sintactico no recuperable en la linea" +
+        (s.left) + " y columna " + (s.right) +
+        ". No se esperaba el componente: " + (s.value) + ".");
+    }
+:}
+
+action code 
+{:
+    string codigoUsr = "";                                              //aca se guarda el codigo del usuario
+
+:}
+                                                                        //terminales: los que no generan una produccion en la gramatica
+terminal String CADENA, ENTERO, DECIMAL;                                //se define como string para poder acceder a su valor posteriormente
+terminal FINCADENA; IMPRIMIR, MAS, MENOS, MULTI, DIV, PARI, PARD, UMENOS;//no se les pone tipo para los que no interesa saber el valor
+
+                                                                        //no terminales: los que generan una produccion en la gramatica
+nonterminal String INICIO;                                              
+nonterminal INSTRUCCIONES, INSTRUCCION;
+nonterminal Double EXPRESION;
+
+precedence left MAS, MENOS;
+precedence left MULTI, DIV;
+precedence right UMENOS;            //la precedencia va de abajo hacia arriba: ↑
+
+start with INICIO;                                                      //se inicia con INICIO
+
+INICIO ::= INSTRUCCIONES        {:  RESULT = codigoUsr;  :}             //inicio produce INSTRUCCIONES
+
+INSTRUCCIONES ::= INSTRUCCIONES INSTRUCCION                             //instrucciones produce una lista de instrucciones o una sola INSTRUCCION
+                | INSTRUCCION
+;
+
+INSTRUCCION ::= IMPRIMIR PARI EXPRESION:a PARD FINCADENA        {:  codigoUsr+=a+"\n";  :}          //se va concatenando lo que se va a imprimir
+                | IMPRIMIR PARI CADENA:b PARD FINCADENA         {:  codigoUsr+=b+"\n";  :}          // ya sea expresion o cadena
+;
+
+EXPRESION ::= MENOS EXPRESION:a             {:  RESULT = a * -1;    :}%prec UMENOS          //en a se guarda el valor que trae expresion
+            | EXPRESION:a MAS EXPRESION:b   {:  RESULT = a + b;     :}                      //se guardan los valores y se hace la operacion
+            | EXPRESION:a MENOS EXPRESION:b {:  RESULT = a - b;     :}                      //el resultado se guarda en RESULT
+            | EXPRESION:a MULTI EXPRESION:b {:  RESULT = a * b;     :}
+            | EXPRESION:a DIV EXPRESION:b   {:  RESULT = a / b;     :}
+            | ENTERO:a                      {:  RESULT = new Double(a);     :}
+            | DECIMAL:a                     {:  RESULT = new Double(a);     :}
+            | PARI EXPRESION:a PARD         {:  RESULT = a;         :}
+;
+
