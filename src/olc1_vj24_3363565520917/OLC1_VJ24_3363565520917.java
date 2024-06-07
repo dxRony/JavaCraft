@@ -22,7 +22,7 @@ public class OLC1_VJ24_3363565520917 {
     public static void main(String[] args) {
         // TODO code application logic here
         try {
-            String texto = "imprimir(1+2+3+4+5-20/2.0);imprimir(\"Cadena a Imprimir\");";
+            String texto = "println(1+2+3+4+5-20/2.0);println(\"Cadena a Imprimir\");";
             parser p = new parser(new scanner(new BufferedReader(new StringReader(texto))));
             var resultado = p.parse();
             System.out.println(resultado.value);
