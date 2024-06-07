@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package olc1_vj24_3363565520917.backend;
+package olc1_vj24_3363565520917.backend.archivo;
 
 import java.awt.BorderLayout;
 import java.io.BufferedReader;

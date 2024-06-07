@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import olc1_vj24_3363565520917.backend.Archivo;
+import olc1_vj24_3363565520917.backend.archivo.Archivo;
 
 /**
  *

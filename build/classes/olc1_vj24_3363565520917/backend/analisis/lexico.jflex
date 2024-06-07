@@ -32,7 +32,7 @@ import java_cup.runtime.Symbol;
 %ignorecase //case insensitive
 
 //estados ? (pendiente de cambio)
-%state CADENA
+//%state CADENA
 
     //definiendo los simbolos del sistema
 //signos de agrupacion
@@ -44,6 +44,8 @@ FININSTRUCCION = ";"
 BLANCOS = [\ \r\t\n\f]+
 ENTERO = [0-9]+
 DECIMAL = [0-9]+"."[0-9]+
+CADENA = [\"]([^\"])*[\"]
+
 
 //comentarios
 COMENTARIOLINEA = "//"[^\n]*
@@ -131,6 +133,10 @@ BREAK = "break"
 <YYINITIAL> {BLANCOS}   {}
 <YYINITIAL> {DECIMAL}   {return new Symbol(sym.DECIMAL, yyline, yycolumn, yytext());}    //return new Symbol = devuelve un nuevo simbolo
 <YYINITIAL> {ENTERO}    {return new Symbol(sym.ENTERO, yyline, yycolumn, yytext());}      //sym.IMPRIMIR = token que corresponde al patron reconocido
+<YYINITIAL> {CADENA} {
+    String cadena = yytext();
+    cadena = cadena.substring(1, cadena.length()-1);//quita las comillas de inicio y las del final: "asdasd" -> asdasd
+    return new Symbol(sym.CADENA, yyline, yycolumn, cadena);}
 <YYINITIAL> {FININSTRUCCION} {return new Symbol(sym.FININSTRUCCION, yyline, yycolumn, yytext());}//yyline = linea donde se encuentra
 <YYINITIAL> {IGUALACION}  {return new Symbol(sym.IGUALACION, yyline, yycolumn, yytext());}
 <YYINITIAL> {POTENCIA}  {return new Symbol(sym.POTENCIA, yyline, yycolumn, yytext());}
@@ -158,7 +164,8 @@ BREAK = "break"
 <YYINITIAL> {CORCH2}      {return new Symbol(sym.CORCH2, yyline, yycolumn, yytext());}
 
 
-//cadena como estado (pendiente de cambio como expresion regular)
+//cadena como estado (pendiente de cambio como expresion regular) 
+/*
 <YYINITIAL> [\"]        {cadena = ""; yybegin(CADENA);} //YYINTIAl = estado iniicial del lexer, [\"] = patron que coincide con comilla doble "
                                                         //cadena = "" = incializa variable cadena, donde se guardara el contenido de la cadena    
                                                         //yybegin(CADENA) = cambia el estado del lexer, para procesar una cadena
@@ -171,4 +178,5 @@ BREAK = "break"
     
     [^\"]   {cadena+=yytext();}                                     //si viene cualquier otra cosa que no sea comilla doble, lo agrega a la cadena
 }
+*/
 
