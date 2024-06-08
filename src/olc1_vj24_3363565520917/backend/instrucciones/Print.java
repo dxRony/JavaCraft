@@ -21,7 +21,7 @@ public class Print extends Instruccion {
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
         var resultado = this.expresion.interpretar(arbol, tabla);
         if (resultado instanceof Errores) {
-            return resultado;
+            return resultado;               //si es un error se captura
         }
         arbol.Print(resultado.toString());
         return null;

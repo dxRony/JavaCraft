@@ -12,6 +12,8 @@ import olc1_vj24_3363565520917.backend.instrucciones.Print;
 
 //expresiones
 import olc1_vj24_3363565520917.backend.expresiones.Nativo;
+import olc1_vj24_3363565520917.backend.expresiones.Aritmeticas;
+import olc1_vj24_3363565520917.backend.expresiones.OperadoresAritmeticos;
 
 
 //definiendo el parser
@@ -49,10 +51,12 @@ nonterminal LinkedList<Instruccion> INICIO, INSTRUCCIONES;
 nonterminal Instruccion INSTRUCCION;
 nonterminal Instruccion EXPRESION;
 
+precedence left MAS;
+precedence left UMENOS;                                                 //la precedencia va de abajo hacia arriba 
 
 start with INICIO;                                                      //se inicia con INICIO
 
-INICIO ::= INSTRUCCIONES:a  {:  RESULT=a;      :}  //inicio produce INSTRUCCIONES
+INICIO ::= INSTRUCCIONES:a  {:      RESULT=a;      :}  //inicio produce INSTRUCCIONES
 ;
 
 INSTRUCCIONES ::= INSTRUCCIONES:a INSTRUCCION:b   {:  RESULT= a; RESULT.add(b);                    :}                        //instrucciones produce una lista de instrucciones o una sola INSTRUCCION
@@ -61,9 +65,13 @@ INSTRUCCIONES ::= INSTRUCCIONES:a INSTRUCCION:b   {:  RESULT= a; RESULT.add(b); 
 //public Print(int linea, int columna, Instruccion expresion){}
 INSTRUCCION ::= IMPRIMIR PAR1 EXPRESION:a PAR2 FININSTRUCCION   {: RESULT = new Print(aleft, aright, a); :}        
 ;
+//public Aritmeticas(int linea, int columna, OperadoresAritmeticos operacion, Instruccion operandoUnico) {}
+//public Aritmeticas(int linea, int columna, Instruccion operando1, Instruccion operando2, OperadoresAritmeticos operacion) {
 //public Nativo(Tipo tipo, int linea, int columna, Object valor){}
-EXPRESION ::= ENTERO:a      {:  RESULT = new Nativo(new Tipo(tipoDato.ENTERO), aleft, aright, Integer.parseInt(a));    :}   //se puede parsear aca o en la clase nativo
-            | DECIMAL:a     {:  RESULT = new Nativo(new Tipo(tipoDato.DECIMAL), aleft, aright, new Double(a));         :}
-            | CADENA:a      {:  RESULT = new Nativo(new Tipo(tipoDato.CADENA), aleft, aright, a);                      :}
+EXPRESION ::= MENOS EXPRESION:a           {:  RESULT = new Aritmeticas(aleft, aright, OperadoresAritmeticos.NEGACION, a);   :}%prec UMENOS
+            | EXPRESION:a MAS EXPRESION:b {:  RESULT = new Aritmeticas(aleft, aright, a, b, OperadoresAritmeticos.SUMA);    :}
+            | ENTERO:a      {:  RESULT = new Nativo(new Tipo(tipoDato.ENTERO), aleft, aright, Integer.parseInt(a));         :}   //se puede parsear aca o en la clase nativo
+            | DECIMAL:a     {:  RESULT = new Nativo(new Tipo(tipoDato.DECIMAL), aleft, aright, new Double(a));              :}
+            | CADENA:a      {:  RESULT = new Nativo(new Tipo(tipoDato.CADENA), aleft, aright, a);                           :}
 ;
 //1:38

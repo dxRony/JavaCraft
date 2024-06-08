@@ -164,19 +164,4 @@ BREAK = "break"
 <YYINITIAL> {CORCH2}      {return new Symbol(sym.CORCH2, yyline, yycolumn, yytext());}
 
 
-//cadena como estado (pendiente de cambio como expresion regular) 
-/*
-<YYINITIAL> [\"]        {cadena = ""; yybegin(CADENA);} //YYINTIAl = estado iniicial del lexer, [\"] = patron que coincide con comilla doble "
-                                                        //cadena = "" = incializa variable cadena, donde se guardara el contenido de la cadena    
-                                                        //yybegin(CADENA) = cambia el estado del lexer, para procesar una cadena
-
-<CADENA> {                                                          //<CADENA> = indica las reglas que se aplican cuando el lexer esta en el estado cadena                         
-    [\"]    {String tmp= cadena;                                    //[\"] = patron que coincide con una comilla doble, String tmp = cadena; = crea un String tmp y guarda el contenido de cadena
-            cadena="";                                              //cadena = ""; = limpia la variable cadena 
-            yybegin(YYINITIAL);                                     //cambia el estado del lexer a inicial, indicando que la cadena ha terminado
-            return new Symbol(sym.CADENA, yyline, yycolumn,tmp);}
-    
-    [^\"]   {cadena+=yytext();}                                     //si viene cualquier otra cosa que no sea comilla doble, lo agrega a la cadena
-}
-*/
 

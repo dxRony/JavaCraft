@@ -28,33 +28,26 @@ public class OLC1_VJ24_3363565520917 {
     public static void main(String[] args) {
         // TODO code application logic here
         try {
-            /*
-             * String texto =
-             * "println(1+2+3+4+5-20/2.0);println(\"Cadena a Imprimir???\");";
-             * parser p = new parser(new scanner(new BufferedReader(new
-             * StringReader(texto))));
-             * var resultado = p.parse();
-             * System.out.println(resultado.value);
-             */
-            String texto = "println(\"Mi cadena\");"
-                    + "println(2); println(3.33);";
+            String texto = "println(25+\"estoy en vsc\");"
+                    + "println(1.4 + -1); println(-1+3.33);";
             scanner s = new scanner(new BufferedReader(new StringReader(texto)));
             parser p = new parser(s);
             var resultado = p.parse();
             var ast = new Arbol((LinkedList<Instruccion>) resultado.value);
             var tabla = new tablaSimbolos();
+            tabla.setNombre("GLOBAL");
             ast.setConsola("");
             for (var a : ast.getInstrucciones()) {
                 var res = a.interpretar(ast, tabla);
             }
-
+            System.out.println(ast.getConsola());
 
         } catch (Exception ex) {
             System.out.println("Algo salio mal");
             System.out.println(ex);
         }
-        Interfaz javaCraft = new Interfaz();
-        javaCraft.setVisible(true);
+        //Interfaz javaCraft = new Interfaz();
+        //javaCraft.setVisible(true);
     }
 
 }
