@@ -63,17 +63,17 @@ public class Aritmeticas extends Instruccion {
         var tipo2 = this.operando2.tipo.getTipo();
 
         switch (tipo1) {// evaluando el 1er tipo del operando, para luego ver el operando2
-            case tipoDato.ENTERO -> {
+            case ENTERO -> {
                 switch (tipo2) {// evaluando el tipo del segundo operando, para determinar su tipo final
-                    case tipoDato.ENTERO -> {
+                    case ENTERO -> {
                         this.tipo.setTipo(tipoDato.ENTERO);
                         return (int) op1 + (int) op2;
                     }
-                    case tipoDato.DECIMAL -> {
+                    case DECIMAL -> {
                         this.tipo.setTipo(tipoDato.DECIMAL);
                         return (int) op1 + (double) op2;
                     }
-                    case tipoDato.CADENA -> {
+                    case CADENA -> {
                         this.tipo.setTipo(tipoDato.CADENA);
                         return op1.toString() + op2.toString();
                     }
@@ -82,17 +82,17 @@ public class Aritmeticas extends Instruccion {
                     }
                 }
             }
-            case tipoDato.DECIMAL -> {
+            case DECIMAL -> {
                 switch (tipo2) {
-                    case tipoDato.ENTERO -> {
+                    case ENTERO -> {
                         this.tipo.setTipo(tipoDato.DECIMAL);
                         return (double) op1 + (int) op2;
                     }
-                    case tipoDato.DECIMAL -> {
+                    case DECIMAL -> {
                         this.tipo.setTipo(tipoDato.CADENA);
                         return (double) op1 + (double) op2;
                     }
-                    case tipoDato.CADENA -> {
+                    case CADENA -> {
                         this.tipo.setTipo(tipoDato.CADENA);
                         return op1.toString() + op2.toString();
                     }
@@ -101,7 +101,7 @@ public class Aritmeticas extends Instruccion {
                     }
                 }
             }
-            case tipoDato.CADENA -> {
+            case CADENA -> {
                 this.tipo.setTipo(tipoDato.CADENA);
                 return op1.toString() + op2.toString();
             }
@@ -114,11 +114,11 @@ public class Aritmeticas extends Instruccion {
     public Object negacion(Object op1) {
         var opU = this.operandoUnico.tipo.getTipo();
         switch (opU) {// cuando el operador es unario,
-            case tipoDato.ENTERO -> {
+            case ENTERO -> {
                 this.tipo.setTipo(tipoDato.ENTERO);
                 return (int) op1 * -1;
             }
-            case tipoDato.DECIMAL -> {
+            case DECIMAL -> {
                 this.tipo.setTipo(tipoDato.DECIMAL);
                 return (double) op1 * -1;
             }
