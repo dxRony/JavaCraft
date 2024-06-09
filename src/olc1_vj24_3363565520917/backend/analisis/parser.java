@@ -14,8 +14,10 @@ import olc1_vj24_3363565520917.backend.instrucciones.Print;
 import olc1_vj24_3363565520917.backend.expresiones.Nativo;
 import olc1_vj24_3363565520917.backend.expresiones.Aritmeticas;
 import olc1_vj24_3363565520917.backend.expresiones.Relacionales;
+import olc1_vj24_3363565520917.backend.expresiones.Logicos;
 import olc1_vj24_3363565520917.backend.expresiones.OperadoresAritmeticos;
 import olc1_vj24_3363565520917.backend.expresiones.OperadoresRelacionales;
+import olc1_vj24_3363565520917.backend.expresiones.OperadoresLogicos;
 import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20160615 (GIT 4ac7450) generated parser.

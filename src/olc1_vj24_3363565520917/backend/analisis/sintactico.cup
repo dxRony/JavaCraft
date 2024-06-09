@@ -14,8 +14,10 @@ import olc1_vj24_3363565520917.backend.instrucciones.Print;
 import olc1_vj24_3363565520917.backend.expresiones.Nativo;
 import olc1_vj24_3363565520917.backend.expresiones.Aritmeticas;
 import olc1_vj24_3363565520917.backend.expresiones.Relacionales;
+import olc1_vj24_3363565520917.backend.expresiones.Logicos;
 import olc1_vj24_3363565520917.backend.expresiones.OperadoresAritmeticos;
 import olc1_vj24_3363565520917.backend.expresiones.OperadoresRelacionales;
+import olc1_vj24_3363565520917.backend.expresiones.OperadoresLogicos;
 
 
 //definiendo el parser
@@ -53,6 +55,10 @@ nonterminal LinkedList<Instruccion> INICIO, INSTRUCCIONES;
 nonterminal Instruccion INSTRUCCION;
 nonterminal Instruccion EXPRESION;
 
+precedence left OR;
+precedence left AND;
+precedence left XOR;
+precedence right NOT;
 precedence left IGUALACION, DIFERENCIACION, MENORQUE, MENORIGUALQUE, MAYORQUE, MAYORIGUALQUE;
 precedence left MAS, MENOS;
 precedence left MULTIPLICAR, DIVIDIR, MODULO;
