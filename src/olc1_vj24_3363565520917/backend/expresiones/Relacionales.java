@@ -104,9 +104,19 @@ public class Relacionales extends Instruccion {
                 switch (tipo2) {
                     case BOOLEANO -> {
                         this.tipo.setTipo(tipoDato.BOOLEANO);
-                        String bool1 = op1.toString();
-                        String bool2 = op2.toString();
-                        return bool1.equals(bool2);
+                        boolean bool1 = false;
+                        boolean bool2 = false;
+                        if (op1.equals("true")) {
+                            bool1 = true;
+                        } else if (op1.equals("false")) {
+                            bool1 = false;
+                        }
+                        if (op2.equals("true")) {
+                            bool2 = true;
+                        } else if (op2.equals("false")) {
+                            bool2 = false;
+                        }
+                        return bool1 == bool2;
                     }
                     default -> {
                         return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
@@ -210,9 +220,20 @@ public class Relacionales extends Instruccion {
                 switch (tipo2) {
                     case BOOLEANO -> {
                         this.tipo.setTipo(tipoDato.BOOLEANO);
-                        String bool1 = op1.toString();
-                        String bool2 = op2.toString();
-                        return !bool1.equals(bool2);
+                        boolean bool1 = false;
+                        boolean bool2 = false;
+                        if (op1.equals("true")) {
+                            bool1 = true;
+                        } else if (op1.equals("false")) {
+                            bool1 = false;
+                        }
+                        if (op2.equals("true")) {
+                            bool2 = true;
+                        } else if (op2.equals("false")) {
+                            bool2 = false;
+                        }
+
+                        return !bool1 == bool2;
                     }
                     default -> {
                         return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);

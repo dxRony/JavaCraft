@@ -18,4 +18,10 @@ public abstract class Instruccion {
 
     public abstract Object interpretar(Arbol arbol, tablaSimbolos tabla);
 
+    @Override
+    public String toString() {
+        return "Instruccion [tipo=" + tipo + ", linea=" + linea + ", columna=" + columna + "]";
+    }
+
+    
 }
