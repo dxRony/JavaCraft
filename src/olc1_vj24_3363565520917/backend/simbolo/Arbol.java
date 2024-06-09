@@ -52,7 +52,7 @@ public class Arbol {
         this.errores = errores;
     }
 
-    public void Print(String valor){//print es una instruccion
+    public void Print(String valor) {// print es una instruccion
         this.consola += valor + "\n";
     }
 

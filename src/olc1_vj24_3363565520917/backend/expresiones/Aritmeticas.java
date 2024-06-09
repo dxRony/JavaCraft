@@ -50,7 +50,16 @@ public class Aritmeticas extends Instruccion {
         return switch (operacion) {
             case SUMA ->
                 this.suma(opIzq, opDer);
-
+            case RESTA ->
+                this.resta(opIzq, opDer);
+            case MULTIPLICACION ->
+                this.multiplicacion(opIzq, opDer);
+            case DIVISION ->
+                this.division(opIzq, opDer);
+            case POTENCIA ->
+                this.potenciacion(opIzq, opDer);
+            case MODULO ->
+                this.modulo(opIzq, opDer);
             case NEGACION ->
                 this.negacion(Unico);
             default ->
@@ -73,6 +82,12 @@ public class Aritmeticas extends Instruccion {
                         this.tipo.setTipo(tipoDato.DECIMAL);
                         return (int) op1 + (double) op2;
                     }
+                    case CARACTER -> {
+                        this.tipo.setTipo(tipoDato.ENTERO);
+                        String caracterString = (String) op2; // casteo de op2
+                        char caracter = caracterString.charAt(0); // conversion de string a caracter
+                        return (int) op1 + (int) caracter;
+                    }
                     case CADENA -> {
                         this.tipo.setTipo(tipoDato.CADENA);
                         return op1.toString() + op2.toString();
@@ -89,8 +104,14 @@ public class Aritmeticas extends Instruccion {
                         return (double) op1 + (int) op2;
                     }
                     case DECIMAL -> {
-                        this.tipo.setTipo(tipoDato.CADENA);
+                        this.tipo.setTipo(tipoDato.DECIMAL);
                         return (double) op1 + (double) op2;
+                    }
+                    case CARACTER -> {
+                        this.tipo.setTipo(tipoDato.DECIMAL);
+                        String caracterString = (String) op2;
+                        char caracter = caracterString.charAt(0);
+                        return (double) op1 + (int) caracter;
                     }
                     case CADENA -> {
                         this.tipo.setTipo(tipoDato.CADENA);
@@ -101,9 +122,374 @@ public class Aritmeticas extends Instruccion {
                     }
                 }
             }
+            case BOOLEANO -> {
+                switch (tipo2) {
+                    case CADENA -> {
+                        this.tipo.setTipo(tipoDato.CADENA);
+                        return op1.toString() + op2.toString();
+                    }
+                    default -> {
+                        return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+                    }
+                }
+            }
+            case CARACTER -> {
+                switch (tipo2) {
+                    case ENTERO -> {
+                        this.tipo.setTipo(tipoDato.ENTERO);
+                        String caracterString = (String) op1;
+                        char caracter = caracterString.charAt(0);
+                        return (int) caracter + (int) op2;
+                    }
+                    case DECIMAL -> {
+                        this.tipo.setTipo(tipoDato.DECIMAL);
+                        String caracterString = (String) op1;
+                        char caracter = caracterString.charAt(0);
+                        return (int) caracter + (double) op2;
+                    }
+                    case CARACTER -> {
+                        this.tipo.setTipo(tipoDato.CADENA);
+                        return (String) op1 + (String) op2;
+                    }
+                    case CADENA -> {
+                        this.tipo.setTipo(tipoDato.CADENA);
+                        return (String) op1 + (String) op2;
+                    }
+                    default -> {
+                        return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+                    }
+                }
+            }
             case CADENA -> {
-                this.tipo.setTipo(tipoDato.CADENA);
-                return op1.toString() + op2.toString();
+                switch (tipo2) {
+                    case ENTERO -> {
+                        this.tipo.setTipo(tipoDato.CADENA);
+                        return (String) op1 + op2.toString();
+                    }
+                    case DECIMAL -> {
+                        this.tipo.setTipo(tipoDato.CADENA);
+                        return (String) op1 + op2.toString();
+                    }
+                    case BOOLEANO -> {
+                        this.tipo.setTipo(tipoDato.CADENA);
+                        return op1.toString() + op2.toString();
+                    }
+                    case CARACTER -> {
+                        this.tipo.setTipo(tipoDato.CADENA);
+                        return (String) op1 + (String) op2;
+                    }
+                    case CADENA -> {
+                        this.tipo.setTipo(tipoDato.CADENA);
+                        return op1.toString() + op2.toString();
+                    }
+                    default -> {
+                        return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+                    }
+                }
+            }
+            default -> {
+                return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+            }
+        }
+    }
+
+    public Object resta(Object op1, Object op2) {
+        var tipo1 = this.operando1.tipo.getTipo();
+        var tipo2 = this.operando2.tipo.getTipo();
+
+        switch (tipo1) {
+            case ENTERO -> {
+                switch (tipo2) {
+                    case ENTERO -> {
+                        this.tipo.setTipo(tipoDato.ENTERO);
+                        return (int) op1 - (int) op2;
+                    }
+                    case DECIMAL -> {
+                        this.tipo.setTipo(tipoDato.DECIMAL);
+                        return (int) op1 - (double) op2;
+                    }
+                    case CARACTER -> {
+                        this.tipo.setTipo(tipoDato.ENTERO);
+                        String caracterString = (String) op2; // casteo de op2
+                        char caracter = caracterString.charAt(0); // conversion de string a caracter
+                        return (int) op1 - (int) caracter;
+                    }
+                    default -> {
+                        return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+                    }
+                }
+            }
+            case DECIMAL -> {
+                switch (tipo2) {
+                    case ENTERO -> {
+                        this.tipo.setTipo(tipoDato.DECIMAL);
+                        return (double) op1 - (int) op2;
+                    }
+                    case DECIMAL -> {
+                        this.tipo.setTipo(tipoDato.DECIMAL);
+                        return (double) op1 - (double) op2;
+                    }
+                    case CARACTER -> {
+                        this.tipo.setTipo(tipoDato.DECIMAL);
+                        String caracterString = (String) op2; // casteo de op2
+                        char caracter = caracterString.charAt(0); // conversion de string a caracter
+                        return (double) op1 - (int) caracter;
+                    }
+                    default -> {
+                        return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+                    }
+                }
+            }
+            case CARACTER -> {
+                switch (tipo2) {
+                    case ENTERO -> {
+                        this.tipo.setTipo(tipoDato.ENTERO);
+                        String caracterString = (String) op1;
+                        char caracter = caracterString.charAt(0);
+                        return (int) caracter - (int) op2;
+                    }
+                    case DECIMAL -> {
+                        this.tipo.setTipo(tipoDato.DECIMAL);
+                        String caracterString = (String) op1;
+                        char caracter = caracterString.charAt(0);
+                        return (int) caracter - (double) op2;
+                    }
+                    default -> {
+                        return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+                    }
+                }
+            }
+            default -> {
+                return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+            }
+        }
+    }
+
+    public Object multiplicacion(Object op1, Object op2) {
+        var tipo1 = this.operando1.tipo.getTipo();
+        var tipo2 = this.operando2.tipo.getTipo();
+
+        switch (tipo1) {
+            case ENTERO -> {
+                switch (tipo2) {
+                    case ENTERO -> {
+                        this.tipo.setTipo(tipoDato.ENTERO);
+                        return (int) op1 * (int) op2;
+                    }
+                    case DECIMAL -> {
+                        this.tipo.setTipo(tipoDato.DECIMAL);
+                        return (int) op1 * (double) op2;
+                    }
+                    case CARACTER -> {
+                        this.tipo.setTipo(tipoDato.ENTERO);
+                        String caracterString = (String) op2; // casteo de op2
+                        char caracter = caracterString.charAt(0); // conversion de string a caracter
+                        return (int) op1 * (int) caracter;
+                    }
+                    default -> {
+                        return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+                    }
+                }
+            }
+            case DECIMAL -> {
+                switch (tipo2) {
+                    case ENTERO -> {
+                        this.tipo.setTipo(tipoDato.DECIMAL);
+                        return (double) op1 * (int) op2;
+                    }
+                    case DECIMAL -> {
+                        this.tipo.setTipo(tipoDato.DECIMAL);
+                        return (double) op1 * (double) op2;
+                    }
+                    case CARACTER -> {
+                        this.tipo.setTipo(tipoDato.DECIMAL);
+                        String caracterString = (String) op2; // casteo de op2
+                        char caracter = caracterString.charAt(0); // conversion de string a caracter
+                        return (double) op1 * (int) caracter;
+                    }
+                    default -> {
+                        return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+                    }
+                }
+            }
+            case CARACTER -> {
+                switch (tipo2) {
+                    case ENTERO -> {
+                        this.tipo.setTipo(tipoDato.ENTERO);
+                        String caracterString = (String) op1;
+                        char caracter = caracterString.charAt(0);
+                        return (int) caracter * (int) op2;
+                    }
+                    case DECIMAL -> {
+                        this.tipo.setTipo(tipoDato.DECIMAL);
+                        String caracterString = (String) op1;
+                        char caracter = caracterString.charAt(0);
+                        return (int) caracter * (double) op2;
+                    }
+                    default -> {
+                        return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+                    }
+                }
+            }
+            default -> {
+                return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+            }
+        }
+    }
+
+    public Object division(Object op1, Object op2) {
+        var tipo1 = this.operando1.tipo.getTipo();
+        var tipo2 = this.operando2.tipo.getTipo();
+
+        switch (tipo1) {
+            case ENTERO -> {
+                switch (tipo2) {
+                    case ENTERO -> {
+                        this.tipo.setTipo(tipoDato.DECIMAL);
+                        System.out.println("op1 =" + op1);
+                        System.out.println("op2 =" + op2);
+                        return (int) op1 / (int) op2 + 0.0;
+                    }
+                    case DECIMAL -> {
+                        this.tipo.setTipo(tipoDato.DECIMAL);
+                        return (int) op1 / (double) op2;
+                    }
+                    case CARACTER -> {
+                        this.tipo.setTipo(tipoDato.DECIMAL);
+                        String caracterString = (String) op2; // casteo de op2
+                        char caracter = caracterString.charAt(0); // conversion de string a caracter
+                        return (int) op1 / (int) caracter + 0.0;
+                    }
+                    default -> {
+                        return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+                    }
+                }
+            }
+            case DECIMAL -> {
+                switch (tipo2) {
+                    case ENTERO -> {
+                        this.tipo.setTipo(tipoDato.DECIMAL);
+                        return (double) op1 / (int) op2;
+                    }
+                    case DECIMAL -> {
+                        this.tipo.setTipo(tipoDato.DECIMAL);
+                        return (double) op1 / (double) op2;
+                    }
+                    case CARACTER -> {
+                        this.tipo.setTipo(tipoDato.DECIMAL);
+                        String caracterString = (String) op2; // casteo de op2
+                        char caracter = caracterString.charAt(0); // conversion de string a caracter
+                        return (double) op1 / (int) caracter;
+                    }
+                    default -> {
+                        return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+                    }
+                }
+            }
+            case CARACTER -> {
+                switch (tipo2) {
+                    case ENTERO -> {
+                        this.tipo.setTipo(tipoDato.DECIMAL);
+                        String caracterString = (String) op1;
+                        char caracter = caracterString.charAt(0);
+                        return (double) caracter / (int) op2;
+                    }
+                    case DECIMAL -> {
+                        this.tipo.setTipo(tipoDato.DECIMAL);
+                        String caracterString = (String) op1;
+                        char caracter = caracterString.charAt(0);
+                        return (double) caracter / (double) op2;
+                    }
+                    default -> {
+                        return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+                    }
+                }
+            }
+            default -> {
+                return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+            }
+        }
+    }
+
+    public Object potenciacion(Object op1, Object op2) {
+        var tipo1 = this.operando1.tipo.getTipo();
+        var tipo2 = this.operando2.tipo.getTipo();
+
+        switch (tipo1) {
+            case ENTERO -> {
+                switch (tipo2) {
+                    case ENTERO -> {
+                        this.tipo.setTipo(tipoDato.ENTERO);
+                        int resultado = (int) Math.pow((int) op1, (int) op2);
+                        return resultado;
+                    }
+                    case DECIMAL -> {
+                        this.tipo.setTipo(tipoDato.DECIMAL);
+                        double resultado = Math.pow((int) op1, (double) op2);
+                        return resultado;
+                    }
+                    default -> {
+                        return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+                    }
+                }
+            }
+            case DECIMAL -> {
+                switch (tipo2) {
+                    case ENTERO -> {
+                        this.tipo.setTipo(tipoDato.DECIMAL);
+                        double resultado = Math.pow((double) op1, (int) op2);
+                        return resultado;
+                    }
+                    case DECIMAL -> {
+                        this.tipo.setTipo(tipoDato.DECIMAL);
+                        double resultado = Math.pow((double) op1, (double) op2);
+                        return resultado;
+                    }
+                    default -> {
+                        return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+                    }
+                }
+            }
+            default -> {
+                return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+            }
+        }
+    }
+
+    public Object modulo(Object op1, Object op2) {
+        var tipo1 = this.operando1.tipo.getTipo();
+        var tipo2 = this.operando2.tipo.getTipo();
+
+        switch (tipo1) {
+            case ENTERO -> {
+                switch (tipo2) {
+                    case ENTERO -> {
+                        this.tipo.setTipo(tipoDato.DECIMAL);                        
+                        return (int) op1 % (int) op2;
+                    }
+                    case DECIMAL -> {
+                        this.tipo.setTipo(tipoDato.DECIMAL);
+                        return (int) op1 % (double) op2;
+                    }
+                    default -> {
+                        return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+                    }
+                }
+            }
+            case DECIMAL -> {
+                switch (tipo2) {
+                    case ENTERO -> {
+                        this.tipo.setTipo(tipoDato.DECIMAL);
+                        return (double) op1 % (int) op2;
+                    }
+                    case DECIMAL -> {
+                        this.tipo.setTipo(tipoDato.DECIMAL);
+                        return (double) op1 % (double) op2;
+                    }
+                    default -> {
+                        return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+                    }
+                }
             }
             default -> {
                 return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);

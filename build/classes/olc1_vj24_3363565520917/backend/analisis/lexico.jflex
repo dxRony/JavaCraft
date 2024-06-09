@@ -45,6 +45,8 @@ BLANCOS = [\ \r\t\n\f]+
 ENTERO = [0-9]+
 DECIMAL = [0-9]+"."[0-9]+
 CADENA = [\"]([^\"])*[\"]
+CARACTER = [\']([^\']){1}[\']
+BOOLEANO = "true"|"false"
 
 
 //comentarios
@@ -54,8 +56,8 @@ COMENTARIOMULTILINEA = "/*"(.|[\r\n])*"*/"
 //operadores aritmeticos
 MAS = "+"
 MENOS = "-"
-MULTI = "*"
-DIV = "/"
+MULTIPLICAR = "*"
+DIVIDIR = "/"
 POTENCIA = "**"
 MODULO = "%"
 
@@ -95,8 +97,6 @@ CONST = "const"
 INT = "int"
 DOUBLE = "double"
 BOOL = "bool"
-TRUE = "true"
-FALSE = "false"
 CHAR = "char"
 STRING = "string"
 IF = "if"
@@ -115,8 +115,6 @@ BREAK = "break"
 <YYINITIAL> {INT}  {return new Symbol(sym.INT, yyline, yycolumn, yytext());}
 <YYINITIAL> {DOUBLE}  {return new Symbol(sym.DOUBLE, yyline, yycolumn, yytext());}
 <YYINITIAL> {BOOL}  {return new Symbol(sym.BOOL, yyline, yycolumn, yytext());}
-<YYINITIAL> {TRUE}  {return new Symbol(sym.TRUE, yyline, yycolumn, yytext());}
-<YYINITIAL> {FALSE}  {return new Symbol(sym.FALSE, yyline, yycolumn, yytext());}
 <YYINITIAL> {CHAR}  {return new Symbol(sym.CHAR, yyline, yycolumn, yytext());}
 <YYINITIAL> {STRING}  {return new Symbol(sym.STRING, yyline, yycolumn, yytext());}
 <YYINITIAL> {IF}  {return new Symbol(sym.IF, yyline, yycolumn, yytext());}
@@ -126,6 +124,7 @@ BREAK = "break"
 <YYINITIAL> {FOR}  {return new Symbol(sym.FOR, yyline, yycolumn, yytext());}
 <YYINITIAL> {DO}  {return new Symbol(sym.DO, yyline, yycolumn, yytext());}
 <YYINITIAL> {BREAK}  {return new Symbol(sym.BREAK, yyline, yycolumn, yytext());}
+<YYINITIAL> {BOOLEANO} {return new Symbol(sym.BOOLEANO, yyline, yycolumn, yytext());}
 
 //simbolos del sistema
 <YYINITIAL> {COMENTARIOLINEA} {}
@@ -137,6 +136,10 @@ BREAK = "break"
     String cadena = yytext();
     cadena = cadena.substring(1, cadena.length()-1);//quita las comillas de inicio y las del final: "asdasd" -> asdasd
     return new Symbol(sym.CADENA, yyline, yycolumn, cadena);}
+<YYINITIAL> {CARACTER} {
+    String caracter = yytext();
+    caracter = caracter.substring(1, caracter.length()-1);
+    return new Symbol(sym.CARACTER, yyline, yycolumn, caracter);}
 <YYINITIAL> {FININSTRUCCION} {return new Symbol(sym.FININSTRUCCION, yyline, yycolumn, yytext());}//yyline = linea donde se encuentra
 <YYINITIAL> {IGUALACION}  {return new Symbol(sym.IGUALACION, yyline, yycolumn, yytext());}
 <YYINITIAL> {POTENCIA}  {return new Symbol(sym.POTENCIA, yyline, yycolumn, yytext());}
@@ -152,8 +155,8 @@ BREAK = "break"
 <YYINITIAL> {ASIGNACION}  {return new Symbol(sym.ASIGNACION, yyline, yycolumn, yytext());}
 <YYINITIAL> {MAS}       {return new Symbol(sym.MAS, yyline, yycolumn, yytext());}            //yycolumn = columna donde se encuentra
 <YYINITIAL> {MENOS}     {return new Symbol(sym.MENOS, yyline, yycolumn, yytext());}        //yytext() = texto que coincide con el patron del token
-<YYINITIAL> {MULTI}     {return new Symbol(sym.MULTI, yyline, yycolumn, yytext());}
-<YYINITIAL> {DIV}       {return new Symbol(sym.DIV, yyline, yycolumn, yytext());}
+<YYINITIAL> {MULTIPLICAR}     {return new Symbol(sym.MULTIPLICAR, yyline, yycolumn, yytext());}
+<YYINITIAL> {DIVIDIR}       {return new Symbol(sym.DIVIDIR, yyline, yycolumn, yytext());}
 <YYINITIAL> {MODULO}       {return new Symbol(sym.MODULO, yyline, yycolumn, yytext());}
 <YYINITIAL> {DEFAULT}  {return new Symbol(sym.DEFAULT, yyline, yycolumn, yytext());}
 <YYINITIAL> {MENORQUE}  {return new Symbol(sym.MENORQUE, yyline, yycolumn, yytext());}

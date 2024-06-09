@@ -7,7 +7,6 @@ package olc1_vj24_3363565520917;
 import java.io.BufferedReader;
 import java.io.StringReader;
 import java.util.LinkedList;
-import java.util.Scanner;
 
 import olc1_vj24_3363565520917.backend.abstracto.Instruccion;
 import olc1_vj24_3363565520917.backend.analisis.parser;
@@ -28,8 +27,7 @@ public class OLC1_VJ24_3363565520917 {
     public static void main(String[] args) {
         // TODO code application logic here
         try {
-            String texto = "println(25+\"estoy en vsc\");"
-                    + "println(1.4 + -1); println(-1+3.33);";
+            String texto = "println(-1.5);" + "println(\"a\");";
             scanner s = new scanner(new BufferedReader(new StringReader(texto)));
             parser p = new parser(s);
             var resultado = p.parse();
@@ -46,8 +44,8 @@ public class OLC1_VJ24_3363565520917 {
             System.out.println("Algo salio mal");
             System.out.println(ex);
         }
-        //Interfaz javaCraft = new Interfaz();
-        //javaCraft.setVisible(true);
+        // Interfaz javaCraft = new Interfaz();
+        // javaCraft.setVisible(true);
     }
 
 }

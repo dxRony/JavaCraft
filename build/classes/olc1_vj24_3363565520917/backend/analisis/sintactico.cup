@@ -41,8 +41,8 @@ action code
 
 :}
                                                                         //terminales: los que no generan una produccion en la gramatica
-terminal String CADENA, ENTERO, DECIMAL;                                //se define como string para poder acceder a su valor posteriormente//no se les pone tipo para los que no interesa saber el valor
-terminal FININSTRUCCION, IMPRIMIR, MAS, MENOS, MULTI, DIV, PAR1, PAR2, UMENOS, VAR, CONST, INT, DOUBLE, BOOL, TRUE, FALSE;
+terminal String CADENA, ENTERO, DECIMAL, CARACTER, BOOLEANO;                                //se define como string para poder acceder a su valor posteriormente//no se les pone tipo para los que no interesa saber el valor
+terminal FININSTRUCCION, IMPRIMIR, MAS, MENOS, MULTIPLICAR, DIVIDIR, PAR1, PAR2, UMENOS, VAR, CONST, INT, DOUBLE, BOOL;
 terminal CHAR, STRING, IF, ELSE, MATCH, WHILE, FOR, DO, BREAK,IGUALACION, POTENCIA, DIFERENCIACION, MENORIGUALQUE, MAYORIGUALQUE;
 terminal OR, AND, XOR, NOT, INCREMENTO, DECREMENTO, ASIGNACION, MODULO, DEFAULT, MENORQUE, MAYORQUE, CORCH1, CORCH2;
 
@@ -51,7 +51,9 @@ nonterminal LinkedList<Instruccion> INICIO, INSTRUCCIONES;
 nonterminal Instruccion INSTRUCCION;
 nonterminal Instruccion EXPRESION;
 
-precedence left MAS;
+precedence left MAS, MENOS;
+precedence left MULTIPLICAR, DIVIDIR, MODULO;
+precedence left POTENCIA;
 precedence left UMENOS;                                                 //la precedencia va de abajo hacia arriba 
 
 start with INICIO;                                                      //se inicia con INICIO
@@ -68,10 +70,14 @@ INSTRUCCION ::= IMPRIMIR PAR1 EXPRESION:a PAR2 FININSTRUCCION   {: RESULT = new 
 //public Aritmeticas(int linea, int columna, OperadoresAritmeticos operacion, Instruccion operandoUnico) {}
 //public Aritmeticas(int linea, int columna, Instruccion operando1, Instruccion operando2, OperadoresAritmeticos operacion) {
 //public Nativo(Tipo tipo, int linea, int columna, Object valor){}
-EXPRESION ::= MENOS EXPRESION:a           {:  RESULT = new Aritmeticas(aleft, aright, OperadoresAritmeticos.NEGACION, a);   :}%prec UMENOS
-            | EXPRESION:a MAS EXPRESION:b {:  RESULT = new Aritmeticas(aleft, aright, a, b, OperadoresAritmeticos.SUMA);    :}
-            | ENTERO:a      {:  RESULT = new Nativo(new Tipo(tipoDato.ENTERO), aleft, aright, Integer.parseInt(a));         :}   //se puede parsear aca o en la clase nativo
-            | DECIMAL:a     {:  RESULT = new Nativo(new Tipo(tipoDato.DECIMAL), aleft, aright, new Double(a));              :}
-            | CADENA:a      {:  RESULT = new Nativo(new Tipo(tipoDato.CADENA), aleft, aright, a);                           :}
+EXPRESION ::= MENOS EXPRESION:a             {:  RESULT = new Aritmeticas(aleft, aright, OperadoresAritmeticos.NEGACION, a);   :}%prec UMENOS
+            | EXPRESION:a MAS EXPRESION:b   {:  RESULT = new Aritmeticas(aleft, aright, a, b, OperadoresAritmeticos.SUMA);    :}
+            | EXPRESION:a MENOS EXPRESION:b {:  RESULT = new Aritmeticas(aleft, aright, a, b, OperadoresAritmeticos.RESTA);   :}
+            | EXPRESION:a MULTIPLICAR EXPRESION:b {:   RESULT = new Aritmeticas(aleft, aright, a, b, OperadoresAritmeticos.MULTIPLICACION);    :}
+            | ENTERO:a      {:  RESULT = new Nativo(new Tipo(tipoDato.ENTERO), aleft, aright, Integer.parseInt(a));           :}   //se puede parsear aca o en la clase nativo
+            | DECIMAL:a     {:  RESULT = new Nativo(new Tipo(tipoDato.DECIMAL), aleft, aright, new Double(a));                :}
+            | CADENA:a      {:  RESULT = new Nativo(new Tipo(tipoDato.CADENA), aleft, aright, a);                             :}
+            | CARACTER:a    {:  RESULT = new Nativo(new Tipo(tipoDato.CARACTER), aleft, aright, a);                           :}
+            | BOOLEANO:a    {:  RESULT = new Nativo(new Tipo(tipoDato.BOOLEANO), aleft, aright, a);                           :}
 ;
 //1:38
