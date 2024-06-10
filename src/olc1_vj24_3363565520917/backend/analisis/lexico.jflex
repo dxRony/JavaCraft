@@ -45,7 +45,6 @@ BLANCOS = [\ \r\t\n\f]+
 ENTERO = [0-9]+
 DECIMAL = [0-9]+"."[0-9]+
 CADENA = [\"]([^\"])*[\"]
-CADENAESC = \"([^\"\\]|\\n|\\t|\\\"|\\\\|\\')*\";
 CARACTER = [\']([^\']){1}[\']
 BOOLEANO = "true"|"false"
 

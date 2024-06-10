@@ -45,7 +45,7 @@ action code
 
 :}
                                                                         //terminales: los que no generan una produccion en la gramatica
-terminal String CADENA, ENTERO, DECIMAL, CARACTER, BOOLEANO;                                //se define como string para poder acceder a su valor posteriormente//no se les pone tipo para los que no interesa saber el valor
+terminal String CADENA, ENTERO, DECIMAL, CARACTER, BOOLEANO;            //se define como string para poder acceder a su valor posteriormente//no se les pone tipo para los que no interesa saber el valor
 terminal FININSTRUCCION, IMPRIMIR, MAS, MENOS, MULTIPLICAR, DIVIDIR, PAR1, PAR2, UMENOS, VAR, CONST, INT, DOUBLE, BOOL;
 terminal CHAR, STRING, IF, ELSE, MATCH, WHILE, FOR, DO, BREAK,IGUALACION, POTENCIA, DIFERENCIACION, MENORIGUALQUE, MAYORIGUALQUE;
 terminal OR, AND, XOR, NOT, INCREMENTO, DECREMENTO, ASIGNACION, MODULO, DEFAULT, MENORQUE, MAYORQUE, CORCH1, CORCH2;

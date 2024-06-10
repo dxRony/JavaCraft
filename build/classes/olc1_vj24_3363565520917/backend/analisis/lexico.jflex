@@ -134,6 +134,7 @@ BREAK = "break"
 <YYINITIAL> {CADENA} {
     String cadena = yytext();
     cadena = cadena.substring(1, cadena.length()-1);//quita las comillas de inicio y las del final: "asdasd" -> asdasd
+    cadena = cadena.replace("\\n", "\n").replace("\\t", "\t").replace("\\\"", "\"").replace("\\'", "'").replace("\\\\", "\\");//reemplazando las secuencias de escape con secuencias de escape de java
     return new Symbol(sym.CADENA, yyline, yycolumn, cadena);}
 <YYINITIAL> {CARACTER} {
     String caracter = yytext();
