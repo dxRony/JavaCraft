@@ -58,12 +58,12 @@ nonterminal Instruccion EXPRESION;
 precedence left OR;
 precedence left AND;
 precedence left XOR;
-precedence left NOT;
+precedence right NOT;
 precedence left IGUALACION, DIFERENCIACION, MENORQUE, MENORIGUALQUE, MAYORQUE, MAYORIGUALQUE;
 precedence left MAS, MENOS;
 precedence left MULTIPLICAR, DIVIDIR, MODULO;
-precedence left POTENCIA;
-precedence left UMENOS;                                                 //la precedencia va de abajo hacia arriba 
+precedence nonassoc POTENCIA;
+precedence right UMENOS;                                                 //la precedencia va de abajo hacia arriba 
 
 start with INICIO;                                                      //se inicia con INICIO
 
@@ -95,6 +95,7 @@ EXPRESION ::= MENOS EXPRESION:a                       {:  RESULT = new Aritmetic
             | EXPRESION:a OR EXPRESION:b              {:  RESULT = new Logicos(aleft, aright, a, b, OperadoresLogicos.OR);                        :}
             | EXPRESION:a AND EXPRESION:b             {:  RESULT = new Logicos(aleft, aright, a, b, OperadoresLogicos.AND);                       :}
             | EXPRESION:a XOR EXPRESION:b             {:  RESULT = new Logicos(aleft, aright, a, b, OperadoresLogicos.XOR);                       :}
+            | PAR1 EXPRESION:a PAR2                   {:  RESULT=a;                                                                               :}
             | ENTERO:a      {:  RESULT = new Nativo(new Tipo(tipoDato.ENTERO), aleft, aright, Integer.parseInt(a));           :}   //se puede parsear aca o en la clase nativo
             | DECIMAL:a     {:  RESULT = new Nativo(new Tipo(tipoDato.DECIMAL), aleft, aright, new Double(a));                :}
             | CADENA:a      {:  RESULT = new Nativo(new Tipo(tipoDato.CADENA), aleft, aright, a);                             :}

@@ -26,7 +26,7 @@ public class OLC1_VJ24_3363565520917 {
      */
     public static void main(String[] args) {
         try {
-            String texto = "println(\"a\\nas\"); println(\"mi \\t \\' texto\\'\" );";
+            String texto = "println((5==5)!= false); println(5!= 6); println(\"mi \\t \\' texto\\'\" ); println(false!=(5==5));";
             scanner s = new scanner(new BufferedReader(new StringReader(texto)));
             parser p = new parser(s);
             var resultado = p.parse();

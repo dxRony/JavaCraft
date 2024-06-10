@@ -33,7 +33,7 @@ public class Aritmeticas extends Instruccion {
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
 
-        Object opIzq = null, opDer = null, Unico = null;// limpiando los operadores, antes de iniciar  
+        Object opIzq = null, opDer = null, Unico = null;// limpiando los operadores, antes de iniciar
         if (this.operandoUnico != null) {// si el operando unico no es nulo, significa que hay una negacion
             Unico = this.operandoUnico.interpretar(arbol, tabla);// interpretando el operador unico
         } else {// si es nulo, quiere decir que hay una operacion aritmetica a realizar
@@ -344,20 +344,36 @@ public class Aritmeticas extends Instruccion {
             case ENTERO -> {
                 switch (tipo2) {
                     case ENTERO -> {
-                        this.tipo.setTipo(tipoDato.DECIMAL);
-                        System.out.println("op1 =" + op1);
-                        System.out.println("op2 =" + op2);
-                        return (int) op1 / (int) op2 + 0.0;
+                        if ((int) op2 == 0) {
+                            return new Errores("SEMANTICO", "no se puede dividir dentro de 0", this.linea,
+                                    this.columna);
+                        } else {
+                            this.tipo.setTipo(tipoDato.DECIMAL);
+                            double division = (int) op1 / (int) op2;
+                            return division;
+                        }
                     }
                     case DECIMAL -> {
-                        this.tipo.setTipo(tipoDato.DECIMAL);
-                        return (int) op1 / (double) op2;
+                        if ((double) op2 == 0) {
+                            return new Errores("SEMANTICO", "no se puede dividir dentro de 0", this.linea,
+                                    this.columna);
+                        } else {
+                            this.tipo.setTipo(tipoDato.DECIMAL);
+                            return (int) op1 / (double) op2;
+                        }
                     }
                     case CARACTER -> {
                         this.tipo.setTipo(tipoDato.DECIMAL);
                         String caracterString = (String) op2; // casteo de op2
                         char caracter = caracterString.charAt(0); // conversion de string a caracter
-                        return (int) op1 / (int) caracter + 0.0;
+                        if (caracter == 0) {
+                            return new Errores("SEMANTICO", "no se puede dividir dentro de 0", this.linea,
+                                    this.columna);
+                        } else {
+                            double division = (int) op1 / (int) caracter;
+                            return division;
+                        }
+
                     }
                     default -> {
                         return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
@@ -463,7 +479,7 @@ public class Aritmeticas extends Instruccion {
             case ENTERO -> {
                 switch (tipo2) {
                     case ENTERO -> {
-                        this.tipo.setTipo(tipoDato.DECIMAL);                        
+                        this.tipo.setTipo(tipoDato.DECIMAL);
                         return (int) op1 % (int) op2;
                     }
                     case DECIMAL -> {

@@ -231,8 +231,7 @@ public class Relacionales extends Instruccion {
                         } else if (op2.equals("false")) {
                             bool2 = false;
                         }
-
-                        return !bool1 == bool2;
+                        return !bool1 != bool2;
                     }
                     default -> {
                         return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
