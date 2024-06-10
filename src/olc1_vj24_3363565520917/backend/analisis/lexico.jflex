@@ -45,6 +45,7 @@ BLANCOS = [\ \r\t\n\f]+
 ENTERO = [0-9]+
 DECIMAL = [0-9]+"."[0-9]+
 CADENA = [\"]([^\"])*[\"]
+CADENAESC = \"([^\"\\]|\\n|\\t|\\\"|\\\\|\\')*\";
 CARACTER = [\']([^\']){1}[\']
 BOOLEANO = "true"|"false"
 
@@ -134,6 +135,7 @@ BREAK = "break"
 <YYINITIAL> {CADENA} {
     String cadena = yytext();
     cadena = cadena.substring(1, cadena.length()-1);//quita las comillas de inicio y las del final: "asdasd" -> asdasd
+    cadena = cadena.replace("\\n", "\n").replace("\\t", "\t").replace("\\\"", "\"").replace("\\'", "'").replace("\\\\", "\\");//reemplazando las secuencias de escape con secuencias de escape de java
     return new Symbol(sym.CADENA, yyline, yycolumn, cadena);}
 <YYINITIAL> {CARACTER} {
     String caracter = yytext();
