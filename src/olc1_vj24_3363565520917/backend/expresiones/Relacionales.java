@@ -34,7 +34,6 @@ public class Relacionales extends Instruccion {
         if (opDer instanceof Errores) {
             return opDer;
         }
-
         return switch (operacion) {
             case IGUALACION ->
                 this.igualacion(opIzq, opDer);

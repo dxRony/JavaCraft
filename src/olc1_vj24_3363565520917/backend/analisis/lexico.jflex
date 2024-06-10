@@ -145,7 +145,7 @@ BREAK = "break"
 <YYINITIAL> {DIFERENCIACION}  {return new Symbol(sym.DIFERENCIACION, yyline, yycolumn, yytext());}
 <YYINITIAL> {MENORIGUALQUE}   {return new Symbol(sym.MENORIGUALQUE, yyline, yycolumn, yytext());}
 <YYINITIAL> {MAYORIGUALQUE}   {return new Symbol(sym.MAYORIGUALQUE, yyline, yycolumn, yytext());}
-<YYINITIAL> {OR}              {return new Symbol(sym.OR, yyline, yycolumn, yytext());}
+<YYINITIAL> {OR}              {return new Symbol(sym.OR, yyline, yycolumn, yytext()) ;}
 <YYINITIAL> {AND}             {return new Symbol(sym.AND, yyline, yycolumn, yytext());}
 <YYINITIAL> {XOR}             {return new Symbol(sym.XOR, yyline, yycolumn, yytext());}
 <YYINITIAL> {NOT}             {return new Symbol(sym.NOT, yyline, yycolumn, yytext());}

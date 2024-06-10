@@ -16,9 +16,6 @@ public class Logicos extends Instruccion {
 
     public Logicos(int linea, int columna, OperadoresLogicos operacion, Instruccion operandoUnico) {
         super(new Tipo(tipoDato.BOOLEANO), linea, columna);
-        System.out.println("constructor unico");
-        System.out.println("el operando: "+operandoUnico.toString());
-        System.out.println("la operacion: "+ operacion);
         this.operacion = operacion;
         this.operandoUnico = operandoUnico;
     }
@@ -34,6 +31,7 @@ public class Logicos extends Instruccion {
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
         Object opIzq = null, opDer = null, Unico = null;
+
         if (this.operandoUnico != null) {
             Unico = this.operandoUnico.interpretar(arbol, tabla);
         } else {
@@ -46,7 +44,6 @@ public class Logicos extends Instruccion {
                 return opDer;
             }
         }
-
         return switch (operacion) {
             case OR ->
                 this.or(opIzq, opDer);
@@ -55,19 +52,14 @@ public class Logicos extends Instruccion {
             case XOR ->
                 this.xor(opIzq, opDer);
             case NOT ->
-                this.not(operandoUnico);
+                this.not(Unico);
             default ->
                 new Errores("SEMANTICO", "No se esperaba este operador", this.linea,
                         this.columna);
-
         };
-
     }
 
     public Object or(Object op1, Object op2) {
-        var tipo1 = this.operando1.tipo.getTipo();
-        var tipo2 = this.operando2.tipo.getTipo();
-
         boolean bool1 = false, bool2 = false;
 
         if (op1.equals("true")) {
@@ -85,8 +77,6 @@ public class Logicos extends Instruccion {
     }
 
     public Object and(Object op1, Object op2) {
-        var tipo1 = this.operando1.tipo.getTipo();
-        var tipo2 = this.operando2.tipo.getTipo();
         boolean bool1 = false, bool2 = false;
 
         if (op1.equals("true")) {
@@ -104,8 +94,6 @@ public class Logicos extends Instruccion {
     }
 
     public Object xor(Object op1, Object op2) {
-        var tipo1 = this.operando1.tipo.getTipo();
-        var tipo2 = this.operando2.tipo.getTipo();
         boolean bool1 = false, bool2 = false;
 
         if (op1.equals("true")) {
@@ -123,9 +111,7 @@ public class Logicos extends Instruccion {
     }
 
     public Object not(Object op1) {
-        var opU = this.operando1.tipo.getTipo();
         boolean bool = false;
-        System.out.println(op1);
 
         if (op1.equals("true")) {
             bool = true;

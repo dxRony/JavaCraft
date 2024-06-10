@@ -33,7 +33,7 @@ public class Aritmeticas extends Instruccion {
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
 
-        Object opIzq = null, opDer = null, Unico = null;// limpiando los operadores, antes de iniciar
+        Object opIzq = null, opDer = null, Unico = null;// limpiando los operadores, antes de iniciar  
         if (this.operandoUnico != null) {// si el operando unico no es nulo, significa que hay una negacion
             Unico = this.operandoUnico.interpretar(arbol, tabla);// interpretando el operador unico
         } else {// si es nulo, quiere decir que hay una operacion aritmetica a realizar
@@ -46,7 +46,6 @@ public class Aritmeticas extends Instruccion {
                 return opDer;
             }
         }
-
         return switch (operacion) {
             case SUMA ->
                 this.suma(opIzq, opDer);
@@ -513,5 +512,4 @@ public class Aritmeticas extends Instruccion {
             }
         }
     }
-
 }

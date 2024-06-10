@@ -868,7 +868,7 @@ public class scanner implements java_cup.runtime.Scanner {
           // fall through
           case 75: break;
           case 30:
-            { return new Symbol(sym.OR, yyline, yycolumn, yytext());
+            { return new Symbol(sym.OR, yyline, yycolumn, yytext()) ;
             }
           // fall through
           case 76: break;

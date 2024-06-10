@@ -25,9 +25,8 @@ public class OLC1_VJ24_3363565520917 {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
         try {
-            String texto = "println(!true);" + "println(\"a\");";
+            String texto = "println(!false);" + "println(\"a\");";
             scanner s = new scanner(new BufferedReader(new StringReader(texto)));
             parser p = new parser(s);
             var resultado = p.parse();
@@ -47,5 +46,4 @@ public class OLC1_VJ24_3363565520917 {
         // Interfaz javaCraft = new Interfaz();
         // javaCraft.setVisible(true);
     }
-
 }

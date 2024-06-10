@@ -91,10 +91,10 @@ EXPRESION ::= MENOS EXPRESION:a                       {:  RESULT = new Aritmetic
             | EXPRESION:a MENORIGUALQUE EXPRESION:b   {:  RESULT = new Relacionales(aleft, aright, a, b, OperadoresRelacionales.MENORIGUALQUE);   :}
             | EXPRESION:a MAYORQUE EXPRESION:b        {:  RESULT = new Relacionales(aleft, aright, a, b, OperadoresRelacionales.MAYORQUE);        :}
             | EXPRESION:a MAYORIGUALQUE EXPRESION:b   {:  RESULT = new Relacionales(aleft, aright, a, b, OperadoresRelacionales.MAYORIGUALQUE);   :}
-            | NOT EXPRESION:a                         {:  RESULT = new Logicos(aleft, aright, OperadoresLogicos.NOT, a);      :}%prec NOT
-            | EXPRESION:a OR EXPRESION:b              {:  RESULT = new Logicos(aleft, aright, a, b, OperadoresLogicos.OR);          :}
-            | EXPRESION:a AND EXPRESION:b             {:  RESULT = new Logicos(aleft, aright, a, b, OperadoresLogicos.AND);         :}
-            | EXPRESION:a XOR EXPRESION:b             {:  RESULT = new Logicos(aleft, aright, a, b, OperadoresLogicos.XOR);         :}
+            | NOT EXPRESION:a                         {:  RESULT = new Logicos(aleft, aright, OperadoresLogicos.NOT, a);                          :}%prec NOT
+            | EXPRESION:a OR EXPRESION:b              {:  RESULT = new Logicos(aleft, aright, a, b, OperadoresLogicos.OR);                        :}
+            | EXPRESION:a AND EXPRESION:b             {:  RESULT = new Logicos(aleft, aright, a, b, OperadoresLogicos.AND);                       :}
+            | EXPRESION:a XOR EXPRESION:b             {:  RESULT = new Logicos(aleft, aright, a, b, OperadoresLogicos.XOR);                       :}
             | ENTERO:a      {:  RESULT = new Nativo(new Tipo(tipoDato.ENTERO), aleft, aright, Integer.parseInt(a));           :}   //se puede parsear aca o en la clase nativo
             | DECIMAL:a     {:  RESULT = new Nativo(new Tipo(tipoDato.DECIMAL), aleft, aright, new Double(a));                :}
             | CADENA:a      {:  RESULT = new Nativo(new Tipo(tipoDato.CADENA), aleft, aright, a);                             :}
