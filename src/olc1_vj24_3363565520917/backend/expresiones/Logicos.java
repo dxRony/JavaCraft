@@ -60,7 +60,7 @@ public class Logicos extends Instruccion {
     }
 
     public Object or(Object op1, Object op2) {
-        boolean bool1 = false, bool2 = false;
+        boolean bool1 = true, bool2 = true;
 
         if (op1.equals("true")) {
             bool1 = true;
@@ -77,7 +77,7 @@ public class Logicos extends Instruccion {
     }
 
     public Object and(Object op1, Object op2) {
-        boolean bool1 = false, bool2 = false;
+        boolean bool1 = true, bool2 = true;
 
         if (op1.equals("true")) {
             bool1 = true;
@@ -94,7 +94,7 @@ public class Logicos extends Instruccion {
     }
 
     public Object xor(Object op1, Object op2) {
-        boolean bool1 = false, bool2 = false;
+        boolean bool1 = true, bool2 = true;
 
         if (op1.equals("true")) {
             bool1 = true;
@@ -111,7 +111,7 @@ public class Logicos extends Instruccion {
     }
 
     public Object not(Object op1) {
-        boolean bool = false;
+        boolean bool = true;
 
         if (op1.equals("true")) {
             bool = true;
