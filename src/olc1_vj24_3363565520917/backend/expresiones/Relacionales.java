@@ -73,6 +73,16 @@ public class Relacionales extends Instruccion {
                         char caracter = caracterString.charAt(0);
                         return (int) op1 == (int) caracter;
                     }
+                    case BOOLEANO -> {
+                        this.tipo.setTipo(tipoDato.BOOLEANO);
+                        int bool = 10;
+                        if (op2.equals("true")) {
+                            bool = 1;
+                        } else if (op2.equals("false")) {
+                            bool = 0;
+                        }
+                        return (int) op1 == bool;
+                    }
                     default -> {
                         return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
                     }
@@ -94,6 +104,16 @@ public class Relacionales extends Instruccion {
                         char caracter = caracterString.charAt(0);
                         return (double) op1 == (int) caracter;
                     }
+                    case BOOLEANO -> {
+                        this.tipo.setTipo(tipoDato.BOOLEANO);
+                        int bool = 10;
+                        if (op2.equals("true")) {
+                            bool = 1;
+                        } else if (op2.equals("false")) {
+                            bool = 0;
+                        }
+                        return (double) op1 == bool;
+                    }
                     default -> {
                         return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
                     }
@@ -101,6 +121,37 @@ public class Relacionales extends Instruccion {
             }
             case BOOLEANO -> {
                 switch (tipo2) {
+                    case ENTERO -> {
+                        this.tipo.setTipo(tipoDato.BOOLEANO);
+                        int bool = 10;
+                        if (op1.equals("true")) {
+                            bool = 1;
+                        } else if (op1.equals("false")) {
+                            bool = 0;
+                        }
+                        return bool == (int) op2;
+                    }
+                    case DECIMAL -> {
+                        this.tipo.setTipo(tipoDato.BOOLEANO);
+                        int bool = 10;
+                        if (op1.equals("true")) {
+                            bool = 1;
+                        } else if (op1.equals("false")) {
+                            bool = 0;
+                        }
+                        return bool == (double) op2;
+                    }
+                    case CARACTER -> {
+                        int bool = 10;
+                        if (op1.equals("true")) {
+                            bool = 1;
+                        } else if (op1.equals("false")) {
+                            bool = 0;
+                        }
+                        String caracterString = (String) op2;
+                        char caracter = caracterString.charAt(0);
+                        return bool == (int) caracter;
+                    }
                     case BOOLEANO -> {
                         this.tipo.setTipo(tipoDato.BOOLEANO);
                         boolean bool1 = false;
@@ -143,6 +194,17 @@ public class Relacionales extends Instruccion {
                         String caracterString2 = (String) op2;
                         char caracter2 = caracterString2.charAt(0);
                         return (int) caracter1 == (int) caracter2;
+                    }
+                    case BOOLEANO -> {
+                        int bool = 10;
+                        if (op2.equals("true")) {
+                            bool = 1;
+                        } else if (op2.equals("false")) {
+                            bool = 0;
+                        }
+                        String caracterString = (String) op1;
+                        char caracter = caracterString.charAt(0);
+                        return (int) caracter == bool;
                     }
                     default -> {
                         return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
@@ -189,6 +251,16 @@ public class Relacionales extends Instruccion {
                         char caracter = caracterString.charAt(0);
                         return (int) op1 != (int) caracter;
                     }
+                    case BOOLEANO -> {
+                        this.tipo.setTipo(tipoDato.BOOLEANO);
+                        int bool = 10;
+                        if (op2.equals("true")) {
+                            bool = 1;
+                        } else if (op2.equals("false")) {
+                            bool = 0;
+                        }
+                        return (int) op1 != bool;
+                    }
                     default -> {
                         return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
                     }
@@ -210,6 +282,16 @@ public class Relacionales extends Instruccion {
                         char caracter = caracterString.charAt(0);
                         return (double) op1 != (int) caracter;
                     }
+                    case BOOLEANO -> {
+                        this.tipo.setTipo(tipoDato.BOOLEANO);
+                        int bool = 10;
+                        if (op2.equals("true")) {
+                            bool = 1;
+                        } else if (op2.equals("false")) {
+                            bool = 0;
+                        }
+                        return (double) op1 != bool;
+                    }
                     default -> {
                         return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
                     }
@@ -217,6 +299,37 @@ public class Relacionales extends Instruccion {
             }
             case BOOLEANO -> {
                 switch (tipo2) {
+                    case ENTERO -> {
+                        this.tipo.setTipo(tipoDato.BOOLEANO);
+                        int bool = 10;
+                        if (op1.equals("true")) {
+                            bool = 1;
+                        } else if (op1.equals("false")) {
+                            bool = 0;
+                        }
+                        return bool != (int) op2;
+                    }
+                    case DECIMAL -> {
+                        this.tipo.setTipo(tipoDato.BOOLEANO);
+                        int bool = 10;
+                        if (op1.equals("true")) {
+                            bool = 1;
+                        } else if (op1.equals("false")) {
+                            bool = 0;
+                        }
+                        return bool != (double) op2;
+                    }
+                    case CARACTER -> {
+                        int bool = 10;
+                        if (op1.equals("true")) {
+                            bool = 1;
+                        } else if (op1.equals("false")) {
+                            bool = 0;
+                        }
+                        String caracterString = (String) op2;
+                        char caracter = caracterString.charAt(0);
+                        return bool != (int) caracter;
+                    }
                     case BOOLEANO -> {
                         this.tipo.setTipo(tipoDato.BOOLEANO);
                         boolean bool1 = false;
@@ -231,7 +344,7 @@ public class Relacionales extends Instruccion {
                         } else if (op2.equals("false")) {
                             bool2 = false;
                         }
-                        return !bool1 != bool2;
+                        return bool1 != bool2;
                     }
                     default -> {
                         return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
@@ -259,6 +372,17 @@ public class Relacionales extends Instruccion {
                         String caracterString2 = (String) op2;
                         char caracter2 = caracterString2.charAt(0);
                         return (int) caracter1 != (int) caracter2;
+                    }
+                    case BOOLEANO -> {
+                        int bool = 10;
+                        if (op2.equals("true")) {
+                            bool = 1;
+                        } else if (op2.equals("false")) {
+                            bool = 0;
+                        }
+                        String caracterString = (String) op1;
+                        char caracter = caracterString.charAt(0);
+                        return (int) caracter != bool;
                     }
                     default -> {
                         return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
@@ -305,6 +429,16 @@ public class Relacionales extends Instruccion {
                         char caracter = caracterString.charAt(0);
                         return (int) op1 < (int) caracter;
                     }
+                    case BOOLEANO -> {
+                        this.tipo.setTipo(tipoDato.BOOLEANO);
+                        int bool = 10;
+                        if (op2.equals("true")) {
+                            bool = 1;
+                        } else if (op2.equals("false")) {
+                            bool = 0;
+                        }
+                        return (int) op1 < bool;
+                    }
                     default -> {
                         return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
                     }
@@ -325,6 +459,16 @@ public class Relacionales extends Instruccion {
                         String caracterString = (String) op2;
                         char caracter = caracterString.charAt(0);
                         return (double) op1 < (int) caracter;
+                    }
+                    case BOOLEANO -> {
+                        this.tipo.setTipo(tipoDato.BOOLEANO);
+                        int bool = 10;
+                        if (op2.equals("true")) {
+                            bool = 1;
+                        } else if (op2.equals("false")) {
+                            bool = 0;
+                        }
+                        return (double) op1 < bool;
                     }
                     default -> {
                         return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
@@ -352,6 +496,71 @@ public class Relacionales extends Instruccion {
                         String caracterString2 = (String) op2;
                         char caracter2 = caracterString2.charAt(0);
                         return (int) caracter1 < (int) caracter2;
+                    }
+                    case BOOLEANO -> {
+                        int bool = 10;
+                        if (op2.equals("true")) {
+                            bool = 1;
+                        } else if (op2.equals("false")) {
+                            bool = 0;
+                        }
+                        String caracterString = (String) op1;
+                        char caracter = caracterString.charAt(0);
+                        return (int) caracter < bool;
+                    }
+                    default -> {
+                        return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+                    }
+                }
+            }
+            case BOOLEANO -> {
+                switch (tipo2) {
+                    case ENTERO -> {
+                        this.tipo.setTipo(tipoDato.BOOLEANO);
+                        int bool = 10;
+                        if (op1.equals("true")) {
+                            bool = 1;
+                        } else if (op1.equals("false")) {
+                            bool = 0;
+                        }
+                        return bool < (int) op2;
+                    }
+                    case DECIMAL -> {
+                        this.tipo.setTipo(tipoDato.BOOLEANO);
+                        int bool = 10;
+                        if (op1.equals("true")) {
+                            bool = 1;
+                        } else if (op1.equals("false")) {
+                            bool = 0;
+                        }
+                        return bool < (double) op2;
+                    }
+                    case CARACTER -> {
+                        int bool = 10;
+                        if (op1.equals("true")) {
+                            bool = 1;
+                        } else if (op1.equals("false")) {
+                            bool = 0;
+                        }
+                        String caracterString = (String) op2;
+                        char caracter = caracterString.charAt(0);
+                        return bool < (int) caracter;
+                    }
+                    case BOOLEANO -> {
+                        this.tipo.setTipo(tipoDato.BOOLEANO);
+                        int bool1 = 10;
+                        int bool2 = 10;
+                        if (op1.equals("true")) {
+                            bool1 = 1;
+                        } else if (op1.equals("false")) {
+                            bool1 = 0;
+                        }
+                        if (op2.equals("true")) {
+                            bool2 = 1;
+                        } else if (op2.equals("false")) {
+                            bool2 = 0;
+                        }
+                        return bool1 < bool2;
                     }
                     default -> {
                         return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
@@ -385,6 +594,16 @@ public class Relacionales extends Instruccion {
                         char caracter = caracterString.charAt(0);
                         return (int) op1 <= (int) caracter;
                     }
+                    case BOOLEANO -> {
+                        this.tipo.setTipo(tipoDato.BOOLEANO);
+                        int bool = 10;
+                        if (op2.equals("true")) {
+                            bool = 1;
+                        } else if (op2.equals("false")) {
+                            bool = 0;
+                        }
+                        return (int) op1 <= bool;
+                    }
                     default -> {
                         return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
                     }
@@ -405,6 +624,16 @@ public class Relacionales extends Instruccion {
                         String caracterString = (String) op2;
                         char caracter = caracterString.charAt(0);
                         return (double) op1 <= (int) caracter;
+                    }
+                    case BOOLEANO -> {
+                        this.tipo.setTipo(tipoDato.BOOLEANO);
+                        int bool = 10;
+                        if (op2.equals("true")) {
+                            bool = 1;
+                        } else if (op2.equals("false")) {
+                            bool = 0;
+                        }
+                        return (double) op1 <= bool;
                     }
                     default -> {
                         return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
@@ -432,6 +661,71 @@ public class Relacionales extends Instruccion {
                         String caracterString2 = (String) op2;
                         char caracter2 = caracterString2.charAt(0);
                         return (int) caracter1 <= (int) caracter2;
+                    }
+                    case BOOLEANO -> {
+                        int bool = 10;
+                        if (op2.equals("true")) {
+                            bool = 1;
+                        } else if (op2.equals("false")) {
+                            bool = 0;
+                        }
+                        String caracterString = (String) op1;
+                        char caracter = caracterString.charAt(0);
+                        return (int) caracter <= bool;
+                    }
+                    default -> {
+                        return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+                    }
+                }
+            }
+            case BOOLEANO -> {
+                switch (tipo2) {
+                    case ENTERO -> {
+                        this.tipo.setTipo(tipoDato.BOOLEANO);
+                        int bool = 10;
+                        if (op1.equals("true")) {
+                            bool = 1;
+                        } else if (op1.equals("false")) {
+                            bool = 0;
+                        }
+                        return bool <= (int) op2;
+                    }
+                    case DECIMAL -> {
+                        this.tipo.setTipo(tipoDato.BOOLEANO);
+                        int bool = 10;
+                        if (op1.equals("true")) {
+                            bool = 1;
+                        } else if (op1.equals("false")) {
+                            bool = 0;
+                        }
+                        return bool <= (double) op2;
+                    }
+                    case CARACTER -> {
+                        int bool = 10;
+                        if (op1.equals("true")) {
+                            bool = 1;
+                        } else if (op1.equals("false")) {
+                            bool = 0;
+                        }
+                        String caracterString = (String) op2;
+                        char caracter = caracterString.charAt(0);
+                        return bool <= (int) caracter;
+                    }
+                    case BOOLEANO -> {
+                        this.tipo.setTipo(tipoDato.BOOLEANO);
+                        int bool1 = 10;
+                        int bool2 = 10;
+                        if (op1.equals("true")) {
+                            bool1 = 1;
+                        } else if (op1.equals("false")) {
+                            bool1 = 0;
+                        }
+                        if (op2.equals("true")) {
+                            bool2 = 1;
+                        } else if (op2.equals("false")) {
+                            bool2 = 0;
+                        }
+                        return bool1 <= bool2;
                     }
                     default -> {
                         return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
@@ -465,6 +759,16 @@ public class Relacionales extends Instruccion {
                         char caracter = caracterString.charAt(0);
                         return (int) op1 > (int) caracter;
                     }
+                    case BOOLEANO -> {
+                        this.tipo.setTipo(tipoDato.BOOLEANO);
+                        int bool = 10;
+                        if (op2.equals("true")) {
+                            bool = 1;
+                        } else if (op2.equals("false")) {
+                            bool = 0;
+                        }
+                        return (int) op1 > bool;
+                    }
                     default -> {
                         return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
                     }
@@ -485,6 +789,16 @@ public class Relacionales extends Instruccion {
                         String caracterString = (String) op2;
                         char caracter = caracterString.charAt(0);
                         return (double) op1 > (int) caracter;
+                    }
+                    case BOOLEANO -> {
+                        this.tipo.setTipo(tipoDato.BOOLEANO);
+                        int bool = 10;
+                        if (op2.equals("true")) {
+                            bool = 1;
+                        } else if (op2.equals("false")) {
+                            bool = 0;
+                        }
+                        return (double) op1 > bool;
                     }
                     default -> {
                         return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
@@ -512,6 +826,71 @@ public class Relacionales extends Instruccion {
                         String caracterString2 = (String) op2;
                         char caracter2 = caracterString2.charAt(0);
                         return (int) caracter1 > (int) caracter2;
+                    }
+                    case BOOLEANO -> {
+                        int bool = 10;
+                        if (op2.equals("true")) {
+                            bool = 1;
+                        } else if (op2.equals("false")) {
+                            bool = 0;
+                        }
+                        String caracterString = (String) op1;
+                        char caracter = caracterString.charAt(0);
+                        return (int) caracter > bool;
+                    }
+                    default -> {
+                        return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+                    }
+                }
+            }
+            case BOOLEANO -> {
+                switch (tipo2) {
+                    case ENTERO -> {
+                        this.tipo.setTipo(tipoDato.BOOLEANO);
+                        int bool = 10;
+                        if (op1.equals("true")) {
+                            bool = 1;
+                        } else if (op1.equals("false")) {
+                            bool = 0;
+                        }
+                        return bool > (int) op2;
+                    }
+                    case DECIMAL -> {
+                        this.tipo.setTipo(tipoDato.BOOLEANO);
+                        int bool = 10;
+                        if (op1.equals("true")) {
+                            bool = 1;
+                        } else if (op1.equals("false")) {
+                            bool = 0;
+                        }
+                        return bool > (double) op2;
+                    }
+                    case CARACTER -> {
+                        int bool = 10;
+                        if (op1.equals("true")) {
+                            bool = 1;
+                        } else if (op1.equals("false")) {
+                            bool = 0;
+                        }
+                        String caracterString = (String) op2;
+                        char caracter = caracterString.charAt(0);
+                        return bool > (int) caracter;
+                    }
+                    case BOOLEANO -> {
+                        this.tipo.setTipo(tipoDato.BOOLEANO);
+                        int bool1 = 10;
+                        int bool2 = 10;
+                        if (op1.equals("true")) {
+                            bool1 = 1;
+                        } else if (op1.equals("false")) {
+                            bool1 = 0;
+                        }
+                        if (op2.equals("true")) {
+                            bool2 = 1;
+                        } else if (op2.equals("false")) {
+                            bool2 = 0;
+                        }
+                        return bool1 > bool2;
                     }
                     default -> {
                         return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
@@ -545,6 +924,16 @@ public class Relacionales extends Instruccion {
                         char caracter = caracterString.charAt(0);
                         return (int) op1 >= (int) caracter;
                     }
+                    case BOOLEANO -> {
+                        this.tipo.setTipo(tipoDato.BOOLEANO);
+                        int bool = 10;
+                        if (op2.equals("true")) {
+                            bool = 1;
+                        } else if (op2.equals("false")) {
+                            bool = 0;
+                        }
+                        return (int) op1 >= bool;
+                    }
                     default -> {
                         return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
                     }
@@ -565,6 +954,16 @@ public class Relacionales extends Instruccion {
                         String caracterString = (String) op2;
                         char caracter = caracterString.charAt(0);
                         return (double) op1 >= (int) caracter;
+                    }
+                    case BOOLEANO -> {
+                        this.tipo.setTipo(tipoDato.BOOLEANO);
+                        int bool = 10;
+                        if (op2.equals("true")) {
+                            bool = 1;
+                        } else if (op2.equals("false")) {
+                            bool = 0;
+                        }
+                        return (double) op1 >= bool;
                     }
                     default -> {
                         return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
@@ -592,6 +991,71 @@ public class Relacionales extends Instruccion {
                         String caracterString2 = (String) op2;
                         char caracter2 = caracterString2.charAt(0);
                         return (int) caracter1 >= (int) caracter2;
+                    }
+                    case BOOLEANO -> {
+                        int bool = 10;
+                        if (op2.equals("true")) {
+                            bool = 1;
+                        } else if (op2.equals("false")) {
+                            bool = 0;
+                        }
+                        String caracterString = (String) op1;
+                        char caracter = caracterString.charAt(0);
+                        return (int) caracter >= bool;
+                    }
+                    default -> {
+                        return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+                    }
+                }
+            }
+            case BOOLEANO -> {
+                switch (tipo2) {
+                    case ENTERO -> {
+                        this.tipo.setTipo(tipoDato.BOOLEANO);
+                        int bool = 10;
+                        if (op1.equals("true")) {
+                            bool = 1;
+                        } else if (op1.equals("false")) {
+                            bool = 0;
+                        }
+                        return bool >= (int) op2;
+                    }
+                    case DECIMAL -> {
+                        this.tipo.setTipo(tipoDato.BOOLEANO);
+                        int bool = 10;
+                        if (op1.equals("true")) {
+                            bool = 1;
+                        } else if (op1.equals("false")) {
+                            bool = 0;
+                        }
+                        return bool >= (double) op2;
+                    }
+                    case CARACTER -> {
+                        int bool = 10;
+                        if (op1.equals("true")) {
+                            bool = 1;
+                        } else if (op1.equals("false")) {
+                            bool = 0;
+                        }
+                        String caracterString = (String) op2;
+                        char caracter = caracterString.charAt(0);
+                        return bool >= (int) caracter;
+                    }
+                    case BOOLEANO -> {
+                        this.tipo.setTipo(tipoDato.BOOLEANO);
+                        int bool1 = 10;
+                        int bool2 = 10;
+                        if (op1.equals("true")) {
+                            bool1 = 1;
+                        } else if (op1.equals("false")) {
+                            bool1 = 0;
+                        }
+                        if (op2.equals("true")) {
+                            bool2 = 1;
+                        } else if (op2.equals("false")) {
+                            bool2 = 0;
+                        }
+                        return bool1 >= bool2;
                     }
                     default -> {
                         return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);

@@ -18,10 +18,5 @@ public class Nativo extends Instruccion { //el tipo puede ser un numero, decimal
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
         return this.valor;//retorna el valor del nativo
     }
-
     
-    
-    
-    
-
 }

@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import olc1_vj24_3363565520917.backend.abstracto.Instruccion;
 import olc1_vj24_3363565520917.backend.simbolo.Tipo;
 import olc1_vj24_3363565520917.backend.simbolo.tipoDato;
+import olc1_vj24_3363565520917.backend.excepciones.Errores;
 
 //instrucciones
 import olc1_vj24_3363565520917.backend.instrucciones.Print;
@@ -25,17 +26,15 @@ parser code
 {:
     scanner s;
     parser(scanner s) {this.s = s;}
+
+    public LinkedList<Errores> listaErrores = new LinkedList<>();
     
     public void syntax_error(Symbol s){
-        System.out.println("Error Sintactico en la linea " + 
-        (s.left) + " y columna " + (s.right) +
-        ". No se esperaba el componente: " + (s.value) + ".");
+        listaErrores.add(new Errores("SINTACTICO RECUPERABLE", "No se esperaba el componente: " + s.value, s.left, s.right));
     }
 
     public void unrecovered_syntax_error(Symbol s ){
-        System.out.println("Error Sintactico no recuperable en la linea" +
-        (s.left) + " y columna " + (s.right) +
-        ". No se esperaba el componente: " + (s.value) + ".");
+        listaErrores.add(new Errores("SINTACTICO NO RECUPERABLE", "No se esperaba el componente: " + s.value, s.left, s.right));
     }
 :}
 
@@ -74,32 +73,32 @@ INSTRUCCIONES ::= INSTRUCCIONES:a INSTRUCCION:b   {:  RESULT= a; RESULT.add(b); 
                 | INSTRUCCION:a                   {: RESULT = new LinkedList<>(); RESULT.add(a);   :}
 ;
 //public Print(int linea, int columna, Instruccion expresion){}
-INSTRUCCION ::= IMPRIMIR PAR1 EXPRESION:a PAR2 FININSTRUCCION   {: RESULT = new Print(aleft, aright, a); :}        
+INSTRUCCION ::= IMPRIMIR PAR1 EXPRESION:a PAR2 FININSTRUCCION   {: RESULT = new Print(aleft, aright, a); :}
+            | error FININSTRUCCION
+            | error        
 ;
-// public Logicos(int linea, int columna, OperadoresLogicos operacion, Instruccion operandoUnico) {}
-//public Logicos(int linea, int columna, Instruccion operando1, Instruccion operando2, OperadoresLogicos operacion) {}
-EXPRESION ::= MENOS EXPRESION:a                       {:  RESULT = new Aritmeticas(aleft, aright, OperadoresAritmeticos.NEGACION, a);             :}%prec UMENOS
-            | EXPRESION:a MAS EXPRESION:b             {:  RESULT = new Aritmeticas(aleft, aright, a, b, OperadoresAritmeticos.SUMA);              :}
-            | EXPRESION:a MENOS EXPRESION:b           {:  RESULT = new Aritmeticas(aleft, aright, a, b, OperadoresAritmeticos.RESTA);             :}
-            | EXPRESION:a MULTIPLICAR EXPRESION:b     {:  RESULT = new Aritmeticas(aleft, aright, a, b, OperadoresAritmeticos.MULTIPLICACION);    :}
-            | EXPRESION:a DIVIDIR EXPRESION:b         {:  RESULT = new Aritmeticas(aleft, aright, a, b, OperadoresAritmeticos.DIVISION);          :}
-            | EXPRESION:a POTENCIA EXPRESION:b        {:  RESULT = new Aritmeticas(aleft, aright, a, b, OperadoresAritmeticos.POTENCIA);          :}
-            | EXPRESION:a MODULO EXPRESION:b          {:  RESULT = new Aritmeticas(aleft, aright, a, b, OperadoresAritmeticos.MODULO);            :}
-            | EXPRESION:a IGUALACION EXPRESION:b      {:  RESULT = new Relacionales(aleft, aright, a, b, OperadoresRelacionales.IGUALACION);      :}
-            | EXPRESION:a DIFERENCIACION EXPRESION:b  {:  RESULT = new Relacionales(aleft, aright, a, b, OperadoresRelacionales.DIFERENCIACION);  :}
-            | EXPRESION:a MENORQUE EXPRESION:b        {:  RESULT = new Relacionales(aleft, aright, a, b, OperadoresRelacionales.MENORQUE);        :}
-            | EXPRESION:a MENORIGUALQUE EXPRESION:b   {:  RESULT = new Relacionales(aleft, aright, a, b, OperadoresRelacionales.MENORIGUALQUE);   :}
-            | EXPRESION:a MAYORQUE EXPRESION:b        {:  RESULT = new Relacionales(aleft, aright, a, b, OperadoresRelacionales.MAYORQUE);        :}
-            | EXPRESION:a MAYORIGUALQUE EXPRESION:b   {:  RESULT = new Relacionales(aleft, aright, a, b, OperadoresRelacionales.MAYORIGUALQUE);   :}
-            | NOT EXPRESION:a                         {:  RESULT = new Logicos(aleft, aright, OperadoresLogicos.NOT, a);                          :}%prec NOT
-            | EXPRESION:a OR EXPRESION:b              {:  RESULT = new Logicos(aleft, aright, a, b, OperadoresLogicos.OR);                        :}
-            | EXPRESION:a AND EXPRESION:b             {:  RESULT = new Logicos(aleft, aright, a, b, OperadoresLogicos.AND);                       :}
-            | EXPRESION:a XOR EXPRESION:b             {:  RESULT = new Logicos(aleft, aright, a, b, OperadoresLogicos.XOR);                       :}
-            | PAR1 EXPRESION:a PAR2                   {:  RESULT=a;                                                                               :}
-            | ENTERO:a      {:  RESULT = new Nativo(new Tipo(tipoDato.ENTERO), aleft, aright, Integer.parseInt(a));           :}   //se puede parsear aca o en la clase nativo
-            | DECIMAL:a     {:  RESULT = new Nativo(new Tipo(tipoDato.DECIMAL), aleft, aright, new Double(a));                :}
-            | CADENA:a      {:  RESULT = new Nativo(new Tipo(tipoDato.CADENA), aleft, aright, a);                             :}
-            | CARACTER:a    {:  RESULT = new Nativo(new Tipo(tipoDato.CARACTER), aleft, aright, a);                           :}
-            | BOOLEANO:a    {:  RESULT = new Nativo(new Tipo(tipoDato.BOOLEANO), aleft, aright, a);                           :}
+
+EXPRESION ::= MENOS EXPRESION:a                         {:  RESULT = new Aritmeticas(aleft, aright, OperadoresAritmeticos.NEGACION, a);              :}%prec UMENOS
+            | EXPRESION:a MAS EXPRESION:b               {:  RESULT = new Aritmeticas(aleft, aright, a, b, OperadoresAritmeticos.SUMA);               :}
+            | EXPRESION:a MENOS EXPRESION:b             {:  RESULT = new Aritmeticas(aleft, aright, a, b, OperadoresAritmeticos.RESTA);              :}
+            | EXPRESION:a MULTIPLICAR EXPRESION:b       {:  RESULT = new Aritmeticas(aleft, aright, a, b, OperadoresAritmeticos.MULTIPLICACION);     :}
+            | EXPRESION:a DIVIDIR EXPRESION:b           {:  RESULT = new Aritmeticas(aleft, aright, a, b, OperadoresAritmeticos.DIVISION);           :}
+            | EXPRESION:a POTENCIA EXPRESION:b          {:  RESULT = new Aritmeticas(aleft, aright, a, b, OperadoresAritmeticos.POTENCIA);           :}
+            | EXPRESION:a MODULO EXPRESION:b            {:  RESULT = new Aritmeticas(aleft, aright, a, b, OperadoresAritmeticos.MODULO);             :}
+            | EXPRESION:a IGUALACION EXPRESION:b        {:  RESULT = new Relacionales(aleft, aright, a, b, OperadoresRelacionales.IGUALACION);       :}
+            | EXPRESION:a DIFERENCIACION EXPRESION:b    {:  RESULT = new Relacionales(aleft, aright, a, b, OperadoresRelacionales.DIFERENCIACION);   :}
+            | EXPRESION:a MENORQUE EXPRESION:b          {:  RESULT = new Relacionales(aleft, aright, a, b, OperadoresRelacionales.MENORQUE);         :}
+            | EXPRESION:a MENORIGUALQUE EXPRESION:b     {:  RESULT = new Relacionales(aleft, aright, a, b, OperadoresRelacionales.MENORIGUALQUE);    :}
+            | EXPRESION:a MAYORQUE EXPRESION:b          {:  RESULT = new Relacionales(aleft, aright, a, b, OperadoresRelacionales.MAYORQUE);         :}
+            | EXPRESION:a MAYORIGUALQUE EXPRESION:b     {:  RESULT = new Relacionales(aleft, aright, a, b, OperadoresRelacionales.MAYORIGUALQUE);    :}
+            | NOT EXPRESION:a                           {:  RESULT = new Logicos(aleft, aright, OperadoresLogicos.NOT, a);                           :}%prec NOT
+            | EXPRESION:a OR EXPRESION:b                {:  RESULT = new Logicos(aleft, aright, a, b, OperadoresLogicos.OR);                         :}
+            | EXPRESION:a AND EXPRESION:b               {:  RESULT = new Logicos(aleft, aright, a, b, OperadoresLogicos.AND);                        :}
+            | EXPRESION:a XOR EXPRESION:b               {:  RESULT = new Logicos(aleft, aright, a, b, OperadoresLogicos.XOR);                        :}
+            | PAR1 EXPRESION:a PAR2                     {:  RESULT = a;                                                                              :}
+            | ENTERO:a                                  {:  RESULT = new Nativo(new Tipo(tipoDato.ENTERO), aleft, aright, Integer.parseInt(a));      :}//se puede parsear aca o en la clase nativo
+            | DECIMAL:a                                 {:  RESULT = new Nativo(new Tipo(tipoDato.DECIMAL), aleft, aright, new Double(a));           :}
+            | CADENA:a                                  {:  RESULT = new Nativo(new Tipo(tipoDato.CADENA), aleft, aright, a);                        :}
+            | CARACTER:a                                {:  RESULT = new Nativo(new Tipo(tipoDato.CARACTER), aleft, aright, a);                      :}
+            | BOOLEANO:a                                {:  RESULT = new Nativo(new Tipo(tipoDato.BOOLEANO), aleft, aright, a);                      :}
 ;
-//1:38

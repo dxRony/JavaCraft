@@ -23,11 +23,8 @@ public class Generador {
              * 2) -d: donde se generaran la salida
              * 3) ruta:
              */
-
             String Flex[] = {ruta + "lexico.jflex", "-d", ruta};
             jflex.Main.generate(Flex);
-
-
             /*
              * PARAMETROS
              * 1) -destdir: ruta donde se generara la salida

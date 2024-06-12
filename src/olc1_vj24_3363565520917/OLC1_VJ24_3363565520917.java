@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import olc1_vj24_3363565520917.backend.abstracto.Instruccion;
 import olc1_vj24_3363565520917.backend.analisis.parser;
 import olc1_vj24_3363565520917.backend.analisis.scanner;
+import olc1_vj24_3363565520917.backend.excepciones.Errores;
 import olc1_vj24_3363565520917.backend.simbolo.Arbol;
 import olc1_vj24_3363565520917.backend.simbolo.tablaSimbolos;
 import olc1_vj24_3363565520917.frontend.Interfaz;
@@ -26,7 +27,7 @@ public class OLC1_VJ24_3363565520917 {
      */
     public static void main(String[] args) {
         try {
-            String texto = "println(5*5 && true);";
+            String texto = "println(true != false); ";
             scanner s = new scanner(new BufferedReader(new StringReader(texto)));
             parser p = new parser(s);
             var resultado = p.parse();
@@ -34,11 +35,25 @@ public class OLC1_VJ24_3363565520917 {
             var tabla = new tablaSimbolos();
             tabla.setNombre("GLOBAL");
             ast.setConsola("");
+
+            LinkedList<Errores> lista = new LinkedList<>();
+            lista.addAll(s.listaErrores);
+            lista.addAll(p.listaErrores);
+
             for (var a : ast.getInstrucciones()) {
+                if (a == null) {
+                    continue;
+                }
                 var res = a.interpretar(ast, tabla);
+                if (res instanceof Errores) {
+                    lista.add((Errores) res);
+                }
             }
             System.out.println(ast.getConsola());
 
+            for (var i : lista) {
+                System.out.println(i);
+            }
         } catch (Exception ex) {
             System.out.println("Algo salio mal");
             System.out.println(ex);

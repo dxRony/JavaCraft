@@ -3,6 +3,8 @@ package olc1_vj24_3363565520917.backend.analisis;
 
 //importaciones
 import java_cup.runtime.Symbol;
+import java.util.LinkedList;
+import olc1_vj24_3363565520917.backend.excepciones.Errores;
 
 %%
 
@@ -10,7 +12,7 @@ import java_cup.runtime.Symbol;
 
 %{
     String cadena = "";
-
+    public LinkedList<Errores> listaErrores = new LinkedList<>();
 %}
 
 //definiciones iniciales, linea y columna donde se inicia
@@ -18,6 +20,7 @@ import java_cup.runtime.Symbol;
 %init{
     yyline = 1;
     yycolumn = 1;
+    listaErrores = new LinkedList<>();
 %init}
 
 //declaraciones caracteristicas de jflex
@@ -47,7 +50,6 @@ DECIMAL = [0-9]+"."[0-9]+
 CADENA = [\"]([^\"])*[\"]
 CARACTER = [\']([^\']){1}[\']
 BOOLEANO = "true"|"false"
-
 
 //comentarios
 COMENTARIOLINEA = "//"[^\n]*
@@ -79,15 +81,7 @@ NOT = "!"
 //incremento/decremento
 INCREMENTO = "++"
 DECREMENTO = "--"
-
-//sentencias de control
-        //if/match
 DEFAULT = "_"
-//sentencias ciclicas
-        //while/for/do-while
-
-//sentencias de transferencia
-        //break/continue/return
 
 //palabras reservadas
 IMPRIMIR = "println"
@@ -165,6 +159,9 @@ BREAK = "break"
 <YYINITIAL> {PAR2}            {return new Symbol(sym.PAR2, yyline, yycolumn, yytext());}
 <YYINITIAL> {CORCH1}          {return new Symbol(sym.CORCH1, yyline, yycolumn, yytext());}
 <YYINITIAL> {CORCH2}          {return new Symbol(sym.CORCH2, yyline, yycolumn, yytext());}
+<YYINITIAL> . {
+            listaErrores.add(new Errores("LEXICO", " No se esperaba el caracter: " +yytext(), yyline, yycolumn));
+}
 
 
 
