@@ -20,7 +20,6 @@ import olc1_vj24_3363565520917.backend.expresiones.OperadoresAritmeticos;
 import olc1_vj24_3363565520917.backend.expresiones.OperadoresRelacionales;
 import olc1_vj24_3363565520917.backend.expresiones.OperadoresLogicos;
 
-
 //definiendo el parser
 parser code
 {:
@@ -77,7 +76,7 @@ INSTRUCCION ::= IMPRIMIR PAR1 EXPRESION:a PAR2 FININSTRUCCION   {: RESULT = new 
             | error FININSTRUCCION
             | error        
 ;
-
+            //inicio aritmeticas
 EXPRESION ::= MENOS EXPRESION:a                         {:  RESULT = new Aritmeticas(aleft, aright, OperadoresAritmeticos.NEGACION, a);              :}%prec UMENOS
             | EXPRESION:a MAS EXPRESION:b               {:  RESULT = new Aritmeticas(aleft, aright, a, b, OperadoresAritmeticos.SUMA);               :}
             | EXPRESION:a MENOS EXPRESION:b             {:  RESULT = new Aritmeticas(aleft, aright, a, b, OperadoresAritmeticos.RESTA);              :}
