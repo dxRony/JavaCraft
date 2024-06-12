@@ -77,7 +77,7 @@ INSTRUCCION ::= IMPRIMIR PAR1 EXPRESION:a PAR2 FININSTRUCCION   {: RESULT = new 
             | error FININSTRUCCION
             | error        
 ;
-
+            //inicio aritmeticas
 EXPRESION ::= MENOS EXPRESION:a                         {:  RESULT = new Aritmeticas(aleft, aright, OperadoresAritmeticos.NEGACION, a);              :}%prec UMENOS
             | EXPRESION:a MAS EXPRESION:b               {:  RESULT = new Aritmeticas(aleft, aright, a, b, OperadoresAritmeticos.SUMA);               :}
             | EXPRESION:a MENOS EXPRESION:b             {:  RESULT = new Aritmeticas(aleft, aright, a, b, OperadoresAritmeticos.RESTA);              :}
@@ -85,17 +85,27 @@ EXPRESION ::= MENOS EXPRESION:a                         {:  RESULT = new Aritmet
             | EXPRESION:a DIVIDIR EXPRESION:b           {:  RESULT = new Aritmeticas(aleft, aright, a, b, OperadoresAritmeticos.DIVISION);           :}
             | EXPRESION:a POTENCIA EXPRESION:b          {:  RESULT = new Aritmeticas(aleft, aright, a, b, OperadoresAritmeticos.POTENCIA);           :}
             | EXPRESION:a MODULO EXPRESION:b            {:  RESULT = new Aritmeticas(aleft, aright, a, b, OperadoresAritmeticos.MODULO);             :}
+            //inicio relacionales
             | EXPRESION:a IGUALACION EXPRESION:b        {:  RESULT = new Relacionales(aleft, aright, a, b, OperadoresRelacionales.IGUALACION);       :}
             | EXPRESION:a DIFERENCIACION EXPRESION:b    {:  RESULT = new Relacionales(aleft, aright, a, b, OperadoresRelacionales.DIFERENCIACION);   :}
             | EXPRESION:a MENORQUE EXPRESION:b          {:  RESULT = new Relacionales(aleft, aright, a, b, OperadoresRelacionales.MENORQUE);         :}
             | EXPRESION:a MENORIGUALQUE EXPRESION:b     {:  RESULT = new Relacionales(aleft, aright, a, b, OperadoresRelacionales.MENORIGUALQUE);    :}
             | EXPRESION:a MAYORQUE EXPRESION:b          {:  RESULT = new Relacionales(aleft, aright, a, b, OperadoresRelacionales.MAYORQUE);         :}
             | EXPRESION:a MAYORIGUALQUE EXPRESION:b     {:  RESULT = new Relacionales(aleft, aright, a, b, OperadoresRelacionales.MAYORIGUALQUE);    :}
+            //inicio logicos
             | NOT EXPRESION:a                           {:  RESULT = new Logicos(aleft, aright, OperadoresLogicos.NOT, a);                           :}%prec NOT
             | EXPRESION:a OR EXPRESION:b                {:  RESULT = new Logicos(aleft, aright, a, b, OperadoresLogicos.OR);                         :}
             | EXPRESION:a AND EXPRESION:b               {:  RESULT = new Logicos(aleft, aright, a, b, OperadoresLogicos.AND);                        :}
             | EXPRESION:a XOR EXPRESION:b               {:  RESULT = new Logicos(aleft, aright, a, b, OperadoresLogicos.XOR);                        :}
+            //agrupacion
             | PAR1 EXPRESION:a PAR2                     {:  RESULT = a;                                                                              :}
+            //inicio casteo
+            | PAR1 INT PAR2 DECIMAL:a                   {:  RESULT = new Nativo(new Tipo(tipoDato.ENTERO), aleft, aright, Integer.parseInt(a));      :}
+            | PAR1 INT PAR2 CARACTER:a                  {:  RESULT = new Nativo(new Tipo(tipoDato.ENTERO), aleft, aright, Integer.parseInt(a));      :}
+            | PAR1 DOUBLE PAR2 ENTERO:a                 {:  RESULT = new Nativo(new Tipo(tipoDato.DECIMAL), aleft, aright, new Double(a));           :}
+            | PAR1 CHAR PAR2 ENTERO:a                   {:  RESULT = new Nativo(new Tipo(tipoDato.CARACTER), aleft, aright, a);                      :}
+            | PAR1 CHAR PAR2 DECIMAL:a                  {:  RESULT = new Nativo(new Tipo(tipoDato.CARACTER), aleft, aright, a);                      :}
+            //inicio nativos
             | ENTERO:a                                  {:  RESULT = new Nativo(new Tipo(tipoDato.ENTERO), aleft, aright, Integer.parseInt(a));      :}//se puede parsear aca o en la clase nativo
             | DECIMAL:a                                 {:  RESULT = new Nativo(new Tipo(tipoDato.DECIMAL), aleft, aright, new Double(a));           :}
             | CADENA:a                                  {:  RESULT = new Nativo(new Tipo(tipoDato.CADENA), aleft, aright, a);                        :}
