@@ -2,6 +2,7 @@ package olc1_vj24_3363565520917.backend.instrucciones;
 
 import olc1_vj24_3363565520917.backend.abstracto.Instruccion;
 import olc1_vj24_3363565520917.backend.excepciones.Errores;
+import olc1_vj24_3363565520917.backend.expresiones.Nativo;
 import olc1_vj24_3363565520917.backend.simbolo.Arbol;
 import olc1_vj24_3363565520917.backend.simbolo.Simbolo;
 import olc1_vj24_3363565520917.backend.simbolo.Tipo;
@@ -21,11 +22,20 @@ public class Declaracion extends Instruccion {
         this.mutabilidad = mutabilidad;
     }
 
+    public Declaracion(Tipo tipo, int linea, int columna, String identificador, String mutabilidad) {
+        super(tipo, linea, columna);
+        this.identificador = identificador;
+        this.mutabilidad = mutabilidad;
+    }
+
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
         // interpretando la expresion, para saber el tipo
+       
+        if (this.valor == null) {
+            asignarValorPorDefecto();
+        }
         var valorInterpretado = this.valor.interpretar(arbol, tabla);
-
         // manejando la mutabilidad
         boolean mutabilidadBool = false;
 
@@ -38,7 +48,7 @@ public class Declaracion extends Instruccion {
         if (valorInterpretado instanceof Errores) {// validando si hay error
             return valorInterpretado;
         }
-        
+
         if (this.valor.tipo.getTipo() != this.tipo.getTipo()) {// validando los tipos (que coincidan)
             return new Errores("SEMANTICO", "Tipos erroneos", this.linea, this.columna);
         }
@@ -51,6 +61,28 @@ public class Declaracion extends Instruccion {
             return new Errores("SEMANTICO", "la variable ya existe", this.linea, this.columna);
         }
         return null;
+    }
+
+    public void asignarValorPorDefecto() {
+        var tipoDato = this.tipo.getTipo();
+        switch (tipoDato) {
+            case ENTERO -> {
+                this.valor = new Nativo(new Tipo(tipoDato.ENTERO), this.linea, this.columna, 0);
+            }
+            case DECIMAL -> {
+                this.valor = new Nativo(new Tipo(tipoDato.DECIMAL), this.linea, this.columna, 0.0);
+            }
+            case BOOLEANO -> {
+                this.valor = new Nativo(new Tipo(tipoDato.BOOLEANO), this.linea, this.columna, "true");
+            }
+            case CARACTER -> {
+                this.valor = new Nativo(new Tipo(tipoDato.CARACTER), this.linea, this.columna, 0);
+            }
+            case CADENA -> {
+                this.valor = new Nativo(new Tipo(tipoDato.CADENA), this.linea, this.columna, "");
+            }
+        }
+
     }
 
 }

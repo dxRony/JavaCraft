@@ -88,7 +88,8 @@ INSTRUCCION ::= IMPRESION:a                       {:  RESULT=a;                 
 IMPRESION ::= IMPRIMIR PAR1 EXPRESION:a PAR2 FININSTRUCCION   {:    RESULT = new Print(aleft, aright, a);              :}
 ;
 
-DECLARACION ::= MUTABILIDAD:a ID:b DOSPUNTOS TIPOS:c IGUAL EXPRESION:d FININSTRUCCION {:    RESULT = new Declaracion(c, aleft, aright, b, d, a);  :}
+DECLARACION ::= MUTABILIDAD:a ID:b DOSPUNTOS TIPOS:c IGUAL EXPRESION:d FININSTRUCCION {:  RESULT = new Declaracion(c, aleft, aright, b, d, a);  :}           
+            | MUTABILIDAD:a ID:b DOSPUNTOS TIPOS:c FININSTRUCCION                     {:  RESULT = new Declaracion(c, aleft, aright, b, a);     :}
 ;
 
 ASIGNACION ::= ID:a IGUAL EXPRESION:b FININSTRUCCION          {:    RESULT = new AsignacionVar(a, b, aleft, aright);   :}
