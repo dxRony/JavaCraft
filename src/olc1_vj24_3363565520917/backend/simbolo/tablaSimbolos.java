@@ -11,7 +11,6 @@ public class tablaSimbolos {
     public tablaSimbolos() {
         this.tablaActual = new HashMap<>();
         this.nombre = "";
-
     }
 
     public tablaSimbolos(tablaSimbolos tablaAnterior) {
@@ -44,4 +43,21 @@ public class tablaSimbolos {
         this.nombre = nombre;
     }
 
+    public boolean setVaribale(Simbolo simbolo) {
+        Simbolo busqueda = (Simbolo) this.tablaActual.get(simbolo.getId().toLowerCase());
+
+        if (busqueda == null) {
+            this.tablaActual.put(simbolo.getId().toLowerCase(), simbolo);
+            return true;
+        }
+        return false;
+    }
+
+    public Simbolo getVariable(String id) {
+        Simbolo busqueda = (Simbolo) this.tablaActual.get(id.toLowerCase());
+        if (busqueda != null) {
+            return busqueda;
+        }
+        return null;
+    }
 }

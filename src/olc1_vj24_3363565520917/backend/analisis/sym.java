@@ -8,54 +8,55 @@ package olc1_vj24_3363565520917.backend.analisis;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int PAR2 = 14;
-  public static final int PAR1 = 13;
-  public static final int MULTIPLICAR = 11;
-  public static final int CONST = 17;
-  public static final int CHAR = 21;
-  public static final int IGUALACION = 30;
-  public static final int IMPRIMIR = 8;
+  public static final int PAR2 = 15;
+  public static final int PAR1 = 14;
+  public static final int MULTIPLICAR = 12;
+  public static final int CONST = 18;
+  public static final int CHAR = 22;
+  public static final int IGUALACION = 31;
+  public static final int IMPRIMIR = 9;
   public static final int ENTERO = 3;
-  public static final int XOR = 37;
-  public static final int DOUBLE = 19;
-  public static final int INT = 18;
-  public static final int FOR = 27;
-  public static final int MATCH = 25;
-  public static final int NOT = 38;
-  public static final int AND = 36;
-  public static final int MAYORQUE = 45;
+  public static final int XOR = 38;
+  public static final int DOUBLE = 20;
+  public static final int INT = 19;
+  public static final int FOR = 28;
+  public static final int MATCH = 26;
+  public static final int NOT = 39;
+  public static final int AND = 37;
+  public static final int MAYORQUE = 46;
+  public static final int IGUAL = 42;
   public static final int CARACTER = 5;
-  public static final int OR = 35;
-  public static final int BOOL = 20;
-  public static final int INCREMENTO = 39;
-  public static final int UMENOS = 15;
-  public static final int IF = 23;
-  public static final int FININSTRUCCION = 7;
+  public static final int OR = 36;
+  public static final int BOOL = 21;
+  public static final int INCREMENTO = 40;
+  public static final int UMENOS = 16;
+  public static final int IF = 24;
+  public static final int FININSTRUCCION = 8;
+  public static final int ID = 7;
   public static final int EOF = 0;
   public static final int DECIMAL = 4;
-  public static final int MAYORIGUALQUE = 34;
-  public static final int DECREMENTO = 40;
+  public static final int MAYORIGUALQUE = 35;
+  public static final int DECREMENTO = 41;
   public static final int error = 1;
   public static final int CADENA = 2;
-  public static final int MODULO = 42;
-  public static final int MENOS = 10;
-  public static final int BREAK = 29;
-  public static final int DIFERENCIACION = 32;
-  public static final int ASIGNACION = 41;
-  public static final int MENORQUE = 44;
-  public static final int POTENCIA = 31;
-  public static final int ELSE = 24;
-  public static final int DIVIDIR = 12;
-  public static final int WHILE = 26;
-  public static final int DEFAULT = 43;
-  public static final int CORCH2 = 47;
-  public static final int CORCH1 = 46;
+  public static final int MODULO = 43;
+  public static final int MENOS = 11;
+  public static final int BREAK = 30;
+  public static final int DIFERENCIACION = 33;
+  public static final int MENORQUE = 45;
+  public static final int POTENCIA = 32;
+  public static final int ELSE = 25;
+  public static final int DIVIDIR = 13;
+  public static final int WHILE = 27;
+  public static final int DEFAULT = 44;
+  public static final int CORCH2 = 48;
+  public static final int CORCH1 = 47;
   public static final int BOOLEANO = 6;
-  public static final int MENORIGUALQUE = 33;
-  public static final int STRING = 22;
-  public static final int VAR = 16;
-  public static final int DO = 28;
-  public static final int MAS = 9;
+  public static final int MENORIGUALQUE = 34;
+  public static final int STRING = 23;
+  public static final int VAR = 17;
+  public static final int DO = 29;
+  public static final int MAS = 10;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -64,6 +65,7 @@ public class sym {
   "DECIMAL",
   "CARACTER",
   "BOOLEANO",
+  "ID",
   "FININSTRUCCION",
   "IMPRIMIR",
   "MAS",
@@ -98,7 +100,7 @@ public class sym {
   "NOT",
   "INCREMENTO",
   "DECREMENTO",
-  "ASIGNACION",
+  "IGUAL",
   "MODULO",
   "DEFAULT",
   "MENORQUE",
