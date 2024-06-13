@@ -6,7 +6,5 @@ public enum tipoDato {
     BOOLEANO,
     CARACTER,
     CADENA,
-    VOID,
-    VAR,
-
+    VOID
 }

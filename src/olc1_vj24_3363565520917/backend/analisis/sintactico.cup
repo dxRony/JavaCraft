@@ -49,7 +49,7 @@ action code
 :}
                                                                         //terminales: los que no generan una produccion en la gramatica
 terminal String CADENA, ENTERO, DECIMAL, CARACTER, BOOLEANO, ID, MUTABILIDAD;            //se define como string para poder acceder a su valor posteriormente//no se les pone tipo para los que no interesa saber el valor
-terminal FININSTRUCCION, IMPRIMIR, MAS, MENOS, MULTIPLICAR, DIVIDIR, PAR1, PAR2, UMENOS, VAR, CONST, INT, DOUBLE, BOOL;
+terminal FININSTRUCCION, IMPRIMIR, MAS, MENOS, MULTIPLICAR, DIVIDIR, PAR1, PAR2, UMENOS, INT, DOUBLE, BOOL;
 terminal CHAR, STRING, IF, ELSE, MATCH, WHILE, FOR, DO, BREAK, IGUALACION, POTENCIA, DIFERENCIACION, MENORIGUALQUE, MAYORIGUALQUE;
 terminal OR, AND, XOR, NOT, INCREMENTO, DECREMENTO, IGUAL, MODULO, DEFAULT, MENORQUE, MAYORQUE, CORCH1, CORCH2, DOSPUNTOS;
 
@@ -92,9 +92,11 @@ DECLARACION ::= MUTABILIDAD:a ID:b DOSPUNTOS TIPOS:c IGUAL EXPRESION:d FININSTRU
             | MUTABILIDAD:a ID:b DOSPUNTOS TIPOS:c FININSTRUCCION                     {:  RESULT = new Declaracion(c, aleft, aright, b, a);     :}
 ;
 
-ASIGNACION ::= ID:a IGUAL EXPRESION:b FININSTRUCCION          {:    RESULT = new AsignacionVar(a, b, aleft, aright);   :}
+ASIGNACION ::= ID:a IGUAL EXPRESION:b FININSTRUCCION  {:    RESULT = new AsignacionVar(a, b, aleft, aright);                                       :}
+            | ID:a INCREMENTO FININSTRUCCION          {:    RESULT = new AsignacionVar(aleft, aright, a, new AccesoVar(aleft, aright, a), "++");   :}
+            | ID:a DECREMENTO FININSTRUCCION          {:    RESULT = new AsignacionVar(aleft, aright, a, new AccesoVar(aleft, aright, a), "--");   :}
 ;
-
+//| ID:a EXPRESION:b FININSTRUCCION                 {:    RESULT = new AsignacionVar(a, b, aleft, aright);   :}
 TIPOS ::= INT       {:  RESULT = new Tipo(tipoDato.ENTERO);     :}
         | DOUBLE    {:  RESULT = new Tipo(tipoDato.DECIMAL);    :}
         | STRING    {:  RESULT = new Tipo(tipoDato.CADENA);     :}
@@ -108,7 +110,7 @@ EXPRESION ::= MENOS EXPRESION:a                         {:  RESULT = new Aritmet
             | EXPRESION:a MULTIPLICAR EXPRESION:b       {:  RESULT = new Aritmeticas(aleft, aright, a, b, OperadoresAritmeticos.MULTIPLICACION);     :}
             | EXPRESION:a DIVIDIR EXPRESION:b           {:  RESULT = new Aritmeticas(aleft, aright, a, b, OperadoresAritmeticos.DIVISION);           :}
             | EXPRESION:a POTENCIA EXPRESION:b          {:  RESULT = new Aritmeticas(aleft, aright, a, b, OperadoresAritmeticos.POTENCIA);           :}
-            | EXPRESION:a MODULO EXPRESION:b            {:  RESULT = new Aritmeticas(aleft, aright, a, b, OperadoresAritmeticos.MODULO);             :}
+            | EXPRESION:a MODULO EXPRESION:b            {:  RESULT = new Aritmeticas(aleft, aright, a, b, OperadoresAritmeticos.MODULO);             :}            
             //inicio relacionales
             | EXPRESION:a IGUALACION EXPRESION:b        {:  RESULT = new Relacionales(aleft, aright, a, b, OperadoresRelacionales.IGUALACION);       :}
             | EXPRESION:a DIFERENCIACION EXPRESION:b    {:  RESULT = new Relacionales(aleft, aright, a, b, OperadoresRelacionales.DIFERENCIACION);   :}
@@ -129,6 +131,5 @@ EXPRESION ::= MENOS EXPRESION:a                         {:  RESULT = new Aritmet
             | CADENA:a                                  {:  RESULT = new Nativo(new Tipo(tipoDato.CADENA), aleft, aright, a);                        :}
             | CARACTER:a                                {:  RESULT = new Nativo(new Tipo(tipoDato.CARACTER), aleft, aright, a);                      :}
             | BOOLEANO:a                                {:  RESULT = new Nativo(new Tipo(tipoDato.BOOLEANO), aleft, aright, a);                      :}
-            | MUTABILIDAD:a                             {:  RESULT = new Nativo(new Tipo(tipoDato.VAR), aleft, aright, a);                           :}
-            | ID:a                                      {:  RESULT = new AccesoVar(aleft, aright, a);                                                :}
+            | ID:a                                      {:  RESULT = new AccesoVar(aleft, aright, a);                                                :}                                    
 ;

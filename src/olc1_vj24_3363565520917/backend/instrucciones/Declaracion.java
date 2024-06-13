@@ -45,6 +45,8 @@ public class Declaracion extends Instruccion {
             mutabilidadBool = false;
         }
 
+       // System.out.println(this.valor);
+
         if (valorInterpretado instanceof Errores) {// validando si hay error
             return valorInterpretado;
         }

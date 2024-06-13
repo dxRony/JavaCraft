@@ -148,9 +148,9 @@ BREAK = "break"
 <YYINITIAL> {NOT}             {return new Symbol(sym.NOT, yyline, yycolumn, yytext());              }
 <YYINITIAL> {INCREMENTO}      {return new Symbol(sym.INCREMENTO, yyline, yycolumn, yytext());       }
 <YYINITIAL> {DECREMENTO}      {return new Symbol(sym.DECREMENTO, yyline, yycolumn, yytext());       }
-<YYINITIAL> {IGUAL}           {return new Symbol(sym.IGUAL, yyline, yycolumn, yytext());       }
-<YYINITIAL> {MAS}             {return new Symbol(sym.MAS, yyline, yycolumn, yytext());              }            //yycolumn = columna donde se encuentra
-<YYINITIAL> {MENOS}           {return new Symbol(sym.MENOS, yyline, yycolumn, yytext());            }        //yytext() = texto que coincide con el patron del token
+<YYINITIAL> {IGUAL}           {return new Symbol(sym.IGUAL, yyline, yycolumn, yytext());            }
+<YYINITIAL> {MAS}             {return new Symbol(sym.MAS, yyline, yycolumn, yytext());              }//yycolumn = columna donde se encuentra
+<YYINITIAL> {MENOS}           {return new Symbol(sym.MENOS, yyline, yycolumn, yytext());            }//yytext() = texto que coincide con el patron del token
 <YYINITIAL> {MULTIPLICAR}     {return new Symbol(sym.MULTIPLICAR, yyline, yycolumn, yytext());      }
 <YYINITIAL> {DIVIDIR}         {return new Symbol(sym.DIVIDIR, yyline, yycolumn, yytext());          }
 <YYINITIAL> {MODULO}          {return new Symbol(sym.MODULO, yyline, yycolumn, yytext());           }
