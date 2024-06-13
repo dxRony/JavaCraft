@@ -27,10 +27,7 @@ public class OLC1_VJ24_3363565520917 {
      */
     public static void main(String[] args) {
         try {
-            String texto = "var a : double = 34.6;" + "println(a);"
-                    + "a = 31.4;" + "println(a);"
-                    + "a++;" + "println(a);"
-                    + "a--;" + "println(a);";
+            String texto = "const a: double = 67.0;" + "println(a);" +"a = (double) 18.34;"+ "println(a);";
             scanner s = new scanner(new BufferedReader(new StringReader(texto)));
             parser p = new parser(s);
             var resultado = p.parse();

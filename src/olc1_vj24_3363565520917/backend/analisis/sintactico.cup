@@ -23,6 +23,7 @@ import olc1_vj24_3363565520917.backend.expresiones.OperadoresAritmeticos;
 import olc1_vj24_3363565520917.backend.expresiones.OperadoresRelacionales;
 import olc1_vj24_3363565520917.backend.expresiones.OperadoresLogicos;
 import olc1_vj24_3363565520917.backend.expresiones.AccesoVar;
+import olc1_vj24_3363565520917.backend.expresiones.Casteo;
 
 
 //definiendo el parser
@@ -92,11 +93,11 @@ DECLARACION ::= MUTABILIDAD:a ID:b DOSPUNTOS TIPOS:c IGUAL EXPRESION:d FININSTRU
             | MUTABILIDAD:a ID:b DOSPUNTOS TIPOS:c FININSTRUCCION                     {:  RESULT = new Declaracion(c, aleft, aright, b, a);     :}
 ;
 
-ASIGNACION ::= ID:a IGUAL EXPRESION:b FININSTRUCCION  {:    RESULT = new AsignacionVar(a, b, aleft, aright);                                       :}
-            | ID:a INCREMENTO FININSTRUCCION          {:    RESULT = new AsignacionVar(aleft, aright, a, new AccesoVar(aleft, aright, a), "++");   :}
-            | ID:a DECREMENTO FININSTRUCCION          {:    RESULT = new AsignacionVar(aleft, aright, a, new AccesoVar(aleft, aright, a), "--");   :}
+ASIGNACION ::= ID:a IGUAL EXPRESION:b FININSTRUCCION     {:    RESULT = new AsignacionVar(a, b, aleft, aright);                                       :}
+            | ID:a INCREMENTO FININSTRUCCION             {:    RESULT = new AsignacionVar(aleft, aright, a, new AccesoVar(aleft, aright, a), "++");   :}
+            | ID:a DECREMENTO FININSTRUCCION             {:    RESULT = new AsignacionVar(aleft, aright, a, new AccesoVar(aleft, aright, a), "--");   :}
 ;
-//| ID:a EXPRESION:b FININSTRUCCION                 {:    RESULT = new AsignacionVar(a, b, aleft, aright);   :}
+
 TIPOS ::= INT       {:  RESULT = new Tipo(tipoDato.ENTERO);     :}
         | DOUBLE    {:  RESULT = new Tipo(tipoDato.DECIMAL);    :}
         | STRING    {:  RESULT = new Tipo(tipoDato.CADENA);     :}
@@ -125,6 +126,8 @@ EXPRESION ::= MENOS EXPRESION:a                         {:  RESULT = new Aritmet
             | EXPRESION:a XOR EXPRESION:b               {:  RESULT = new Logicos(aleft, aright, a, b, OperadoresLogicos.XOR);                        :}
             //inicio signos de agrupacion
             | PAR1 EXPRESION:a PAR2                     {:  RESULT = a;                                                                              :}
+            //inicio casteo
+            | PAR1 TIPOS:a PAR2 EXPRESION:b             {:    RESULT = new Casteo(a, aleft, aright, b);                 :}
             //inicio nativos
             | ENTERO:a                                  {:  RESULT = new Nativo(new Tipo(tipoDato.ENTERO), aleft, aright, Integer.parseInt(a));      :}//se puede parsear aca o en la clase nativo
             | DECIMAL:a                                 {:  RESULT = new Nativo(new Tipo(tipoDato.DECIMAL), aleft, aright, new Double(a));           :}
@@ -132,4 +135,5 @@ EXPRESION ::= MENOS EXPRESION:a                         {:  RESULT = new Aritmet
             | CARACTER:a                                {:  RESULT = new Nativo(new Tipo(tipoDato.CARACTER), aleft, aright, a);                      :}
             | BOOLEANO:a                                {:  RESULT = new Nativo(new Tipo(tipoDato.BOOLEANO), aleft, aright, a);                      :}
             | ID:a                                      {:  RESULT = new AccesoVar(aleft, aright, a);                                                :}                                    
+            
 ;
