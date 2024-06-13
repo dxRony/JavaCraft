@@ -4,16 +4,19 @@ public class Simbolo {
     private Tipo tipo;
     private String id;
     private Object valor;
+    private boolean mutabilidad;// var -> true, const -> false
 
     public Simbolo(Tipo tipo, String id) {
         this.tipo = tipo;
         this.id = id;
+
     }
 
-    public Simbolo(Tipo tipo, String id, Object valor) {
+    public Simbolo(Tipo tipo, String id, Object valor, boolean mutabilidad) {
         this.tipo = tipo;
         this.id = id;
         this.valor = valor;
+        this.mutabilidad = mutabilidad;
     }
 
     public Tipo getTipo() {
@@ -40,6 +43,11 @@ public class Simbolo {
         this.valor = valor;
     }
 
-    
-}
+    public boolean isMutabilidad() {
+        return mutabilidad;
+    }
 
+    public void setMutabilidad(boolean mutabilidad) {
+        this.mutabilidad = mutabilidad;
+    }
+}

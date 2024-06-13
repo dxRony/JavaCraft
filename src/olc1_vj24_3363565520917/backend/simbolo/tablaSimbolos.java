@@ -43,19 +43,20 @@ public class tablaSimbolos {
         this.nombre = nombre;
     }
 
-    public boolean setVaribale(Simbolo simbolo) {
-        Simbolo busqueda = (Simbolo) this.tablaActual.get(simbolo.getId().toLowerCase());
+    public boolean setVaribale(Simbolo simbolo) {//setear simbolo a la tabla de simbolos
+        Simbolo busqueda = (Simbolo) this.tablaActual.get(simbolo.getId().toLowerCase());//viendo que el simbolo no exista aun
 
-        if (busqueda == null) {
+        if (busqueda == null) {//si no existe se inserta en la tabla de simbolos
             this.tablaActual.put(simbolo.getId().toLowerCase(), simbolo);
             return true;
         }
         return false;
     }
 
-    public Simbolo getVariable(String id) {
-        Simbolo busqueda = (Simbolo) this.tablaActual.get(id.toLowerCase());
-        if (busqueda != null) {
+    public Simbolo getVariable(String id) {//obtener el simbolo de la tabla (variable)
+        Simbolo busqueda = (Simbolo) this.tablaActual.get(id.toLowerCase());//buscando la var en la tabla
+
+        if (busqueda != null) {//si la var existe
             return busqueda;
         }
         return null;

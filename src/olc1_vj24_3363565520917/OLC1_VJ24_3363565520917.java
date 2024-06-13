@@ -27,7 +27,7 @@ public class OLC1_VJ24_3363565520917 {
      */
     public static void main(String[] args) {
         try {
-            String texto = "println(34 > 35); " + "int a = -10 + 12;" + "println(a);";
+            String texto = "var a : int = 12;"+"println(a); a = 14;" + "println(a+1);";
             scanner s = new scanner(new BufferedReader(new StringReader(texto)));
             parser p = new parser(s);
             var resultado = p.parse();

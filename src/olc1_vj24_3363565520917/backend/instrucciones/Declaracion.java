@@ -9,33 +9,45 @@ import olc1_vj24_3363565520917.backend.simbolo.tablaSimbolos;
 
 public class Declaracion extends Instruccion {
 
-    public String identificador;
-    public Instruccion valor;
+    public String identificador;// nombre de la variable
+    public Instruccion valor;// contenido de la variable
+    public String mutabilidad;
 
-    public Declaracion(Tipo tipo, int linea, int columna, String identificador, Instruccion valor) {
+    // manejar valor por defecto
+    public Declaracion(Tipo tipo, int linea, int columna, String identificador, Instruccion valor, String mutabilidad) {
         super(tipo, linea, columna);
         this.identificador = identificador;
         this.valor = valor;
+        this.mutabilidad = mutabilidad;
     }
 
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
-        // interpretando la expresion
+        // interpretando la expresion, para saber el tipo
         var valorInterpretado = this.valor.interpretar(arbol, tabla);
-        // validando si hay error
-        if (valorInterpretado instanceof Errores) {
+
+        // manejando la mutabilidad
+        boolean mutabilidadBool = false;
+
+        if (mutabilidad.equals("var")) {// si es var, es mutable
+            mutabilidadBool = true;
+        } else if (mutabilidad.equals("const")) {
+            mutabilidadBool = false;
+        }
+
+        if (valorInterpretado instanceof Errores) {// validando si hay error
             return valorInterpretado;
         }
-        // validando el tipo
-        if (this.valor.tipo.getTipo() != this.tipo.getTipo()) {
-            return new Errores("SEMANTICO", "Tipos erroneeasds", this.linea, this.columna);
+        
+        if (this.valor.tipo.getTipo() != this.tipo.getTipo()) {// validando los tipos (que coincidan)
+            return new Errores("SEMANTICO", "Tipos erroneos", this.linea, this.columna);
         }
 
-        Simbolo s = new Simbolo(this.tipo, this.identificador, valorInterpretado);
+        Simbolo s = new Simbolo(this.tipo, this.identificador, valorInterpretado, mutabilidadBool);// creando el simbolo
 
-        boolean creacion = tabla.setVaribale(s);
+        boolean creacion = tabla.setVaribale(s);// mandando el simbolo a la tabla
 
-        if (!creacion) {
+        if (!creacion) {// viendo si se creo el simbolo
             return new Errores("SEMANTICO", "la variable ya existe", this.linea, this.columna);
         }
         return null;

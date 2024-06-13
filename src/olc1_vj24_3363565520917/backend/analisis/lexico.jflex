@@ -44,12 +44,14 @@ PAR2 = ")"
 CORCH1 = "{"
 CORCH2 = "}"
 FININSTRUCCION = ";"
+DOSPUNTOS = ":"
 BLANCOS = [\ \r\t\n\f]+
 ENTERO = [0-9]+
 DECIMAL = [0-9]+"."[0-9]+
 CADENA = [\"]([^\"])*[\"]
 CARACTER = [\']([^\']){1}[\']
 BOOLEANO = "true"|"false"
+MUTABILIDAD = "var"|"const"
 ID = [a-z]+
 
 //comentarios
@@ -86,8 +88,6 @@ DEFAULT = "_"
 
 //palabras reservadas
 IMPRIMIR = "println"
-VAR = "var"
-CONST = "const"
 INT = "int"
 DOUBLE = "double"
 BOOL = "bool"
@@ -104,8 +104,6 @@ BREAK = "break"
 %%
 //palabras reservadas
 <YYINITIAL> {IMPRIMIR}        {return new Symbol(sym.IMPRIMIR, yyline, yycolumn, yytext()); } //<YYINITIAL> = estado inicial, {IMPRIMIR} = patron a reconocer
-<YYINITIAL> {VAR}             {return new Symbol(sym.VAR, yyline, yycolumn, yytext());      }
-<YYINITIAL> {CONST}           {return new Symbol(sym.CONST, yyline, yycolumn, yytext());    }
 <YYINITIAL> {INT}             {return new Symbol(sym.INT, yyline, yycolumn, yytext());      }
 <YYINITIAL> {DOUBLE}          {return new Symbol(sym.DOUBLE, yyline, yycolumn, yytext());   }
 <YYINITIAL> {BOOL}            {return new Symbol(sym.BOOL, yyline, yycolumn, yytext());     }
@@ -119,6 +117,7 @@ BREAK = "break"
 <YYINITIAL> {DO}              {return new Symbol(sym.DO, yyline, yycolumn, yytext());       }
 <YYINITIAL> {BREAK}           {return new Symbol(sym.BREAK, yyline, yycolumn, yytext());    }
 <YYINITIAL> {BOOLEANO}        {return new Symbol(sym.BOOLEANO, yyline, yycolumn, yytext()); }
+<YYINITIAL> {MUTABILIDAD}     {return new Symbol(sym.MUTABILIDAD, yyline, yycolumn, yytext()); }
 
 //simbolos del sistema
 <YYINITIAL> {COMENTARIOLINEA} {}
@@ -137,6 +136,7 @@ BREAK = "break"
     caracter = caracter.substring(1, caracter.length()-1);
     return new Symbol(sym.CARACTER, yyline, yycolumn, caracter);}
 <YYINITIAL> {FININSTRUCCION}  {return new Symbol(sym.FININSTRUCCION, yyline, yycolumn, yytext());   }//yyline = linea donde se encuentra
+<YYINITIAL> {DOSPUNTOS}       {return new Symbol(sym.DOSPUNTOS, yyline, yycolumn, yytext());        }
 <YYINITIAL> {IGUALACION}      {return new Symbol(sym.IGUALACION, yyline, yycolumn, yytext());       }
 <YYINITIAL> {POTENCIA}        {return new Symbol(sym.POTENCIA, yyline, yycolumn, yytext());         }
 <YYINITIAL> {DIFERENCIACION}  {return new Symbol(sym.DIFERENCIACION, yyline, yycolumn, yytext());   }
