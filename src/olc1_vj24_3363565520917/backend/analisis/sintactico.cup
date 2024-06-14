@@ -15,6 +15,8 @@ import olc1_vj24_3363565520917.backend.instrucciones.AsignacionVar;
 import olc1_vj24_3363565520917.backend.instrucciones.If;
 import olc1_vj24_3363565520917.backend.instrucciones.IfElse;
 import olc1_vj24_3363565520917.backend.instrucciones.IfElseIf;
+import olc1_vj24_3363565520917.backend.instrucciones.Caso;
+import olc1_vj24_3363565520917.backend.instrucciones.Match;
 
 //expresiones
 import olc1_vj24_3363565520917.backend.expresiones.Nativo;
@@ -60,6 +62,9 @@ nonterminal LinkedList<Instruccion> INICIO, INSTRUCCIONES;
 nonterminal Instruccion INSTRUCCION;
 nonterminal Instruccion EXPRESION, DECLARACION, ASIGNACION, IMPRESION;
 nonterminal Instruccion SIF;
+nonterminal Instruccion SMATCH;
+nonterminal LinkedList<Caso> CASOS;
+nonterminal Caso CASO;
 nonterminal Tipo TIPOS;
 
 precedence left OR;
@@ -85,6 +90,7 @@ INSTRUCCION ::= IMPRESION:a                       {:  RESULT=a;    :}
             | DECLARACION:a                       {:  RESULT=a;    :}
             | ASIGNACION:a                        {:  RESULT=a;    :}
             | SIF:a                               {:  RESULT=a;    :}
+            | SMATCH:a                            {:  RESULT=a;    :}
             | error FININSTRUCCION
             | error        
 ;
@@ -104,7 +110,20 @@ ASIGNACION ::= ID:a IGUAL EXPRESION:b FININSTRUCCION     {:  RESULT = new Asigna
 SIF ::= IF PAR1 EXPRESION:a PAR2 LLAVE1 INSTRUCCIONES:b LLAVE2                                    {:  RESULT = new If(aleft, aright, a, b);            :} 
     |   IF PAR1 EXPRESION:a PAR2 LLAVE1 INSTRUCCIONES:b LLAVE2 ELSE LLAVE1 INSTRUCCIONES:c LLAVE2 {:  RESULT = new IfElse(aleft, aright, a, b, c);     :}   
     |   IF PAR1 EXPRESION:a PAR2 LLAVE1 INSTRUCCIONES:b LLAVE2 ELSE SIF:c                         {:  RESULT = new IfElseIf(aleft, aright, a, b, c);   :}            
-; 
+;
+
+SMATCH ::= MATCH EXPRESION:a LLAVE1 CASOS:b DEFAULT:c LLAVE2 {:     RESULT = new Match(aleft, aright, a, b, (Caso) c);       :} //cuando hay un match completo
+        |  MATCH EXPRESION:a LLAVE1 CASOS:b LLAVE2           {:     RESULT = new Match(aleft, aright, a, b, null);    :} //cuando hay un match solo con casos
+        |  MATCH EXPRESION:a LLAVE1 DEFAULT:c LLAVE2         {:     RESULT = new Match(aleft, aright, a, new LinkedList<Caso>(), (Caso) c);       :} //cuando hay un match solo con default
+;
+
+CASOS ::= CASOS:a CASO:b            {:  RESULT = a; RESULT.add(b);                      :}//agregando el caso a la lista de casos
+        | CASO:a                    {:  RESULT = new LinkedList<>(); RESULT.add(a);     :}
+;
+
+CASO ::= EXPRESION:a MAYORIGUALQUE LLAVE1 INSTRUCCIONES:b LLAVE2    {:      RESULT = new Caso(a, b, true);        :} 
+        | DEFAULT MAYORIGUALQUE LLAVE1 INSTRUCCIONES:b LLAVE2       {:      RESULT = new Caso(null, b, false);    :}        
+;
 
 TIPOS ::= INT       {:  RESULT = new Tipo(tipoDato.ENTERO);     :}
         | DOUBLE    {:  RESULT = new Tipo(tipoDato.DECIMAL);    :}
