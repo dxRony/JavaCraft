@@ -16,6 +16,7 @@ import olc1_vj24_3363565520917.backend.instrucciones.Declaracion;
 import olc1_vj24_3363565520917.backend.instrucciones.AsignacionVar;
 import olc1_vj24_3363565520917.backend.instrucciones.If;
 import olc1_vj24_3363565520917.backend.instrucciones.IfElse;
+import olc1_vj24_3363565520917.backend.instrucciones.IfElseIf;
 import olc1_vj24_3363565520917.backend.expresiones.Nativo;
 import olc1_vj24_3363565520917.backend.expresiones.Aritmeticas;
 import olc1_vj24_3363565520917.backend.expresiones.Relacionales;
@@ -346,7 +347,6 @@ public class parser extends java_cup.runtime.lr_parser {
 class CUP$parser$actions {
 
    
-    //String codigoUsr = "";                                              //aca se guarda el codigo del usuario
 
 
   private final parser parser;
@@ -625,7 +625,7 @@ class CUP$parser$actions {
 		int cleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int cright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Instruccion c = (Instruccion)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		   RESULT = new If(aleft, aright, a, b);               
+		   RESULT = new IfElseIf(aleft, aright, a, b, c);      
               CUP$parser$result = parser.getSymbolFactory().newSymbol("SIF",7, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-8)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -946,7 +946,7 @@ class CUP$parser$actions {
 		int bleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int bright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Instruccion b = (Instruccion)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		  RESULT = new Casteo(a, aleft, aright, b);                                                 
+		  RESULT = new Casteo(a, aleft, aright, b);                                                
               CUP$parser$result = parser.getSymbolFactory().newSymbol("EXPRESION",3, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;

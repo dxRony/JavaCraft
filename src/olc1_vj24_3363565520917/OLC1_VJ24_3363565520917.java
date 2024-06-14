@@ -30,13 +30,19 @@ public class OLC1_VJ24_3363565520917 {
             // el breakpoint va en declaracion ast
             // ojo con el moduloooooooooooo
             String texto = ""
-                    + "var a: int = 10;"
+                    + "var a: int = 13;"
                     + "var b: bool = false;"
-                    + "     if(a == 10 ){"
+                    + "     if(a == 10){"
                     + "         var s: string =\"estoy en el if\";"
                     + "         println(s);"
                     + "     } else if (a == 11 ){"
                     + "         var s: string =\"estoy en el else if\";"
+                    + "         println(s);"
+                    + "     } else if (a == 12 ){"
+                    + "         var s: string =\"estoy en el else if\";"
+                    + "         println(s);"
+                    + "     } else {"
+                    + "         var s : string =\"estoy en el else\" ;"
                     + "         println(s);"
                     + "     }"
                     + "println(a);";

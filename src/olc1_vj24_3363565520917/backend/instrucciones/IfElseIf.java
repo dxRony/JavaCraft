@@ -9,47 +9,52 @@ import olc1_vj24_3363565520917.backend.simbolo.Tipo;
 import olc1_vj24_3363565520917.backend.simbolo.tablaSimbolos;
 import olc1_vj24_3363565520917.backend.simbolo.tipoDato;
 
-public class IfElse extends Instruccion {
+public class IfElseIf extends Instruccion {
 
     private Instruccion condicion;
-    private LinkedList<Instruccion> instruccionesA;
-    private LinkedList<Instruccion> instruccionesB;
+    private LinkedList<Instruccion> instrucciones;
+    private Instruccion elseIf;
 
-    public IfElse(int linea, int columna, Instruccion condicion, LinkedList<Instruccion> instruccionesA,
-            LinkedList<Instruccion> instruccionesB) {
+    public IfElseIf(int linea, int columna, Instruccion condicion, LinkedList<Instruccion> instrucciones,
+            Instruccion elseIf) {
         super(new Tipo(tipoDato.VOID), linea, columna);
         this.condicion = condicion;
-        this.instruccionesA = instruccionesA;
-        this.instruccionesB = instruccionesB;
+        this.instrucciones = instrucciones;
+        this.elseIf = elseIf;
     }
 
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
         var cond = this.condicion.interpretar(arbol, tabla);
-        //boolean condicion = false;
 
         if (cond instanceof Errores) {
             return cond;
         }
+
+        if (this.condicion.tipo.getTipo() != tipoDato.BOOLEANO) { // validando que cond sea booleana
+            return new Errores("SEMANTICO", "Expresion invalida", this.linea, this.columna);
+        }
+
         var newTabla = new tablaSimbolos(tabla);
 
         if ((boolean) cond) {
-            for (var i : this.instruccionesA) {
+            for (var i : this.instrucciones) {
                 var resultado = i.interpretar(arbol, newTabla);
                 if (resultado instanceof Errores) {
                     arbol.errores.add((Errores) resultado);
                     // continue;
                 }
+                /*
+                 * manejo de errores
+                 */
             }
-        } else {
-            for (var i : this.instruccionesB) {
-                var resultado = i.interpretar(arbol, newTabla);
-                if (resultado instanceof Errores) {
-                    arbol.errores.add((Errores) resultado);
-                    // continue;
-                }
+        } else if (elseIf != null) {
+            var resultado = elseIf.interpretar(arbol, tabla);
+            if (resultado instanceof Errores) {
+                arbol.errores.add((Errores) resultado);
             }
         }
         return null;
     }
+
 }

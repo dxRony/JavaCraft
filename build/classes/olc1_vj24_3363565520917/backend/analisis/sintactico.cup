@@ -14,6 +14,7 @@ import olc1_vj24_3363565520917.backend.instrucciones.Declaracion;
 import olc1_vj24_3363565520917.backend.instrucciones.AsignacionVar;
 import olc1_vj24_3363565520917.backend.instrucciones.If;
 import olc1_vj24_3363565520917.backend.instrucciones.IfElse;
+import olc1_vj24_3363565520917.backend.instrucciones.IfElseIf;
 
 //expresiones
 import olc1_vj24_3363565520917.backend.expresiones.Nativo;
@@ -47,11 +48,10 @@ parser code
 
 action code 
 {:   
-    //String codigoUsr = "";                                              //aca se guarda el codigo del usuario
 
 :}
-                                                                        //terminales: los que no generan una produccion en la gramatica
-terminal String CADENA, ENTERO, DECIMAL, CARACTER, BOOLEANO, ID, MUTABILIDAD;            //se define como string para poder acceder a su valor posteriormente//no se les pone tipo para los que no interesa saber el valor
+                                                                       
+terminal String CADENA, ENTERO, DECIMAL, CARACTER, BOOLEANO, ID, MUTABILIDAD;
 terminal FININSTRUCCION, IMPRIMIR, MAS, MENOS, MULTIPLICAR, DIVIDIR, PAR1, PAR2, UMENOS, INT, DOUBLE, BOOL;
 terminal CHAR, STRING, IF, ELSE, MATCH, WHILE, FOR, DO, BREAK, IGUALACION, POTENCIA, DIFERENCIACION, MENORIGUALQUE, MAYORIGUALQUE;
 terminal OR, AND, XOR, NOT, INCREMENTO, DECREMENTO, IGUAL, MODULO, DEFAULT, MENORQUE, MAYORQUE, DOSPUNTOS;
@@ -72,14 +72,14 @@ precedence left IGUALACION, DIFERENCIACION, MENORQUE, MENORIGUALQUE, MAYORQUE, M
 precedence left MAS, MENOS;
 precedence left MULTIPLICAR, DIVIDIR, MODULO;
 precedence nonassoc POTENCIA;
-precedence right UMENOS;                                                 //la precedencia va de abajo hacia arriba 
+precedence right UMENOS;                                                  
 
-start with INICIO;                                                      //se inicia con INICIO
+start with INICIO;                                                      
 
 INICIO ::= INSTRUCCIONES:a  {:      RESULT=a;      :}  
 ;
 
-INSTRUCCIONES ::= INSTRUCCIONES:a INSTRUCCION:b   {:  RESULT = a; RESULT.add(b);                     :}                        //instrucciones produce una lista de instrucciones o una sola INSTRUCCION
+INSTRUCCIONES ::= INSTRUCCIONES:a INSTRUCCION:b   {:  RESULT = a; RESULT.add(b);                     :}
                 | INSTRUCCION:a                   {:  RESULT = new LinkedList<>(); RESULT.add(a);    :}
 ;
 
@@ -103,10 +103,10 @@ ASIGNACION ::= ID:a IGUAL EXPRESION:b FININSTRUCCION     {:    RESULT = new Asig
             |  ID:a DECREMENTO FININSTRUCCION            {:    RESULT = new AsignacionVar(aleft, aright, a, new AccesoVar(aleft, aright, a), "--");   :}
 ;
 
-SIF ::= IF PAR1 EXPRESION:a PAR2 LLAVE1 INSTRUCCIONES:b LLAVE2                                    {:   RESULT = new If(aleft, aright, a, b);               :}//if 
-    |   IF PAR1 EXPRESION:a PAR2 LLAVE1 INSTRUCCIONES:b LLAVE2 ELSE LLAVE1 INSTRUCCIONES:c LLAVE2 {:   RESULT = new IfElse(aleft, aright, a, b, c);        :}//if else    
-    |   IF PAR1 EXPRESION:a PAR2 LLAVE1 INSTRUCCIONES:b LLAVE2 ELSE SIF:c                         {:   RESULT = new If(aleft, aright, a, b);               :}//if else if            
-;                                                                                                                   //if else if                             //RESULT = c;
+SIF ::= IF PAR1 EXPRESION:a PAR2 LLAVE1 INSTRUCCIONES:b LLAVE2                                    {:   RESULT = new If(aleft, aright, a, b);               :} 
+    |   IF PAR1 EXPRESION:a PAR2 LLAVE1 INSTRUCCIONES:b LLAVE2 ELSE LLAVE1 INSTRUCCIONES:c LLAVE2 {:   RESULT = new IfElse(aleft, aright, a, b, c);        :}   
+    |   IF PAR1 EXPRESION:a PAR2 LLAVE1 INSTRUCCIONES:b LLAVE2 ELSE SIF:c                         {:   RESULT = new IfElseIf(aleft, aright, a, b, c);      :}            
+; 
 
 TIPOS ::= INT       {:  RESULT = new Tipo(tipoDato.ENTERO);     :}
         | DOUBLE    {:  RESULT = new Tipo(tipoDato.DECIMAL);    :}
@@ -114,7 +114,7 @@ TIPOS ::= INT       {:  RESULT = new Tipo(tipoDato.ENTERO);     :}
         | CHAR      {:  RESULT = new Tipo(tipoDato.CARACTER);   :}
         | BOOL      {:  RESULT = new Tipo(tipoDato.BOOLEANO);   :}
 ;
-            //inicio aritmeticas
+
 EXPRESION ::= MENOS EXPRESION:a                         {:  RESULT = new Aritmeticas(aleft, aright, OperadoresAritmeticos.NEGACION, a);              :}%prec UMENOS
             | EXPRESION:a MAS EXPRESION:b               {:  RESULT = new Aritmeticas(aleft, aright, a, b, OperadoresAritmeticos.SUMA);               :}
             | EXPRESION:a MENOS EXPRESION:b             {:  RESULT = new Aritmeticas(aleft, aright, a, b, OperadoresAritmeticos.RESTA);              :}
@@ -137,9 +137,9 @@ EXPRESION ::= MENOS EXPRESION:a                         {:  RESULT = new Aritmet
             //inicio signos de agrupacion
             | PAR1 EXPRESION:a PAR2                     {:  RESULT = a;                                                                              :}
             //inicio casteo
-            | PAR1 TIPOS:a PAR2 EXPRESION:b             {:  RESULT = new Casteo(a, aleft, aright, b);                                                 :}
+            | PAR1 TIPOS:a PAR2 EXPRESION:b             {:  RESULT = new Casteo(a, aleft, aright, b);                                                :}
             //inicio nativos
-            | ENTERO:a                                  {:  RESULT = new Nativo(new Tipo(tipoDato.ENTERO), aleft, aright, Integer.parseInt(a));      :}//se puede parsear aca o en la clase nativo
+            | ENTERO:a                                  {:  RESULT = new Nativo(new Tipo(tipoDato.ENTERO), aleft, aright, Integer.parseInt(a));      :}
             | DECIMAL:a                                 {:  RESULT = new Nativo(new Tipo(tipoDato.DECIMAL), aleft, aright, new Double(a));           :}
             | CADENA:a                                  {:  RESULT = new Nativo(new Tipo(tipoDato.CADENA), aleft, aright, a);                        :}
             | CARACTER:a                                {:  RESULT = new Nativo(new Tipo(tipoDato.CARACTER), aleft, aright, a);                      :}
