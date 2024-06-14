@@ -28,21 +28,19 @@ public class OLC1_VJ24_3363565520917 {
     public static void main(String[] args) {
         try {
             // el breakpoint va en declaracion ast
+            // ojo con el moduloooooooooooo
             String texto = ""
                     + "var a: int = 10;"
-                    + "var b: bool = true;"
-                    + "var c: bool  = false;"
-                    + "if(b){"
-                    + "     var a: int = 20;"
-                    + "     println(a);"
-                    + "     if(b){"
-                    + "         var a: int = 30;"
-                    + "         println(a);"
+                    + "var b: bool = false;"
+                    + "     if(a == 10 ){"
+                    + "         var s: string =\"estoy en el if\";"
+                    + "         println(s);"
+                    + "     } else if (a == 11 ){"
+                    + "         var s: string =\"estoy en el else if\";"
+                    + "         println(s);"
                     + "     }"
-                    + "}"
-                    + "println(a);"
-                    + "println(c);"
-                    + "";
+                    + "println(a);";
+            // String texto="println(1 == 1);";
             scanner s = new scanner(new BufferedReader(new StringReader(texto)));
             parser p = new parser(s);
             var resultado = p.parse();

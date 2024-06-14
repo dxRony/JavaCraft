@@ -24,26 +24,23 @@ public class If extends Instruccion {
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
         var cond = this.condicion.interpretar(arbol, tabla);
 
-        boolean condicion = false;
-
         if (cond instanceof Errores) {
             return cond;
         }
-        if (cond.equals("true")) {
-            condicion = true;
-        } else if (cond.equals("false")) {
-            condicion = false;
-        }
-        // validando que cond sea booleana
-        if (this.condicion.tipo.getTipo() != tipoDato.BOOLEANO) {
 
-            return new Errores("SEMANTICO", "Expresion invalidad", this.linea, this.columna);
+        if (this.condicion.tipo.getTipo() != tipoDato.BOOLEANO) { // validando que cond sea booleana
+            return new Errores("SEMANTICO", "Expresion invalida", this.linea, this.columna);
         }
-        
-        var newTabla = new tablaSimbolos(tabla);
-        if ((boolean) condicion) {
-            for (var i : this.instrucciones) {
-                var resultado = i.interpretar(arbol, newTabla);
+        //nuevo entorno
+        var newTabla = new tablaSimbolos(tabla);// creando tabla que contiene una tabla anterior que nos dan
+
+        if ((boolean) cond) {
+            for (var i : this.instrucciones) {// recorriendo las instrucciones de adentro del bloque
+                var resultado = i.interpretar(arbol, newTabla);// le mandamos la tabla del bloque y que la interprete
+                if (resultado instanceof Errores) {
+                    arbol.errores.add((Errores) resultado);
+                    //continue;
+                }                
                 /*
                  * manejo de errores
                  */
