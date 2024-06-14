@@ -30,8 +30,7 @@ public class Declaracion extends Instruccion {
 
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
-        // interpretando la expresion, para saber el tipo
-       
+        // interpretando la expresion, para saber el tipo    
         if (this.valor == null) {
             asignarValorPorDefecto();
         }
@@ -44,8 +43,6 @@ public class Declaracion extends Instruccion {
         } else if (mutabilidad.equals("const")) {
             mutabilidadBool = false;
         }
-
-       // System.out.println(this.valor);
 
         if (valorInterpretado instanceof Errores) {// validando si hay error
             return valorInterpretado;
@@ -84,7 +81,5 @@ public class Declaracion extends Instruccion {
                 this.valor = new Nativo(new Tipo(tipoDato.CADENA), this.linea, this.columna, "");
             }
         }
-
     }
-
 }

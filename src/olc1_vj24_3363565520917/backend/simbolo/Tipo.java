@@ -14,7 +14,5 @@ public class Tipo {
 
     public void setTipo(tipoDato tipo) {
         this.tipo = tipo;
-    }
-
-    
+    } 
 }

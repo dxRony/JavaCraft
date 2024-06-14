@@ -9,7 +9,6 @@ public class Simbolo {
     public Simbolo(Tipo tipo, String id) {
         this.tipo = tipo;
         this.id = id;
-
     }
 
     public Simbolo(Tipo tipo, String id, Object valor, boolean mutabilidad) {

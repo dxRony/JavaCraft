@@ -26,8 +26,7 @@ public class IfElse extends Instruccion {
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
         var cond = this.condicion.interpretar(arbol, tabla);
-        //boolean condicion = false;
-
+        
         if (cond instanceof Errores) {
             return cond;
         }

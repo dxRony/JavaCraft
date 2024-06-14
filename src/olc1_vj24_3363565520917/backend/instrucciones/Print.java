@@ -9,8 +9,7 @@ import olc1_vj24_3363565520917.backend.simbolo.tipoDato;
 
 public class Print extends Instruccion {
 
-    private Instruccion expresion;// es de tipo instruccion porque puede venir cualquier cosa (cadenas, sumas,
-                                  // etc)
+    private Instruccion expresion;// es de tipo instruccion porque puede venir cualquier cosa (cadenas, etc)
 
     public Print(int linea, int columna, Instruccion expresion) {
         super(new Tipo(tipoDato.VOID), linea, columna);

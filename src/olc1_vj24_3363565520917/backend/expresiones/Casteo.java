@@ -42,7 +42,6 @@ public class Casteo extends Instruccion {
     }
 
     public Object castearAEntero(Object valor) {
-
         if (valor instanceof Integer) {
             return valor;
 

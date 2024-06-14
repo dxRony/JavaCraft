@@ -60,21 +60,17 @@ public class Relacionales extends Instruccion {
             case ENTERO -> {
                 switch (tipo2) {
                     case ENTERO -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         return (int) op1 == (int) op2;
                     }
                     case DECIMAL -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         return (int) op1 == (double) op2;
                     }
                     case CARACTER -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         String caracterString = (String) op2;
                         char caracter = caracterString.charAt(0);
                         return (int) op1 == (int) caracter;
                     }
                     case BOOLEANO -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         int bool = 10;
                         if (op2.equals("true")) {
                             bool = 1;
@@ -91,21 +87,17 @@ public class Relacionales extends Instruccion {
             case DECIMAL -> {
                 switch (tipo2) {
                     case ENTERO -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         return (double) op1 == (int) op2;
                     }
                     case DECIMAL -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         return (double) op1 == (double) op2;
                     }
                     case CARACTER -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         String caracterString = (String) op2;
                         char caracter = caracterString.charAt(0);
                         return (double) op1 == (int) caracter;
                     }
                     case BOOLEANO -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         int bool = 10;
                         if (op2.equals("true")) {
                             bool = 1;
@@ -122,7 +114,6 @@ public class Relacionales extends Instruccion {
             case BOOLEANO -> {
                 switch (tipo2) {
                     case ENTERO -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         int bool = 10;
                         if (op1.equals("true")) {
                             bool = 1;
@@ -132,7 +123,6 @@ public class Relacionales extends Instruccion {
                         return bool == (int) op2;
                     }
                     case DECIMAL -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         int bool = 10;
                         if (op1.equals("true")) {
                             bool = 1;
@@ -153,7 +143,6 @@ public class Relacionales extends Instruccion {
                         return bool == (int) caracter;
                     }
                     case BOOLEANO -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         boolean bool1 = false;
                         boolean bool2 = false;
                         if (op1.equals("true")) {
@@ -176,19 +165,16 @@ public class Relacionales extends Instruccion {
             case CARACTER -> {
                 switch (tipo2) {
                     case ENTERO -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         String caracterString = (String) op1;
                         char caracter = caracterString.charAt(0);
                         return (int) caracter == (int) op2;
                     }
                     case DECIMAL -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         String caracterString = (String) op1;
                         char caracter = caracterString.charAt(0);
                         return (int) caracter == (double) op2;
                     }
                     case CARACTER -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         String caracterString1 = (String) op1;
                         char caracter1 = caracterString1.charAt(0);
                         String caracterString2 = (String) op2;
@@ -214,7 +200,6 @@ public class Relacionales extends Instruccion {
             case CADENA -> {
                 switch (tipo2) {
                     case CADENA -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         String cadena1 = op1.toString();
                         String cadena2 = op2.toString();
                         return cadena1.equals(cadena2);
@@ -238,21 +223,17 @@ public class Relacionales extends Instruccion {
             case ENTERO -> {
                 switch (tipo2) {
                     case ENTERO -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         return (int) op1 != (int) op2;
                     }
                     case DECIMAL -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         return (int) op1 != (double) op2;
                     }
                     case CARACTER -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         String caracterString = (String) op2;
                         char caracter = caracterString.charAt(0);
                         return (int) op1 != (int) caracter;
                     }
                     case BOOLEANO -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         int bool = 10;
                         if (op2.equals("true")) {
                             bool = 1;
@@ -269,21 +250,17 @@ public class Relacionales extends Instruccion {
             case DECIMAL -> {
                 switch (tipo2) {
                     case ENTERO -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         return (double) op1 != (int) op2;
                     }
                     case DECIMAL -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         return (double) op1 != (double) op2;
                     }
                     case CARACTER -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         String caracterString = (String) op2;
                         char caracter = caracterString.charAt(0);
                         return (double) op1 != (int) caracter;
                     }
                     case BOOLEANO -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         int bool = 10;
                         if (op2.equals("true")) {
                             bool = 1;
@@ -300,7 +277,6 @@ public class Relacionales extends Instruccion {
             case BOOLEANO -> {
                 switch (tipo2) {
                     case ENTERO -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         int bool = 10;
                         if (op1.equals("true")) {
                             bool = 1;
@@ -310,7 +286,6 @@ public class Relacionales extends Instruccion {
                         return bool != (int) op2;
                     }
                     case DECIMAL -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         int bool = 10;
                         if (op1.equals("true")) {
                             bool = 1;
@@ -331,7 +306,6 @@ public class Relacionales extends Instruccion {
                         return bool != (int) caracter;
                     }
                     case BOOLEANO -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         boolean bool1 = false;
                         boolean bool2 = false;
                         if (op1.equals("true")) {
@@ -354,19 +328,16 @@ public class Relacionales extends Instruccion {
             case CARACTER -> {
                 switch (tipo2) {
                     case ENTERO -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         String caracterString = (String) op1;
                         char caracter = caracterString.charAt(0);
                         return (int) caracter != (int) op2;
                     }
                     case DECIMAL -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         String caracterString = (String) op1;
                         char caracter = caracterString.charAt(0);
                         return (int) caracter != (double) op2;
                     }
                     case CARACTER -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         String caracterString1 = (String) op1;
                         char caracter1 = caracterString1.charAt(0);
                         String caracterString2 = (String) op2;
@@ -392,7 +363,6 @@ public class Relacionales extends Instruccion {
             case CADENA -> {
                 switch (tipo2) {
                     case CADENA -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         String cadena1 = op1.toString();
                         String cadena2 = op2.toString();
                         return !cadena1.equals(cadena2);
@@ -416,21 +386,17 @@ public class Relacionales extends Instruccion {
             case ENTERO -> {
                 switch (tipo2) {
                     case ENTERO -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         return (int) op1 < (int) op2;
                     }
                     case DECIMAL -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         return (int) op1 < (double) op2;
                     }
                     case CARACTER -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         String caracterString = (String) op2;
                         char caracter = caracterString.charAt(0);
                         return (int) op1 < (int) caracter;
                     }
                     case BOOLEANO -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         int bool = 10;
                         if (op2.equals("true")) {
                             bool = 1;
@@ -447,21 +413,17 @@ public class Relacionales extends Instruccion {
             case DECIMAL -> {
                 switch (tipo2) {
                     case ENTERO -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         return (double) op1 < (int) op2;
                     }
                     case DECIMAL -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         return (double) op1 < (double) op2;
                     }
                     case CARACTER -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         String caracterString = (String) op2;
                         char caracter = caracterString.charAt(0);
                         return (double) op1 < (int) caracter;
                     }
                     case BOOLEANO -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         int bool = 10;
                         if (op2.equals("true")) {
                             bool = 1;
@@ -478,19 +440,16 @@ public class Relacionales extends Instruccion {
             case CARACTER -> {
                 switch (tipo2) {
                     case ENTERO -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         String caracterString = (String) op1;
                         char caracter = caracterString.charAt(0);
                         return (int) caracter < (int) op2;
                     }
                     case DECIMAL -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         String caracterString = (String) op1;
                         char caracter = caracterString.charAt(0);
                         return (int) caracter < (double) op2;
                     }
                     case CARACTER -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         String caracterString1 = (String) op1;
                         char caracter1 = caracterString1.charAt(0);
                         String caracterString2 = (String) op2;
@@ -516,7 +475,6 @@ public class Relacionales extends Instruccion {
             case BOOLEANO -> {
                 switch (tipo2) {
                     case ENTERO -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         int bool = 10;
                         if (op1.equals("true")) {
                             bool = 1;
@@ -526,7 +484,6 @@ public class Relacionales extends Instruccion {
                         return bool < (int) op2;
                     }
                     case DECIMAL -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         int bool = 10;
                         if (op1.equals("true")) {
                             bool = 1;
@@ -547,7 +504,6 @@ public class Relacionales extends Instruccion {
                         return bool < (int) caracter;
                     }
                     case BOOLEANO -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         int bool1 = 10;
                         int bool2 = 10;
                         if (op1.equals("true")) {
@@ -581,21 +537,17 @@ public class Relacionales extends Instruccion {
             case ENTERO -> {
                 switch (tipo2) {
                     case ENTERO -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         return (int) op1 <= (int) op2;
                     }
                     case DECIMAL -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         return (int) op1 <= (double) op2;
                     }
                     case CARACTER -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         String caracterString = (String) op2;
                         char caracter = caracterString.charAt(0);
                         return (int) op1 <= (int) caracter;
                     }
                     case BOOLEANO -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         int bool = 10;
                         if (op2.equals("true")) {
                             bool = 1;
@@ -612,21 +564,17 @@ public class Relacionales extends Instruccion {
             case DECIMAL -> {
                 switch (tipo2) {
                     case ENTERO -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         return (double) op1 <= (int) op2;
                     }
                     case DECIMAL -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         return (double) op1 <= (double) op2;
                     }
                     case CARACTER -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         String caracterString = (String) op2;
                         char caracter = caracterString.charAt(0);
                         return (double) op1 <= (int) caracter;
                     }
                     case BOOLEANO -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         int bool = 10;
                         if (op2.equals("true")) {
                             bool = 1;
@@ -643,19 +591,16 @@ public class Relacionales extends Instruccion {
             case CARACTER -> {
                 switch (tipo2) {
                     case ENTERO -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         String caracterString = (String) op1;
                         char caracter = caracterString.charAt(0);
                         return (int) caracter <= (int) op2;
                     }
                     case DECIMAL -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         String caracterString = (String) op1;
                         char caracter = caracterString.charAt(0);
                         return (int) caracter <= (double) op2;
                     }
                     case CARACTER -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         String caracterString1 = (String) op1;
                         char caracter1 = caracterString1.charAt(0);
                         String caracterString2 = (String) op2;
@@ -681,7 +626,6 @@ public class Relacionales extends Instruccion {
             case BOOLEANO -> {
                 switch (tipo2) {
                     case ENTERO -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         int bool = 10;
                         if (op1.equals("true")) {
                             bool = 1;
@@ -691,7 +635,6 @@ public class Relacionales extends Instruccion {
                         return bool <= (int) op2;
                     }
                     case DECIMAL -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         int bool = 10;
                         if (op1.equals("true")) {
                             bool = 1;
@@ -712,7 +655,6 @@ public class Relacionales extends Instruccion {
                         return bool <= (int) caracter;
                     }
                     case BOOLEANO -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         int bool1 = 10;
                         int bool2 = 10;
                         if (op1.equals("true")) {
@@ -746,21 +688,17 @@ public class Relacionales extends Instruccion {
             case ENTERO -> {
                 switch (tipo2) {
                     case ENTERO -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         return (int) op1 > (int) op2;
                     }
                     case DECIMAL -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         return (int) op1 > (double) op2;
                     }
                     case CARACTER -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         String caracterString = (String) op2;
                         char caracter = caracterString.charAt(0);
                         return (int) op1 > (int) caracter;
                     }
                     case BOOLEANO -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         int bool = 10;
                         if (op2.equals("true")) {
                             bool = 1;
@@ -777,21 +715,17 @@ public class Relacionales extends Instruccion {
             case DECIMAL -> {
                 switch (tipo2) {
                     case ENTERO -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         return (double) op1 > (int) op2;
                     }
                     case DECIMAL -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         return (double) op1 > (double) op2;
                     }
                     case CARACTER -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         String caracterString = (String) op2;
                         char caracter = caracterString.charAt(0);
                         return (double) op1 > (int) caracter;
                     }
                     case BOOLEANO -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         int bool = 10;
                         if (op2.equals("true")) {
                             bool = 1;
@@ -808,19 +742,16 @@ public class Relacionales extends Instruccion {
             case CARACTER -> {
                 switch (tipo2) {
                     case ENTERO -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         String caracterString = (String) op1;
                         char caracter = caracterString.charAt(0);
                         return (int) caracter > (int) op2;
                     }
                     case DECIMAL -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         String caracterString = (String) op1;
                         char caracter = caracterString.charAt(0);
                         return (int) caracter > (double) op2;
                     }
                     case CARACTER -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         String caracterString1 = (String) op1;
                         char caracter1 = caracterString1.charAt(0);
                         String caracterString2 = (String) op2;
@@ -846,7 +777,6 @@ public class Relacionales extends Instruccion {
             case BOOLEANO -> {
                 switch (tipo2) {
                     case ENTERO -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         int bool = 10;
                         if (op1.equals("true")) {
                             bool = 1;
@@ -856,7 +786,6 @@ public class Relacionales extends Instruccion {
                         return bool > (int) op2;
                     }
                     case DECIMAL -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         int bool = 10;
                         if (op1.equals("true")) {
                             bool = 1;
@@ -877,7 +806,6 @@ public class Relacionales extends Instruccion {
                         return bool > (int) caracter;
                     }
                     case BOOLEANO -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         int bool1 = 10;
                         int bool2 = 10;
                         if (op1.equals("true")) {
@@ -911,21 +839,17 @@ public class Relacionales extends Instruccion {
             case ENTERO -> {
                 switch (tipo2) {
                     case ENTERO -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         return (int) op1 >= (int) op2;
                     }
                     case DECIMAL -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         return (int) op1 >= (double) op2;
                     }
                     case CARACTER -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         String caracterString = (String) op2;
                         char caracter = caracterString.charAt(0);
                         return (int) op1 >= (int) caracter;
                     }
                     case BOOLEANO -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         int bool = 10;
                         if (op2.equals("true")) {
                             bool = 1;
@@ -942,21 +866,17 @@ public class Relacionales extends Instruccion {
             case DECIMAL -> {
                 switch (tipo2) {
                     case ENTERO -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         return (double) op1 >= (int) op2;
                     }
                     case DECIMAL -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         return (double) op1 >= (double) op2;
                     }
                     case CARACTER -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         String caracterString = (String) op2;
                         char caracter = caracterString.charAt(0);
                         return (double) op1 >= (int) caracter;
                     }
                     case BOOLEANO -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         int bool = 10;
                         if (op2.equals("true")) {
                             bool = 1;
@@ -973,19 +893,16 @@ public class Relacionales extends Instruccion {
             case CARACTER -> {
                 switch (tipo2) {
                     case ENTERO -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         String caracterString = (String) op1;
                         char caracter = caracterString.charAt(0);
                         return (int) caracter >= (int) op2;
                     }
                     case DECIMAL -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         String caracterString = (String) op1;
                         char caracter = caracterString.charAt(0);
                         return (int) caracter >= (double) op2;
                     }
                     case CARACTER -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         String caracterString1 = (String) op1;
                         char caracter1 = caracterString1.charAt(0);
                         String caracterString2 = (String) op2;
@@ -1011,7 +928,6 @@ public class Relacionales extends Instruccion {
             case BOOLEANO -> {
                 switch (tipo2) {
                     case ENTERO -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         int bool = 10;
                         if (op1.equals("true")) {
                             bool = 1;
@@ -1021,7 +937,6 @@ public class Relacionales extends Instruccion {
                         return bool >= (int) op2;
                     }
                     case DECIMAL -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         int bool = 10;
                         if (op1.equals("true")) {
                             bool = 1;
@@ -1042,7 +957,6 @@ public class Relacionales extends Instruccion {
                         return bool >= (int) caracter;
                     }
                     case BOOLEANO -> {
-                        //this.tipo.setTipo(tipoDato.BOOLEANO);
                         int bool1 = 10;
                         int bool2 = 10;
                         if (op1.equals("true")) {

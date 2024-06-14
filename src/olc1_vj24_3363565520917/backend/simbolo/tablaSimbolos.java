@@ -62,7 +62,6 @@ public class tablaSimbolos {
                 return busqueda;
             }
         }
-
         return null;
     }
 }

@@ -17,7 +17,6 @@ public class Arbol {
         this.consola = "";
         this.tablaGlobal = new tablaSimbolos();
         this.errores = new LinkedList<>();
-
     }
 
     public LinkedList<Instruccion> getInstrucciones() {
