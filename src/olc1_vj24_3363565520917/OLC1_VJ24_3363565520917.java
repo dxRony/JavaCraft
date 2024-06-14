@@ -29,7 +29,7 @@ public class OLC1_VJ24_3363565520917 {
         try {
             // el breakpoint va en declaracion ast
             // ojo con el moduloooooooooooo
-            String texto = "var a: double = 10.3; a--; println(a);";
+            String texto = "println((7 + 3) * (8 / 2) % 5);";
             scanner s = new scanner(new BufferedReader(new StringReader(texto)));
             parser p = new parser(s);
             var resultado = p.parse();
