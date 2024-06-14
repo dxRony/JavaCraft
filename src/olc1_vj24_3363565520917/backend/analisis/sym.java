@@ -8,12 +8,14 @@ package olc1_vj24_3363565520917.backend.analisis;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int DOSPUNTOS = 48;
+  public static final int DOSPUNTOS = 46;
   public static final int PAR2 = 16;
   public static final int PAR1 = 15;
   public static final int MULTIPLICAR = 13;
   public static final int CHAR = 21;
   public static final int IGUALACION = 30;
+  public static final int LLAVE2 = 48;
+  public static final int LLAVE1 = 47;
   public static final int IMPRIMIR = 10;
   public static final int ENTERO = 3;
   public static final int XOR = 37;
@@ -50,8 +52,6 @@ public class sym {
   public static final int DIVIDIR = 14;
   public static final int WHILE = 26;
   public static final int DEFAULT = 43;
-  public static final int CORCH2 = 47;
-  public static final int CORCH1 = 46;
   public static final int BOOLEANO = 6;
   public static final int MENORIGUALQUE = 33;
   public static final int STRING = 22;
@@ -104,9 +104,9 @@ public class sym {
   "DEFAULT",
   "MENORQUE",
   "MAYORQUE",
-  "CORCH1",
-  "CORCH2",
-  "DOSPUNTOS"
+  "DOSPUNTOS",
+  "LLAVE1",
+  "LLAVE2"
   };
 }
 

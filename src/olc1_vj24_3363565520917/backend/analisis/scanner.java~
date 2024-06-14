@@ -888,12 +888,12 @@ public class scanner implements java_cup.runtime.Scanner {
           // fall through
           case 67: break;
           case 20:
-            { return new Symbol(sym.CORCH1, yyline, yycolumn, yytext());
+            { return new Symbol(sym.LLAVE1, yyline, yycolumn, yytext());
             }
           // fall through
           case 68: break;
           case 21:
-            { return new Symbol(sym.CORCH2, yyline, yycolumn, yytext());
+            { return new Symbol(sym.LLAVE2, yyline, yycolumn, yytext());
             }
           // fall through
           case 69: break;

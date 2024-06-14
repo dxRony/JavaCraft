@@ -20,7 +20,7 @@ public class tablaSimbolos {
     }
 
     public tablaSimbolos getTablaAnterior() {
-        return tablaAnterior;
+        return this.tablaAnterior;
     }
 
     public void setTablaAnterior(tablaSimbolos tablaAnterior) {
@@ -43,22 +43,26 @@ public class tablaSimbolos {
         this.nombre = nombre;
     }
 
-    public boolean setVaribale(Simbolo simbolo) {//setear simbolo a la tabla de simbolos
-        Simbolo busqueda = (Simbolo) this.tablaActual.get(simbolo.getId().toLowerCase());//viendo que el simbolo no exista aun
+    public boolean setVaribale(Simbolo simbolo) {// setear simbolo a la tabla de simbolos
+        Simbolo busqueda = (Simbolo) this.tablaActual.get(simbolo.getId().toLowerCase());// viendo que el simbolo no
+                                                                                         // exista aun
 
-        if (busqueda == null) {//si no existe se inserta en la tabla de simbolos
+        if (busqueda == null) {// si no existe se inserta en la tabla de simbolos
             this.tablaActual.put(simbolo.getId().toLowerCase(), simbolo);
             return true;
         }
         return false;
     }
 
-    public Simbolo getVariable(String id) {//obtener el simbolo de la tabla (variable)
-        Simbolo busqueda = (Simbolo) this.tablaActual.get(id.toLowerCase());//buscando la var en la tabla
+    public Simbolo getVariable(String id) {// obtener el simbolo de la tabla (variable)
+        for (tablaSimbolos i = this; i != null; i = i.getTablaAnterior()) {
+            Simbolo busqueda = (Simbolo) i.tablaActual.get(id.toLowerCase());// buscando la var en la tabla
 
-        if (busqueda != null) {//si la var existe
-            return busqueda;
+            if (busqueda != null) {// si la var existe
+                return busqueda;
+            }
         }
+
         return null;
     }
 }

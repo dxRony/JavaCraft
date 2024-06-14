@@ -41,8 +41,8 @@ import olc1_vj24_3363565520917.backend.excepciones.Errores;
 //signos de agrupacion
 PAR1 = "("
 PAR2 = ")"
-CORCH1 = "{"
-CORCH2 = "}"
+LLAVE1 = "{"
+LLAVE2 = "}"
 FININSTRUCCION = ";"
 DOSPUNTOS = ":"
 BLANCOS = [\ \r\t\n\f]+
@@ -159,8 +159,8 @@ BREAK = "break"
 <YYINITIAL> {MAYORQUE}        {return new Symbol(sym.MAYORQUE, yyline, yycolumn, yytext());         }
 <YYINITIAL> {PAR1}            {return new Symbol(sym.PAR1, yyline, yycolumn, yytext());             }
 <YYINITIAL> {PAR2}            {return new Symbol(sym.PAR2, yyline, yycolumn, yytext());             }
-<YYINITIAL> {CORCH1}          {return new Symbol(sym.CORCH1, yyline, yycolumn, yytext());           }
-<YYINITIAL> {CORCH2}          {return new Symbol(sym.CORCH2, yyline, yycolumn, yytext());           }
+<YYINITIAL> {LLAVE1}          {return new Symbol(sym.LLAVE1, yyline, yycolumn, yytext());           }
+<YYINITIAL> {LLAVE2}          {return new Symbol(sym.LLAVE2, yyline, yycolumn, yytext());           }
 <YYINITIAL> . {
             listaErrores.add(new Errores("LEXICO", " No se esperaba el caracter: " +yytext(), yyline, yycolumn));
 }

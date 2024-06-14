@@ -27,7 +27,22 @@ public class OLC1_VJ24_3363565520917 {
      */
     public static void main(String[] args) {
         try {
-            String texto = "const a: double = 67.0;" + "println(a);" +"a = (double) 18.34;"+ "println(a);";
+            // el breakpoint va en declaracion ast
+            String texto = ""
+                    + "var a: int = 10;"
+                    + "var b: bool = true;"
+                    + "var c: bool  = false;"
+                    + "if(b){"
+                    + "     var a: int = 20;"
+                    + "     println(a);"
+                    + "     if(b){"
+                    + "         var a: int = 30;"
+                    + "         println(a);"
+                    + "     }"
+                    + "}"
+                    + "println(a);"
+                    + "println(c);"
+                    + "";
             scanner s = new scanner(new BufferedReader(new StringReader(texto)));
             parser p = new parser(s);
             var resultado = p.parse();
