@@ -38,12 +38,8 @@ public class If extends Instruccion {
             for (var i : this.instrucciones) {// recorriendo las instrucciones de adentro del bloque
                 var resultado = i.interpretar(arbol, newTabla);// le mandamos la tabla del bloque y que la interprete
                 if (resultado instanceof Errores) {
-                    arbol.errores.add((Errores) resultado);
-                    //continue;
+                    return new Errores("SEMANTICO", "Instrucciones dentro de este if, no son validas", this.linea, this.columna);
                 }                
-                /*
-                 * manejo de errores
-                 */
             }
         }
         return null;

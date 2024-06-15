@@ -5,11 +5,20 @@
 package olc1_vj24_3363565520917.frontend;
 
 import java.awt.BorderLayout;
+import java.io.BufferedReader;
+import java.io.StringReader;
+import java.util.LinkedList;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import olc1_vj24_3363565520917.backend.abstracto.Instruccion;
+import olc1_vj24_3363565520917.backend.analisis.parser;
+import olc1_vj24_3363565520917.backend.analisis.scanner;
 import olc1_vj24_3363565520917.backend.archivo.Archivo;
+import olc1_vj24_3363565520917.backend.excepciones.Errores;
+import olc1_vj24_3363565520917.backend.simbolo.Arbol;
+import olc1_vj24_3363565520917.backend.simbolo.tablaSimbolos;
 
 /**
  *
@@ -18,6 +27,7 @@ import olc1_vj24_3363565520917.backend.archivo.Archivo;
 public class Interfaz extends javax.swing.JFrame {
 
     private Archivo archivo;
+    private LinkedList<Errores> listaErrores;
 
     /**
      * Creates new form Interfaz
@@ -25,7 +35,7 @@ public class Interfaz extends javax.swing.JFrame {
     public Interfaz() {
         initComponents();
         archivo = new Archivo();
-
+        listaErrores = new LinkedList<>();
     }
 
     /**
@@ -78,6 +88,7 @@ public class Interfaz extends javax.swing.JFrame {
         txtAreaConsola.setEditable(false);
         txtAreaConsola.setBackground(new java.awt.Color(51, 51, 51));
         txtAreaConsola.setColumns(20);
+        txtAreaConsola.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtAreaConsola.setForeground(new java.awt.Color(255, 255, 255));
         txtAreaConsola.setRows(5);
         pnlConsola.setViewportView(txtAreaConsola);
@@ -203,9 +214,22 @@ public class Interfaz extends javax.swing.JFrame {
     private void btnTablaErroresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTablaErroresActionPerformed
         // TODO add your handling code here:
         DefaultTableModel model = new DefaultTableModel();
-        model.addColumn("Column1");
-        model.addColumn("Column2");
-        model.addColumn("Column3");
+        int numero = 0;
+        model.addColumn("#");
+        model.addColumn("Tipo");
+        model.addColumn("Descripcion");
+        model.addColumn("Linea");
+        model.addColumn("Columna");
+
+        for (Errores error : listaErrores) {
+            numero++;
+            model.addRow(new Object[]{
+                numero,
+                error.getTipo(),
+                error.getDescripcion(),
+                error.getLinea(),
+                error.getColumna()});
+        }
 
         JTable tablaErrores = new JTable(model);
         JScrollPane sP = new JScrollPane(tablaErrores);
@@ -244,6 +268,43 @@ public class Interfaz extends javax.swing.JFrame {
 
     private void btnEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEjecutarActionPerformed
         // TODO add your handling code here:
+        // el breakpoint va en declaracion ast
+        try {
+            listaErrores.clear();
+            String texto = archivo.obtenerTextoPestanaActual(pnlEntrada); //obteniendo texto del text area
+            String erroresConsola = "";
+
+            scanner s = new scanner(new BufferedReader(new StringReader(texto)));
+            parser p = new parser(s);
+            var resultado = p.parse();
+            var ast = new Arbol((LinkedList<Instruccion>) resultado.value);
+            var tabla = new tablaSimbolos();
+            tabla.setNombre("GLOBAL");
+            ast.setConsola("");
+
+            listaErrores.addAll(s.listaErrores);
+            listaErrores.addAll(p.listaErrores);
+            for (var a : ast.getInstrucciones()) {
+                if (a == null) {
+                    continue;
+                }
+
+                var res = a.interpretar(ast, tabla);
+                if (res instanceof Errores) {
+                    listaErrores.add((Errores) res);
+                }
+            }
+            txtAreaConsola.setText(ast.getConsola() + "\n\n\n\n\n\n\n\n");
+            for (Errores error : listaErrores) {
+                erroresConsola += "Error " + error.getTipo().toLowerCase() + ": " + error.getDescripcion()
+                        + " en linea " + error.getLinea() + " y columna " + error.getColumna()+ "\n";
+            }
+            txtAreaConsola.setText(txtAreaConsola.getText() + erroresConsola);
+        } catch (Exception e) {
+            System.out.println("Algo salio mal...");
+            System.out.println(e);
+        }
+
     }//GEN-LAST:event_btnEjecutarActionPerformed
 
 

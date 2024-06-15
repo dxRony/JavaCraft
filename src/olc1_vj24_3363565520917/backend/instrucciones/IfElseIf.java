@@ -41,12 +41,10 @@ public class IfElseIf extends Instruccion {
             for (var i : this.instrucciones) {
                 var resultado = i.interpretar(arbol, newTabla);
                 if (resultado instanceof Errores) {
-                    arbol.errores.add((Errores) resultado);
-                    // continue;
+                    if (resultado instanceof Errores) {
+                        return new Errores("SEMANTICO", "Instrucciones dentro de este else if, no son validas", this.linea, this.columna);
+                    }  
                 }
-                /*
-                 * manejo de errores
-                 */
             }
         } else if (elseIf != null) {
             var resultado = elseIf.interpretar(arbol, tabla);

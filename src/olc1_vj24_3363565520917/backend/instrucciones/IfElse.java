@@ -36,16 +36,18 @@ public class IfElse extends Instruccion {
             for (var i : this.instruccionesA) {
                 var resultado = i.interpretar(arbol, newTabla);
                 if (resultado instanceof Errores) {
-                    arbol.errores.add((Errores) resultado);
-                    // continue;
+                    if (resultado instanceof Errores) {
+                        return new Errores("SEMANTICO", "Instrucciones dentro de este if, no son validas", this.linea, this.columna);
+                    }  
                 }
             }
         } else {
             for (var i : this.instruccionesB) {
                 var resultado = i.interpretar(arbol, newTabla);
                 if (resultado instanceof Errores) {
-                    arbol.errores.add((Errores) resultado);
-                    // continue;
+                    if (resultado instanceof Errores) {
+                        return new Errores("SEMANTICO", "Instrucciones dentro de este else, no son validas", this.linea, this.columna);
+                    }  
                 }
             }
         }

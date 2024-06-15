@@ -121,8 +121,8 @@ CASOS ::= CASOS:a CASO:b            {:  RESULT = a; RESULT.add(b);              
         | CASO:a                    {:  RESULT = new LinkedList<>(); RESULT.add(a);     :}
 ;
 
-CASO ::= EXPRESION:a MAYORIGUALQUE LLAVE1 INSTRUCCIONES:b LLAVE2    {:      RESULT = new Caso(a, b, true);        :} 
-        | DEFAULT MAYORIGUALQUE LLAVE1 INSTRUCCIONES:b LLAVE2       {:      RESULT = new Caso(null, b, false);    :}        
+CASO ::= EXPRESION:a IGUAL MAYORQUE LLAVE1 INSTRUCCIONES:b LLAVE2    {:      RESULT = new Caso(a, b, true);        :} 
+        | DEFAULT IGUAL MAYORQUE LLAVE1 INSTRUCCIONES:b LLAVE2       {:      RESULT = new Caso(null, b, false);    :}        
 ;
 
 TIPOS ::= INT       {:  RESULT = new Tipo(tipoDato.ENTERO);     :}

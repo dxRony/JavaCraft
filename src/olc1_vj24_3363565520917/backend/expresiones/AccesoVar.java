@@ -21,7 +21,7 @@ public class AccesoVar extends Instruccion {
         var valor = tabla.getVariable(this.id);//obteniendo la variable
 
         if (valor == null) {
-            return new Errores("SEMANTICA", "Variable no existente", this.linea, this.columna);
+            return new Errores("SEMANTICO", "Variable no existente", this.linea, this.columna);
         }
 
         this.tipo.setTipo(valor.getTipo().getTipo());//actualizando el tipo de la var accedida, en caso de sumas etc

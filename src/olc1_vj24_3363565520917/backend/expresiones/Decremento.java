@@ -19,7 +19,7 @@ public class Decremento extends Instruccion {
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
         if (!(variable instanceof AccesoVar)) {
-            return new Errores("SEMANTICA", "Decremento no valido", this.linea, this.columna);
+            return new Errores("SEMANTICO", "Decremento no valido", this.linea, this.columna);
 
         }
         var acceso = (AccesoVar) variable;
@@ -30,12 +30,12 @@ public class Decremento extends Instruccion {
         }
         // validaciones
         if (acceso.tipo.getTipo() != tipoDato.ENTERO && acceso.tipo.getTipo() != tipoDato.DECIMAL) {
-            return new Errores("SEMANTICA", "Solo se puede decrementar variables de tipo int o double", this.linea,
+            return new Errores("SEMANTICO", "Solo se puede decrementar variables de tipo int o double", this.linea,
                     this.columna);
         }
 
         if (!tabla.getVariable(acceso.id).isMutabilidad()) {
-            return new Errores("SEMANTICA", "Esta variable (CONST) no se puede decrementar", this.linea, this.columna);
+            return new Errores("SEMANTICO", "Esta variable (CONST) no se puede decrementar", this.linea, this.columna);
         }
 
         if (acceso.tipo.getTipo() == tipoDato.ENTERO) {

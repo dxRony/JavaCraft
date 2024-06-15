@@ -162,5 +162,5 @@ BREAK = "break"
 <YYINITIAL> {LLAVE1}          {return new Symbol(sym.LLAVE1, yyline, yycolumn, yytext());           }
 <YYINITIAL> {LLAVE2}          {return new Symbol(sym.LLAVE2, yyline, yycolumn, yytext());           }
 <YYINITIAL> . {
-            listaErrores.add(new Errores("LEXICO", " No se esperaba el caracter: " +yytext(), yyline, yycolumn));
+            listaErrores.add(new Errores("LEXICO", "No se esperaba el caracter: " +yytext(), yyline, yycolumn));
 }
