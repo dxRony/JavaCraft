@@ -36,7 +36,7 @@ public class IfElseIf extends Instruccion {
         }
 
         var newTabla = new tablaSimbolos(tabla);
-        newTabla.setNombre("ELSE IF (linea: " + this.linea + ")");//mandandole nombre a la tabla
+        newTabla.setNombre(tabla.getNombre()+ " ELSE IF (linea: " + this.linea + ")");
 
         if ((boolean) cond) {
             for (var i : this.instrucciones) {

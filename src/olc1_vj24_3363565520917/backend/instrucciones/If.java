@@ -33,8 +33,7 @@ public class If extends Instruccion {
         }
 
         var newTabla = new tablaSimbolos(tabla);// creando tabla que contiene una tabla anterior de la que nos dan
-        newTabla.setNombre("IF (linea: "+ this.linea + ")");
-        
+        newTabla.setNombre(tabla.getNombre()+ " IF (linea: " + this.linea + ")");        
         
         if ((boolean) cond) {
             for (var i : this.instrucciones) {// recorriendo las instrucciones de adentro del bloque

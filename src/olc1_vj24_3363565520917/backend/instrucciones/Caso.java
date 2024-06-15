@@ -39,7 +39,7 @@ public class Caso extends Instruccion {
     public boolean ejecutarCaso(Arbol arbol, tablaSimbolos tabla) {
         
         var newTabla = new tablaSimbolos(tabla); // creando el entorno del caso
-        newTabla.setNombre("MATCH(linea: " + this.linea + ")");
+        newTabla.setNombre(tabla.getNombre()+ " MATCH (linea: " + this.linea + ")");
 
         for (var instruccion : this.instrucciones) {
             var resultado = instruccion.interpretar(arbol, newTabla);
