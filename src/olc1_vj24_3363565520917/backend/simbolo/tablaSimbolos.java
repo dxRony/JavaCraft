@@ -13,7 +13,7 @@ public class tablaSimbolos {
         this.nombre = "";
     }
 
-    public tablaSimbolos(tablaSimbolos tablaAnterior) {//para crear tabla que tenga una tabla anterio que recibe
+    public tablaSimbolos(tablaSimbolos tablaAnterior) {// para crear tabla que tenga una tabla anterior que recibe
         this.tablaAnterior = tablaAnterior;
         this.tablaActual = new HashMap<>();
         this.nombre = "";
@@ -45,7 +45,7 @@ public class tablaSimbolos {
 
     public boolean setVaribale(Simbolo simbolo) {// setear simbolo a la tabla de simbolos
         Simbolo busqueda = (Simbolo) this.tablaActual.get(simbolo.getId().toLowerCase());// viendo que el simbolo no
-                                                                                         // exista aun
+                                                                                         // exista
 
         if (busqueda == null) {// si no existe se inserta en la tabla de simbolos
             this.tablaActual.put(simbolo.getId().toLowerCase(), simbolo);
@@ -53,9 +53,10 @@ public class tablaSimbolos {
         }
         return false;
     }
-    
+
     public Simbolo getVariable(String id) {// obtener el simbolo de la tabla (variable)
-        for (tablaSimbolos i = this; i != null; i = i.getTablaAnterior()) {// buscando variables en tablas anteriores, i es donde nos encontramos
+        for (tablaSimbolos i = this; i != null; i = i.getTablaAnterior()) {// buscando variables en tablas anteriores, i
+                                                                           // es donde nos encontramos
             Simbolo busqueda = (Simbolo) i.tablaActual.get(id.toLowerCase());// buscando la var en la tabla actual
 
             if (busqueda != null) {// si la var existe se retorna, sino se sigue buscando en la anterior

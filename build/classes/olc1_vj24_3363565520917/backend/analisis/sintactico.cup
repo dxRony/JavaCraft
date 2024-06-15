@@ -118,11 +118,11 @@ SMATCH ::= MATCH EXPRESION:a LLAVE1 CASOS:b DEFAULT:c LLAVE2 {:     RESULT = new
 ;
 
 CASOS ::= CASOS:a CASO:b            {:  RESULT = a; RESULT.add(b);                      :}//agregando el caso a la lista de casos
-        | CASO:a                    {:  RESULT = new LinkedList<>(); RESULT.add(a);     :}
+        | CASO:a                    {:  RESULT = new LinkedList<>(); RESULT.add(a);     :}//creando lista de casos con un caso
 ;
 
-CASO ::= EXPRESION:a IGUAL MAYORQUE LLAVE1 INSTRUCCIONES:b LLAVE2    {:      RESULT = new Caso(a, b, true);        :} 
-        | DEFAULT IGUAL MAYORQUE LLAVE1 INSTRUCCIONES:b LLAVE2       {:      RESULT = new Caso(null, b, false);    :}        
+CASO ::= EXPRESION:a IGUAL MAYORQUE LLAVE1 INSTRUCCIONES:b LLAVE2    {:      RESULT = new Caso(a, b, true);        :}//creando un caso, con sus instrucciones 
+        | DEFAULT IGUAL MAYORQUE LLAVE1 INSTRUCCIONES:b LLAVE2       {:      RESULT = new Caso(null, b, false);    :}//crea un caso default, con sus instrucciones        
 ;
 
 TIPOS ::= INT       {:  RESULT = new Tipo(tipoDato.ENTERO);     :}

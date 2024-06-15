@@ -49,7 +49,6 @@ public class Casteo extends Instruccion {
             return ((Double) valor).intValue();
 
         } else if (valor instanceof Character) {
-            System.out.println("casteando char a int");
             return (int) ((char) valor);
 
         } else {

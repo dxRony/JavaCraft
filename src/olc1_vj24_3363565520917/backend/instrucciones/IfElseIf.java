@@ -36,6 +36,7 @@ public class IfElseIf extends Instruccion {
         }
 
         var newTabla = new tablaSimbolos(tabla);
+        newTabla.setNombre("ELSE IF (linea: " + this.linea + ")");//mandandole nombre a la tabla
 
         if ((boolean) cond) {
             for (var i : this.instrucciones) {
@@ -43,9 +44,10 @@ public class IfElseIf extends Instruccion {
                 if (resultado instanceof Errores) {
                     if (resultado instanceof Errores) {
                         return new Errores("SEMANTICO", "Instrucciones dentro de este else if, no son validas", this.linea, this.columna);
-                    }  
+                    }
                 }
             }
+            //newTabla.setTablaAnterior(tabla);//mandandole la tabla anterior
         } else if (elseIf != null) {
             var resultado = elseIf.interpretar(arbol, tabla);
             if (resultado instanceof Errores) {

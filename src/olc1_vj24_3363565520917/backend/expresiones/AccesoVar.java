@@ -9,7 +9,7 @@ import olc1_vj24_3363565520917.backend.simbolo.tipoDato;
 
 public class AccesoVar extends Instruccion {
 
-    public String id;//nombre de la var a buscar
+    public String id;// nombre de la var a buscar
 
     public AccesoVar(int linea, int columna, String id) {
         super(new Tipo(tipoDato.VOID), linea, columna);
@@ -18,13 +18,13 @@ public class AccesoVar extends Instruccion {
 
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
-        var valor = tabla.getVariable(this.id);//obteniendo la variable
+        var valor = tabla.getVariable(this.id);// obteniendo la variable
 
         if (valor == null) {
-            return new Errores("SEMANTICO", "Variable no existente", this.linea, this.columna);
+            return new Errores("SEMANTICO", "La variable: " + this.id + ", no existe", this.linea, this.columna);
         }
 
-        this.tipo.setTipo(valor.getTipo().getTipo());//actualizando el tipo de la var accedida, en caso de sumas etc
-        return valor.getValor();//retornando el valor de la var
+        this.tipo.setTipo(valor.getTipo().getTipo());// actualizando el tipo de la var accedida, en caso de sumas etc
+        return valor.getValor();// retornando el valor de la var
     }
 }

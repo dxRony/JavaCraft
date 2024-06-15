@@ -11,8 +11,8 @@ import olc1_vj24_3363565520917.backend.simbolo.tipoDato;
 
 public class Caso extends Instruccion {
 
-    private Instruccion expresion;// si es null, es un default
-    private LinkedList<Instruccion> instrucciones;// las instrucciones del caso
+    private Instruccion expresion;// si es null no se compara nada, es un default
+    private LinkedList<Instruccion> instrucciones;// las instrucciones del caso a ejecutar
     private boolean esCaso;// si es true es un caso, si es false es un default
 
     public Caso(Instruccion expresion, LinkedList<Instruccion> instrucciones, boolean esCaso) {
@@ -29,20 +29,22 @@ public class Caso extends Instruccion {
             return true;
         }
         var valor = this.expresion.interpretar(arbol, tabla);
+
         if (valor instanceof Errores) {
             return valor;
         }
-        return valor;
+        return valor;//devolviendo valor 
     }
 
     public boolean ejecutarCaso(Arbol arbol, tablaSimbolos tabla) {
+        
         var newTabla = new tablaSimbolos(tabla); // creando el entorno del caso
+        newTabla.setNombre("MATCH(linea: " + this.linea + ")");
 
         for (var instruccion : this.instrucciones) {
             var resultado = instruccion.interpretar(arbol, newTabla);
             if (resultado instanceof Errores) {
-                arbol.errores.add((Errores) resultado);
-            }
+                return new Errores("SEMANTICO", "Instrucciones dentro de este if, no son validas", this.linea, this.columna) != null;            }
         }
         return true;
     }

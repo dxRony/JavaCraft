@@ -28,6 +28,7 @@ public class Interfaz extends javax.swing.JFrame {
 
     private Archivo archivo;
     private LinkedList<Errores> listaErrores;
+    
 
     /**
      * Creates new form Interfaz
@@ -246,9 +247,15 @@ public class Interfaz extends javax.swing.JFrame {
     private void btnTablaSimbolosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTablaSimbolosActionPerformed
         // TODO add your handling code here:
         DefaultTableModel model = new DefaultTableModel();
-        model.addColumn("Column1");
-        model.addColumn("Column2");
-        model.addColumn("Column3");
+        model.addColumn("#");
+        model.addColumn("Id");
+        model.addColumn("Tipo");
+        model.addColumn("Tipo");
+        model.addColumn("Entorno");
+        model.addColumn("Valor");
+        model.addColumn("Linea");
+        model.addColumn("Columna");
+        
 
         JTable tablaErrores = new JTable(model);
         JScrollPane sP = new JScrollPane(tablaErrores);
@@ -278,7 +285,8 @@ public class Interfaz extends javax.swing.JFrame {
             parser p = new parser(s);
             var resultado = p.parse();
             var ast = new Arbol((LinkedList<Instruccion>) resultado.value);
-            var tabla = new tablaSimbolos();
+            
+            var tabla = new tablaSimbolos();//creando tabla global            
             tabla.setNombre("GLOBAL");
             ast.setConsola("");
 
@@ -297,7 +305,7 @@ public class Interfaz extends javax.swing.JFrame {
             txtAreaConsola.setText(ast.getConsola() + "\n\n\n\n\n\n\n\n");
             for (Errores error : listaErrores) {
                 erroresConsola += "Error " + error.getTipo().toLowerCase() + ": " + error.getDescripcion()
-                        + " en linea " + error.getLinea() + " y columna " + error.getColumna()+ "\n";
+                        + " en linea " + error.getLinea() + " y columna " + error.getColumna() + "\n";
             }
             txtAreaConsola.setText(txtAreaConsola.getText() + erroresConsola);
         } catch (Exception e) {

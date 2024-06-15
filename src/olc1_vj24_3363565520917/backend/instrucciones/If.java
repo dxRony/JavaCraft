@@ -31,9 +31,11 @@ public class If extends Instruccion {
         if (this.condicion.tipo.getTipo() != tipoDato.BOOLEANO) { // validando que cond sea booleana
             return new Errores("SEMANTICO", "Expresion invalida", this.linea, this.columna);
         }
-        //nuevo entorno
-        var newTabla = new tablaSimbolos(tabla);// creando tabla que contiene una tabla anterior que nos dan
 
+        var newTabla = new tablaSimbolos(tabla);// creando tabla que contiene una tabla anterior de la que nos dan
+        newTabla.setNombre("IF (linea: "+ this.linea + ")");
+        
+        
         if ((boolean) cond) {
             for (var i : this.instrucciones) {// recorriendo las instrucciones de adentro del bloque
                 var resultado = i.interpretar(arbol, newTabla);// le mandamos la tabla del bloque y que la interprete
@@ -42,6 +44,8 @@ public class If extends Instruccion {
                 }                
             }
         }
+        newTabla.setTablaAnterior(tabla);
+        
         return null;
     }
 }

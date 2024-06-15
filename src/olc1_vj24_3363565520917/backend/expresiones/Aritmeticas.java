@@ -62,7 +62,8 @@ public class Aritmeticas extends Instruccion {
             case NEGACION ->
                 this.negacion(Unico);
             default ->
-                new Errores("SEMANTICO", "No se esperaba este operador", this.linea, this.columna);
+                new Errores("SEMANTICO", "No se esperaba este operador: " + this.operacion + ", ", this.linea,
+                        this.columna);
         };
     }
 
@@ -92,7 +93,7 @@ public class Aritmeticas extends Instruccion {
                         return op1.toString() + op2.toString();
                     }
                     default -> {
-                        return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+                        return new Errores("SEMANTICO", "No se esperaba este tipo de dato", this.linea, this.columna);
                     }
                 }
             }
@@ -117,7 +118,7 @@ public class Aritmeticas extends Instruccion {
                         return op1.toString() + op2.toString();
                     }
                     default -> {
-                        return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+                        return new Errores("SEMANTICO", "No se esperaba este tipo de dato", this.linea, this.columna);
                     }
                 }
             }
@@ -128,7 +129,7 @@ public class Aritmeticas extends Instruccion {
                         return op1.toString() + op2.toString();
                     }
                     default -> {
-                        return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+                        return new Errores("SEMANTICO", "No se esperaba este tipo de dato", this.linea, this.columna);
                     }
                 }
             }
@@ -155,7 +156,7 @@ public class Aritmeticas extends Instruccion {
                         return (String) op1 + (String) op2;
                     }
                     default -> {
-                        return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+                        return new Errores("SEMANTICO", "No se esperaba este tipo de dato", this.linea, this.columna);
                     }
                 }
             }
@@ -182,12 +183,12 @@ public class Aritmeticas extends Instruccion {
                         return op1.toString() + op2.toString();
                     }
                     default -> {
-                        return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+                        return new Errores("SEMANTICO", "No se esperaba este tipo de dato", this.linea, this.columna);
                     }
                 }
             }
             default -> {
-                return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+                return new Errores("SEMANTICO", "No se esperaba este tipo de dato", this.linea, this.columna);
             }
         }
     }
@@ -214,7 +215,7 @@ public class Aritmeticas extends Instruccion {
                         return (int) op1 - (int) caracter;
                     }
                     default -> {
-                        return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+                        return new Errores("SEMANTICO", "No se esperaba este tipo de dato", this.linea, this.columna);
                     }
                 }
             }
@@ -235,7 +236,7 @@ public class Aritmeticas extends Instruccion {
                         return (double) op1 - (int) caracter;
                     }
                     default -> {
-                        return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+                        return new Errores("SEMANTICO", "No se esperaba este tipo de dato", this.linea, this.columna);
                     }
                 }
             }
@@ -254,12 +255,12 @@ public class Aritmeticas extends Instruccion {
                         return (int) caracter - (double) op2;
                     }
                     default -> {
-                        return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+                        return new Errores("SEMANTICO", "No se esperaba este tipo de dato", this.linea, this.columna);
                     }
                 }
             }
             default -> {
-                return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+                return new Errores("SEMANTICO", "No se esperaba este tipo de dato", this.linea, this.columna);
             }
         }
     }
@@ -286,7 +287,7 @@ public class Aritmeticas extends Instruccion {
                         return (int) op1 * (int) caracter;
                     }
                     default -> {
-                        return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+                        return new Errores("SEMANTICO", "No se esperaba este tipo de dato", this.linea, this.columna);
                     }
                 }
             }
@@ -307,7 +308,7 @@ public class Aritmeticas extends Instruccion {
                         return (double) op1 * (int) caracter;
                     }
                     default -> {
-                        return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+                        return new Errores("SEMANTICO", "No se esperaba este tipo de dato", this.linea, this.columna);
                     }
                 }
             }
@@ -326,12 +327,12 @@ public class Aritmeticas extends Instruccion {
                         return (int) caracter * (double) op2;
                     }
                     default -> {
-                        return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+                        return new Errores("SEMANTICO", "No se esperaba este tipo de dato", this.linea, this.columna);
                     }
                 }
             }
             default -> {
-                return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+                return new Errores("SEMANTICO", "No se esperaba este tipo de dato", this.linea, this.columna);
             }
         }
     }
@@ -345,7 +346,7 @@ public class Aritmeticas extends Instruccion {
                 switch (tipo2) {
                     case ENTERO -> {
                         if ((int) op2 == 0) {
-                            return new Errores("SEMANTICO", "no se puede dividir dentro de 0", this.linea,
+                            return new Errores("SEMANTICO", "No se puede dividir dentro de 0", this.linea,
                                     this.columna);
                         } else {
                             this.tipo.setTipo(tipoDato.DECIMAL);
@@ -354,7 +355,7 @@ public class Aritmeticas extends Instruccion {
                     }
                     case DECIMAL -> {
                         if ((double) op2 == 0) {
-                            return new Errores("SEMANTICO", "no se puede dividir dentro de 0", this.linea,
+                            return new Errores("SEMANTICO", "No se puede dividir dentro de 0", this.linea,
                                     this.columna);
                         } else {
                             this.tipo.setTipo(tipoDato.DECIMAL);
@@ -366,7 +367,7 @@ public class Aritmeticas extends Instruccion {
                         String caracterString = (String) op2; // casteo de op2
                         char caracter = caracterString.charAt(0); // conversion de string a caracter
                         if (caracter == 0) {
-                            return new Errores("SEMANTICO", "no se puede dividir dentro de 0", this.linea,
+                            return new Errores("SEMANTICO", "No se puede dividir dentro de 0", this.linea,
                                     this.columna);
                         } else {
                             double division = ((double) (int) op1 / (int) caracter);
@@ -375,7 +376,7 @@ public class Aritmeticas extends Instruccion {
 
                     }
                     default -> {
-                        return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+                        return new Errores("SEMANTICO", "No se esperaba este tipo de dato", this.linea, this.columna);
                     }
                 }
             }
@@ -396,7 +397,7 @@ public class Aritmeticas extends Instruccion {
                         return ((double) (double) op1 / (int) caracter);
                     }
                     default -> {
-                        return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+                        return new Errores("SEMANTICO", "No se esperaba este tipo de dato", this.linea, this.columna);
                     }
                 }
             }
@@ -415,12 +416,12 @@ public class Aritmeticas extends Instruccion {
                         return ((double) (double) caracter / (double) op2);
                     }
                     default -> {
-                        return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+                        return new Errores("SEMANTICO", "No se esperaba este tipo de dato", this.linea, this.columna);
                     }
                 }
             }
             default -> {
-                return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+                return new Errores("SEMANTICO", "No se esperaba este tipo de dato", this.linea, this.columna);
             }
         }
     }
@@ -443,7 +444,7 @@ public class Aritmeticas extends Instruccion {
                         return resultado;
                     }
                     default -> {
-                        return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+                        return new Errores("SEMANTICO", "No se esperaba este tipo de dato", this.linea, this.columna);
                     }
                 }
             }
@@ -460,12 +461,12 @@ public class Aritmeticas extends Instruccion {
                         return resultado;
                     }
                     default -> {
-                        return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+                        return new Errores("SEMANTICO", "No se esperaba este tipo de dato", this.linea, this.columna);
                     }
                 }
             }
             default -> {
-                return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+                return new Errores("SEMANTICO", "No se esperaba este tipo de dato", this.linea, this.columna);
             }
         }
     }
@@ -486,7 +487,7 @@ public class Aritmeticas extends Instruccion {
                         return ((double) (int) op1 % (double) op2);
                     }
                     default -> {
-                        return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+                        return new Errores("SEMANTICO", "No se esperaba este tipo de dato", this.linea, this.columna);
                     }
                 }
             }
@@ -501,12 +502,12 @@ public class Aritmeticas extends Instruccion {
                         return ((double) (double) op1 % (double) op2);
                     }
                     default -> {
-                        return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+                        return new Errores("SEMANTICO", "No se esperaba este tipo de dato", this.linea, this.columna);
                     }
                 }
             }
             default -> {
-                return new Errores("SEMANTICO", "no se esperaba este tipo de dato", this.linea, this.columna);
+                return new Errores("SEMANTICO", "No se esperaba este tipo de dato", this.linea, this.columna);
             }
         }
     }

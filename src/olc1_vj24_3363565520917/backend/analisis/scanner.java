@@ -793,7 +793,7 @@ public class scanner implements java_cup.runtime.Scanner {
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1:
-            { listaErrores.add(new Errores("LEXICO", " No se esperaba el caracter: " +yytext(), yyline, yycolumn));
+            { listaErrores.add(new Errores("LEXICO", "No se esperaba el caracter: " +yytext(), yyline, yycolumn));
             }
           // fall through
           case 49: break;

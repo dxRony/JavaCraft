@@ -26,11 +26,12 @@ public class IfElse extends Instruccion {
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
         var cond = this.condicion.interpretar(arbol, tabla);
-        
+
         if (cond instanceof Errores) {
             return cond;
         }
         var newTabla = new tablaSimbolos(tabla);
+        newTabla.setNombre("IF ELSE (linea: " + this.linea + ")");
 
         if ((boolean) cond) {
             for (var i : this.instruccionesA) {
@@ -38,7 +39,7 @@ public class IfElse extends Instruccion {
                 if (resultado instanceof Errores) {
                     if (resultado instanceof Errores) {
                         return new Errores("SEMANTICO", "Instrucciones dentro de este if, no son validas", this.linea, this.columna);
-                    }  
+                    }
                 }
             }
         } else {
@@ -47,7 +48,7 @@ public class IfElse extends Instruccion {
                 if (resultado instanceof Errores) {
                     if (resultado instanceof Errores) {
                         return new Errores("SEMANTICO", "Instrucciones dentro de este else, no son validas", this.linea, this.columna);
-                    }  
+                    }
                 }
             }
         }
