@@ -57,15 +57,20 @@ public class For extends Instruccion {
             return new Errores("SEMANTICO", "La condicion no es bool", this.linea, this.columna);
         }
 
-        while ((boolean) this.condicion.interpretar(arbol, newTabla)) {//interpretando la condicion hasta que se cumpla
-            //creando nuevo entorno
+        while ((boolean) this.condicion.interpretar(arbol, newTabla)) {// interpretando la condicion hasta que se cumpla
+            // creando nuevo entorno
             var newTabla2 = new tablaSimbolos(newTabla);
             newTabla2.setNombre(newTabla.getNombre() + " INS FOR (linea: " + this.linea + ")");
-            
-            for(var i: this.instrucciones){//si se cumple lo anterior, se ejecutan las instrucciones
+
+            for (var i : this.instrucciones) {// si se cumple lo anterior, se ejecutan las instrucciones
+
                 var resIns = i.interpretar(arbol, newTabla2);
+                if (resIns instanceof Errores) {
+                    return new Errores("SEMANTICO", "Instrucciones dentro de este for, no son validas", this.linea,
+                            this.columna);
+                }
             }
-            //actualizando la variable
+            // actualizando la variable
             var act = this.actualizacion.interpretar(arbol, newTabla);
 
             if (act instanceof Errores) {

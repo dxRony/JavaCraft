@@ -100,23 +100,25 @@ WHILE = "while"
 FOR = "for"
 DO = "do"
 BREAK = "break"
+CONTINUE = "continue"
 
 %%
 //palabras reservadas
-<YYINITIAL> {IMPRIMIR}        {return new Symbol(sym.IMPRIMIR, yyline, yycolumn, yytext()); } //<YYINITIAL> = estado inicial, {IMPRIMIR} = patron a reconocer
-<YYINITIAL> {INT}             {return new Symbol(sym.INT, yyline, yycolumn, yytext());      }
-<YYINITIAL> {DOUBLE}          {return new Symbol(sym.DOUBLE, yyline, yycolumn, yytext());   }
-<YYINITIAL> {BOOL}            {return new Symbol(sym.BOOL, yyline, yycolumn, yytext());     }
-<YYINITIAL> {CHAR}            {return new Symbol(sym.CHAR, yyline, yycolumn, yytext());     }
-<YYINITIAL> {STRING}          {return new Symbol(sym.STRING, yyline, yycolumn, yytext());   }
-<YYINITIAL> {IF}              {return new Symbol(sym.IF, yyline, yycolumn, yytext());       }
-<YYINITIAL> {ELSE}            {return new Symbol(sym.ELSE, yyline, yycolumn, yytext());     }
-<YYINITIAL> {MATCH}           {return new Symbol(sym.MATCH, yyline, yycolumn, yytext());    }
-<YYINITIAL> {WHILE}           {return new Symbol(sym.WHILE, yyline, yycolumn, yytext());    }
-<YYINITIAL> {FOR}             {return new Symbol(sym.FOR, yyline, yycolumn, yytext());      }
-<YYINITIAL> {DO}              {return new Symbol(sym.DO, yyline, yycolumn, yytext());       }
-<YYINITIAL> {BREAK}           {return new Symbol(sym.BREAK, yyline, yycolumn, yytext());    }
-<YYINITIAL> {BOOLEANO}        {return new Symbol(sym.BOOLEANO, yyline, yycolumn, yytext()); }
+<YYINITIAL> {IMPRIMIR}        {return new Symbol(sym.IMPRIMIR, yyline, yycolumn, yytext());    }
+<YYINITIAL> {INT}             {return new Symbol(sym.INT, yyline, yycolumn, yytext());         }
+<YYINITIAL> {DOUBLE}          {return new Symbol(sym.DOUBLE, yyline, yycolumn, yytext());      }
+<YYINITIAL> {BOOL}            {return new Symbol(sym.BOOL, yyline, yycolumn, yytext());        }
+<YYINITIAL> {CHAR}            {return new Symbol(sym.CHAR, yyline, yycolumn, yytext());        }
+<YYINITIAL> {STRING}          {return new Symbol(sym.STRING, yyline, yycolumn, yytext());      }
+<YYINITIAL> {IF}              {return new Symbol(sym.IF, yyline, yycolumn, yytext());          }
+<YYINITIAL> {ELSE}            {return new Symbol(sym.ELSE, yyline, yycolumn, yytext());        }
+<YYINITIAL> {MATCH}           {return new Symbol(sym.MATCH, yyline, yycolumn, yytext());       }
+<YYINITIAL> {WHILE}           {return new Symbol(sym.WHILE, yyline, yycolumn, yytext());       }
+<YYINITIAL> {FOR}             {return new Symbol(sym.FOR, yyline, yycolumn, yytext());         }
+<YYINITIAL> {DO}              {return new Symbol(sym.DO, yyline, yycolumn, yytext());          }
+<YYINITIAL> {BREAK}           {return new Symbol(sym.BREAK, yyline, yycolumn, yytext());       }
+<YYINITIAL> {CONTINUE}        {return new Symbol(sym.CONTINUE, yyline, yycolumn, yytext());    }
+<YYINITIAL> {BOOLEANO}        {return new Symbol(sym.BOOLEANO, yyline, yycolumn, yytext());    }
 <YYINITIAL> {MUTABILIDAD}     {return new Symbol(sym.MUTABILIDAD, yyline, yycolumn, yytext()); }
 
 //simbolos del sistema

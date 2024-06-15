@@ -36,18 +36,16 @@ public class IfElseIf extends Instruccion {
         }
 
         var newTabla = new tablaSimbolos(tabla);
-        newTabla.setNombre(tabla.getNombre()+ " ELSE IF (linea: " + this.linea + ")");
+        newTabla.setNombre(tabla.getNombre() + " ELSE IF (linea: " + this.linea + ")");
 
         if ((boolean) cond) {
             for (var i : this.instrucciones) {
                 var resultado = i.interpretar(arbol, newTabla);
                 if (resultado instanceof Errores) {
-                    if (resultado instanceof Errores) {
-                        return new Errores("SEMANTICO", "Instrucciones dentro de este else if, no son validas", this.linea, this.columna);
-                    }
+                    return new Errores("SEMANTICO", "Instrucciones dentro de este else if, no son validas", this.linea,
+                            this.columna);
                 }
             }
-            //newTabla.setTablaAnterior(tabla);//mandandole la tabla anterior
         } else if (elseIf != null) {
             var resultado = elseIf.interpretar(arbol, tabla);
             if (resultado instanceof Errores) {

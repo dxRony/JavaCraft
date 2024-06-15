@@ -18,6 +18,8 @@ import olc1_vj24_3363565520917.backend.instrucciones.IfElseIf;
 import olc1_vj24_3363565520917.backend.instrucciones.Caso;
 import olc1_vj24_3363565520917.backend.instrucciones.Match;
 import olc1_vj24_3363565520917.backend.instrucciones.For;
+import olc1_vj24_3363565520917.backend.instrucciones.While;
+import olc1_vj24_3363565520917.backend.instrucciones.DoWhile;
 
 //expresiones
 import olc1_vj24_3363565520917.backend.expresiones.Nativo;
@@ -55,8 +57,8 @@ action code
                                                                        
 terminal String CADENA, ENTERO, DECIMAL, CARACTER, BOOLEANO, ID, MUTABILIDAD;
 terminal FININSTRUCCION, IMPRIMIR, MAS, MENOS, MULTIPLICAR, DIVIDIR, PAR1, PAR2, UMENOS, INT, DOUBLE, BOOL;
-terminal CHAR, STRING, IF, ELSE, MATCH, WHILE, FOR, DO, BREAK, IGUALACION, POTENCIA, DIFERENCIACION, MENORIGUALQUE, MAYORIGUALQUE;
-terminal OR, AND, XOR, NOT, INCREMENTO, DECREMENTO, IGUAL, MODULO, DEFAULT, MENORQUE, MAYORQUE, DOSPUNTOS;
+terminal CHAR, STRING, IF, ELSE, MATCH, WHILE, FOR, DO, BREAK, IGUALACION, POTENCIA, DIFERENCIACION, MENORIGUALQUE;
+terminal MAYORIGUALQUE, OR, AND, XOR, NOT, INCREMENTO, DECREMENTO, IGUAL, MODULO, DEFAULT, MENORQUE, MAYORQUE, DOSPUNTOS, CONTINUE;
 terminal LLAVE1, LLAVE2; 
 
 nonterminal LinkedList<Instruccion> INICIO, INSTRUCCIONES;
@@ -65,6 +67,8 @@ nonterminal Instruccion EXPRESION, DECLARACION, ASIGNACION, IMPRESION;
 nonterminal Instruccion SIF;
 nonterminal Instruccion SMATCH;
 nonterminal Instruccion CFOR, ACTUALIZA_FOR;
+nonterminal Instruccion CWHILE;
+nonterminal Instruccion CDOWHILE;
 nonterminal LinkedList<Caso> CASOS;
 nonterminal Caso CASO;
 nonterminal Tipo TIPOS;
@@ -88,12 +92,14 @@ INSTRUCCIONES ::= INSTRUCCIONES:a INSTRUCCION:b   {:  RESULT = a; RESULT.add(b);
                 | INSTRUCCION:a                   {:  RESULT = new LinkedList<>(); RESULT.add(a);    :}
 ;
 
-INSTRUCCION ::= IMPRESION:a                       {:  RESULT=a;    :}
-            | DECLARACION:a                       {:  RESULT=a;    :}
-            | ASIGNACION:a                        {:  RESULT=a;    :}
-            | SIF:a                               {:  RESULT=a;    :}
-            | CFOR:a                              {:  RESULT=a;    :}
-            | SMATCH:a                            {:  RESULT=a;    :}
+INSTRUCCION ::= IMPRESION:a                       {:    RESULT=a;    :}
+            | DECLARACION:a                       {:    RESULT=a;    :}
+            | ASIGNACION:a                        {:    RESULT=a;    :}
+            | SIF:a                               {:    RESULT=a;    :}
+            | CFOR:a                              {:    RESULT=a;    :}
+            | SMATCH:a                            {:    RESULT=a;    :}
+            | CWHILE:a                            {:    RESULT=a;    :}
+            | CDOWHILE:a                          {:    RESULT=a;    :}
             | error FININSTRUCCION
             | error        
 ;
@@ -124,8 +130,15 @@ ACTUALIZA_FOR ::= ID:a IGUAL EXPRESION:b      {:  RESULT = new AsignacionVar(a, 
                 | EXPRESION:a DECREMENTO      {:  RESULT = new Decremento(aleft, aright, a);          :}
 ;
 
+CWHILE ::= WHILE PAR1 EXPRESION:a PAR2 LLAVE1 INSTRUCCIONES:b LLAVE2    {:  RESULT = new While(aleft, aright, a, b);   :}
+;
+
+CDOWHILE ::= DO LLAVE1 INSTRUCCIONES:a LLAVE2 WHILE PAR1 EXPRESION:b PAR2 FININSTRUCCION 
+{:    RESULT = new DoWhile(aleft, aright, a, b);   :}
+;
+
 SMATCH ::= MATCH EXPRESION:a LLAVE1 CASOS:b DEFAULT:c LLAVE2 {:     RESULT = new Match(aleft, aright, a, b, (Caso) c);       :} //cuando hay un match completo
-        |  MATCH EXPRESION:a LLAVE1 CASOS:b LLAVE2           {:     RESULT = new Match(aleft, aright, a, b, null);    :} //cuando hay un match solo con casos
+        |  MATCH EXPRESION:a LLAVE1 CASOS:b LLAVE2           {:     RESULT = new Match(aleft, aright, a, b, null);           :} //cuando hay un match solo con casos
         |  MATCH EXPRESION:a LLAVE1 DEFAULT:c LLAVE2         {:     RESULT = new Match(aleft, aright, a, new LinkedList<Caso>(), (Caso) c);       :} //cuando hay un match solo con default
 ;
 

@@ -44,7 +44,7 @@ public class Caso extends Instruccion {
         for (var instruccion : this.instrucciones) {
             var resultado = instruccion.interpretar(arbol, newTabla);
             if (resultado instanceof Errores) {
-                return new Errores("SEMANTICO", "Instrucciones dentro de este if, no son validas", this.linea, this.columna) != null;            }
+                return new Errores("SEMANTICO", "Instrucciones dentro de este match, no son validas", this.linea, this.columna) != null;            }
         }
         return true;
     }

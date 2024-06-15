@@ -31,15 +31,14 @@ public class IfElse extends Instruccion {
             return cond;
         }
         var newTabla = new tablaSimbolos(tabla);
-        newTabla.setNombre(tabla.getNombre()+ " IF ElSE (linea: " + this.linea + ")");
+        newTabla.setNombre(tabla.getNombre() + " IF ElSE (linea: " + this.linea + ")");
 
         if ((boolean) cond) {
             for (var i : this.instruccionesA) {
                 var resultado = i.interpretar(arbol, newTabla);
                 if (resultado instanceof Errores) {
-                    if (resultado instanceof Errores) {
-                        return new Errores("SEMANTICO", "Instrucciones dentro de este if, no son validas", this.linea, this.columna);
-                    }
+                    return new Errores("SEMANTICO", "Instrucciones dentro de este if, no son validas", this.linea,
+                            this.columna);
                 }
             }
         } else {
@@ -47,7 +46,8 @@ public class IfElse extends Instruccion {
                 var resultado = i.interpretar(arbol, newTabla);
                 if (resultado instanceof Errores) {
                     if (resultado instanceof Errores) {
-                        return new Errores("SEMANTICO", "Instrucciones dentro de este else, no son validas", this.linea, this.columna);
+                        return new Errores("SEMANTICO", "Instrucciones dentro de este else, no son validas", this.linea,
+                                this.columna);
                     }
                 }
             }

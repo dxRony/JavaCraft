@@ -14,12 +14,13 @@ public class sym {
   public static final int MULTIPLICAR = 13;
   public static final int CHAR = 21;
   public static final int IGUALACION = 30;
-  public static final int LLAVE2 = 48;
-  public static final int LLAVE1 = 47;
+  public static final int LLAVE2 = 49;
+  public static final int LLAVE1 = 48;
   public static final int IMPRIMIR = 10;
   public static final int ENTERO = 3;
   public static final int XOR = 37;
   public static final int DOUBLE = 19;
+  public static final int CONTINUE = 47;
   public static final int INT = 18;
   public static final int FOR = 27;
   public static final int MATCH = 25;
@@ -105,6 +106,7 @@ public class sym {
   "MENORQUE",
   "MAYORQUE",
   "DOSPUNTOS",
+  "CONTINUE",
   "LLAVE1",
   "LLAVE2"
   };
