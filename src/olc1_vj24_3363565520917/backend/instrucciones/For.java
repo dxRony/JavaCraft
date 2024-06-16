@@ -76,6 +76,7 @@ public class For extends Instruccion {
             if (act instanceof Errores) {
                 return act;
             }
+            arbol.agregarSimbolos(newTabla2.obtenerSimbolos());
         }
 
         return null;

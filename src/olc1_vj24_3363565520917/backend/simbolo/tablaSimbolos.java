@@ -1,11 +1,12 @@
 package olc1_vj24_3363565520917.backend.simbolo;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 
 public class tablaSimbolos {
 
     private tablaSimbolos tablaAnterior;
-    private HashMap<String, Object> tablaActual;
+    private HashMap<String, Simbolo> tablaActual;
     private String nombre;
 
     public tablaSimbolos() {
@@ -27,11 +28,11 @@ public class tablaSimbolos {
         this.tablaAnterior = tablaAnterior;
     }
 
-    public HashMap<String, Object> getTablaActual() {
+    public HashMap<String, Simbolo> getTablaActual() {
         return tablaActual;
     }
 
-    public void setTablaActual(HashMap<String, Object> tablaActual) {
+    public void setTablaActual(HashMap<String, Simbolo> tablaActual) {
         this.tablaActual = tablaActual;
     }
 
@@ -64,5 +65,13 @@ public class tablaSimbolos {
             }
         }
         return null;
+    }
+
+    public LinkedList<Simbolo> obtenerSimbolos() {
+        LinkedList<Simbolo> listaSimbolos = new LinkedList<>();
+        for (Simbolo simbolo : tablaActual.values()) {
+            listaSimbolos.add(simbolo);
+        }
+        return listaSimbolos;
     }
 }

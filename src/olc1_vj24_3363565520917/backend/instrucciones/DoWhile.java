@@ -48,8 +48,8 @@ public class DoWhile extends Instruccion {
                             this.columna);
                 }
             }
+            arbol.agregarSimbolos(newTabla.obtenerSimbolos());
         } while ((boolean) this.condicion.interpretar(arbol, tabla));
-
         return null;
     }
 

@@ -11,12 +11,14 @@ public class Arbol {
     private String consola;
     private tablaSimbolos tablaGlobal;
     public LinkedList<Errores> errores;
+    public LinkedList<Simbolo> simbolos;
 
     public Arbol(LinkedList<Instruccion> instrucciones) {
         this.instrucciones = instrucciones;
         this.consola = "";
         this.tablaGlobal = new tablaSimbolos();
         this.errores = new LinkedList<>();
+        this.simbolos = new LinkedList<>();
     }
 
     public LinkedList<Instruccion> getInstrucciones() {
@@ -53,6 +55,18 @@ public class Arbol {
 
     public void Print(String valor) {// print es una instruccion
         this.consola += valor + "\n";
+    }
+
+    public LinkedList<Simbolo> getSimbolos() {
+        return simbolos;
+    }
+
+    public void setSimbolos(LinkedList<Simbolo> simbolos) {
+        this.simbolos = simbolos;
+    }
+
+    public void agregarSimbolos(LinkedList<Simbolo> nuevoSimbolo){
+        this.simbolos.addAll(nuevoSimbolo);
     }
 
 }

@@ -48,6 +48,7 @@ public class While extends Instruccion {
                     return new Errores("SEMANTICO", "Instrucciones dentro de este while, no son validas", this.linea, this.columna);
                 } 
             }
+            arbol.agregarSimbolos(newTabla.obtenerSimbolos());
         }
         return null;
     }

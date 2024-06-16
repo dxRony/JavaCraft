@@ -46,11 +46,13 @@ public class IfElseIf extends Instruccion {
                             this.columna);
                 }
             }
+            arbol.agregarSimbolos(newTabla.obtenerSimbolos());
         } else if (elseIf != null) {
             var resultado = elseIf.interpretar(arbol, tabla);
             if (resultado instanceof Errores) {
                 arbol.errores.add((Errores) resultado);
             }
+            arbol.agregarSimbolos(newTabla.obtenerSimbolos());
         }
         return null;
     }

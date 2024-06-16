@@ -41,6 +41,7 @@ public class IfElse extends Instruccion {
                             this.columna);
                 }
             }
+            arbol.agregarSimbolos(newTabla.obtenerSimbolos());
         } else {
             for (var i : this.instruccionesB) {
                 var resultado = i.interpretar(arbol, newTabla);
@@ -51,6 +52,7 @@ public class IfElse extends Instruccion {
                     }
                 }
             }
+            arbol.agregarSimbolos(newTabla.obtenerSimbolos());
         }
         return null;
     }

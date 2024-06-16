@@ -46,6 +46,7 @@ public class Caso extends Instruccion {
             if (resultado instanceof Errores) {
                 return new Errores("SEMANTICO", "Instrucciones dentro de este match, no son validas", this.linea, this.columna) != null;            }
         }
+        arbol.agregarSimbolos(newTabla.obtenerSimbolos());
         return true;
     }
 

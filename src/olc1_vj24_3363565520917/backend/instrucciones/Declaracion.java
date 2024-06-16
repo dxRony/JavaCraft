@@ -30,7 +30,7 @@ public class Declaracion extends Instruccion {
 
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
-        // interpretando la expresion, para saber el tipo    
+        // interpretando la expresion, para saber el tipo
         if (this.valor == null) {
             asignarValorPorDefecto();
         }
@@ -52,8 +52,8 @@ public class Declaracion extends Instruccion {
             return new Errores("SEMANTICO", "Tipos erroneos", this.linea, this.columna);
         }
 
-        Simbolo s = new Simbolo(this.tipo, this.identificador, valorInterpretado, mutabilidadBool);// creando el simbolo
-
+        Simbolo s = new Simbolo(this.identificador, this.tipo, true, tabla.getNombre(), valorInterpretado,
+                mutabilidadBool, this.linea, this.columna);
         boolean creacion = tabla.setVaribale(s);// mandando el simbolo a la tabla
 
         if (!creacion) {// viendo si se creo el simbolo
@@ -79,6 +79,9 @@ public class Declaracion extends Instruccion {
             }
             case CADENA -> {
                 this.valor = new Nativo(new Tipo(tipoDato.CADENA), this.linea, this.columna, "");
+            }
+            default -> {
+
             }
         }
     }

@@ -33,18 +33,19 @@ public class If extends Instruccion {
         }
 
         var newTabla = new tablaSimbolos(tabla);// creando tabla que contiene una tabla anterior de la que nos dan
-        newTabla.setNombre(tabla.getNombre()+ " IF (linea: " + this.linea + ")");        
-        
+        newTabla.setNombre(tabla.getNombre() + " IF (linea: " + this.linea + ")");
+
         if ((boolean) cond) {
             for (var i : this.instrucciones) {// recorriendo las instrucciones de adentro del bloque
                 var resultado = i.interpretar(arbol, newTabla);// le mandamos la tabla del bloque y que la interprete
                 if (resultado instanceof Errores) {
-                    return new Errores("SEMANTICO", "Instrucciones dentro de este if, no son validas", this.linea, this.columna);
-                }                
+                    return new Errores("SEMANTICO", "Instrucciones dentro de este if, no son validas", this.linea,
+                            this.columna);
+                }
             }
+            arbol.agregarSimbolos(newTabla.obtenerSimbolos());
         }
-        newTabla.setTablaAnterior(tabla);
-        
+
         return null;
     }
 }
