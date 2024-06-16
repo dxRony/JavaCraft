@@ -54,7 +54,7 @@ public class DoWhile extends Instruccion {
                 }
             }
             arbol.agregarSimbolos(newTabla.obtenerSimbolos());
-        } while (this.condicion.interpretar(arbol, tabla).equals("true"));
+        } while ((boolean) this.condicion.interpretar(arbol, tabla));
         return null;
     }
 

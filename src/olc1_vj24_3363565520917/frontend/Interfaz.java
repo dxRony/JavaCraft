@@ -26,7 +26,7 @@ import olc1_vj24_3363565520917.backend.simbolo.tablaSimbolos;
  * @author romar
  */
 public class Interfaz extends javax.swing.JFrame {
-
+    
     private Archivo archivo;
     private LinkedList<Errores> listaErrores;
     private LinkedList<Simbolo> listaSimbolos;
@@ -221,14 +221,14 @@ public class Interfaz extends javax.swing.JFrame {
         model.addColumn("Descripcion");
         model.addColumn("Linea");
         model.addColumn("Columna");
-
+        
         for (Errores error : listaErrores) {
             numero++;
-            model.addRow(new Object[] { numero,
-                    error.getTipo(),
-                    error.getDescripcion(),
-                    error.getLinea(),
-                    error.getColumna() });
+            model.addRow(new Object[]{numero,
+                error.getTipo(),
+                error.getDescripcion(),
+                error.getLinea(),
+                error.getColumna()});
         }
         JTable tablaErrores = new JTable(model);
         JScrollPane sP = new JScrollPane(tablaErrores);
@@ -238,7 +238,7 @@ public class Interfaz extends javax.swing.JFrame {
         frameErrores.pack();
         frameErrores.setVisible(true);
         frameErrores.setExtendedState(JFrame.MAXIMIZED_BOTH);
-
+        
     }// GEN-LAST:event_btnTablaErroresActionPerformed
 
     private void btnTablaSimbolosActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnTablaSimbolosActionPerformed
@@ -253,7 +253,7 @@ public class Interfaz extends javax.swing.JFrame {
         model.addColumn("Valor");
         model.addColumn("Linea");
         model.addColumn("Columna");
-
+        
         for (Simbolo simbolo : listaSimbolos) {
             String tipo1 = "";
             if (simbolo.isEsVariable()) {
@@ -262,27 +262,27 @@ public class Interfaz extends javax.swing.JFrame {
                 tipo1 = "arreglo";
             }
             numero++;
-            model.addRow(new Object[] {
-                    numero,
-                    simbolo.getId(),
-                    tipo1, 
-                    simbolo.getTipo().getTipo(),
-                    simbolo.getEntorno(),
-                    simbolo.getValor(),
-                    simbolo.getLinea(),
-                    simbolo.getColumna() });
+            model.addRow(new Object[]{
+                numero,
+                simbolo.getId(),
+                tipo1,
+                simbolo.getTipo().getTipo(),
+                simbolo.getEntorno(),
+                simbolo.getValor(),
+                simbolo.getLinea(),
+                simbolo.getColumna()});
         }
-
+        
         JTable tablaSimbolos = new JTable(model);
         JScrollPane sP = new JScrollPane(tablaSimbolos);
-
+        
         JFrame frameErrores = new JFrame("Tabla de Simbolos");
         frameErrores.setLayout(new BorderLayout());
         frameErrores.add(sP, BorderLayout.CENTER);
         frameErrores.pack();
         frameErrores.setVisible(true);
         frameErrores.setExtendedState(JFrame.MAXIMIZED_BOTH);
-
+        
     }// GEN-LAST:event_btnTablaSimbolosActionPerformed
 
     private void btnASTActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnASTActionPerformed
@@ -294,28 +294,32 @@ public class Interfaz extends javax.swing.JFrame {
         // el breakpoint va en declaracion ast
         try {
             listaErrores.clear();
-            //listaSimbolos.clear();
+            if (this.listaSimbolos != null) {
+                listaSimbolos.clear();
+            }
+            
+            txtAreaConsola.setText("");
             
             String texto = archivo.obtenerTextoPestanaActual(pnlEntrada); // obteniendo texto del text area
             String erroresConsola = "";
-
+            
             scanner s = new scanner(new BufferedReader(new StringReader(texto)));
             parser p = new parser(s);
             var resultado = p.parse();
             var ast = new Arbol((LinkedList<Instruccion>) resultado.value);
-
+            
             var tabla = new tablaSimbolos();// creando tabla global
 
             tabla.setNombre("GLOBAL");
             ast.setConsola("");
-
+            
             listaErrores.addAll(s.listaErrores);
             listaErrores.addAll(p.listaErrores);
             for (var a : ast.getInstrucciones()) {
                 if (a == null) {
                     continue;
                 }
-
+                
                 var res = a.interpretar(ast, tabla);
                 if (res instanceof Errores) {
                     listaErrores.add((Errores) res);
@@ -333,7 +337,7 @@ public class Interfaz extends javax.swing.JFrame {
             System.out.println("Algo salio mal...");
             System.out.println(e);
         }
-
+        
     }// GEN-LAST:event_btnEjecutarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -197,6 +197,6 @@ EXPRESION ::= MENOS EXPRESION:a                       {:  RESULT = new Aritmetic
             | DECIMAL:a                               {:  RESULT = new Nativo(new Tipo(tipoDato.DECIMAL), aleft, aright, new Double(a));         :}
             | CADENA:a                                {:  RESULT = new Nativo(new Tipo(tipoDato.CADENA), aleft, aright, a);                      :}
             | CARACTER:a                              {:  RESULT = new Nativo(new Tipo(tipoDato.CARACTER), aleft, aright, a);                    :}
-            | BOOLEANO:a                              {:  RESULT = new Nativo(new Tipo(tipoDato.BOOLEANO), aleft, aright, a);                    :}
+            | BOOLEANO:a                              {:  RESULT = new Nativo(new Tipo(tipoDato.BOOLEANO), aleft, aright, Boolean.parseBoolean(a));                    :}
             | ID:a                                    {:  RESULT = new AccesoVar(aleft, aright, a);                                              :}            
 ;
