@@ -17,7 +17,7 @@ import olc1_vj24_3363565520917.backend.simbolo.tipoDato;
      *                  asignacion -> i = i + 1
      * instrucciones
      * 
-     */
+ */
 public class For extends Instruccion {
 
     private Instruccion asignacion;
@@ -57,11 +57,10 @@ public class For extends Instruccion {
             return new Errores("SEMANTICO", "La condicion no es bool", this.linea, this.columna);
         }
 
-        var newTabla2 = new tablaSimbolos(newTabla);
-        newTabla2.setNombre(newTabla.getNombre() + " INS FOR (linea: " + this.linea + ")");
         while ((boolean) this.condicion.interpretar(arbol, newTabla)) {// interpretando la condicion hasta que se cumpla
             // creando nuevo entorno
-
+            var newTabla2 = new tablaSimbolos(newTabla);
+            newTabla2.setNombre(newTabla.getNombre() + " INS FOR (linea: " + this.linea + ")");
             for (var i : this.instrucciones) {// si se cumple lo anterior, se ejecutan las instrucciones
                 if (i instanceof Break) {
                     return null;
@@ -81,9 +80,9 @@ public class For extends Instruccion {
             if (act instanceof Errores) {
                 return act;
             }
-
+            arbol.agregarSimbolos(newTabla2.obtenerSimbolos());
         }
-        arbol.agregarSimbolos(newTabla2.obtenerSimbolos());
+
         return null;
     }
 

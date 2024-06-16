@@ -37,10 +37,9 @@ public class DoWhile extends Instruccion {
             return new Errores("SEMANTICO", "La condicion no es bool", this.linea, this.columna);
         }
 
-        var newTabla = new tablaSimbolos(tabla);
-        newTabla.setNombre(tabla.getNombre() + " WHILE (linea: " + this.linea + ")");
         do {
-
+            var newTabla = new tablaSimbolos(tabla);
+            newTabla.setNombre(tabla.getNombre() + " WHILE (linea: " + this.linea + ")");
             for (var i : this.instrucciones) {// ejecutando lista de instrucciones
                 if (i instanceof Break) {
                     return null;
@@ -55,7 +54,7 @@ public class DoWhile extends Instruccion {
                 }
             }
             arbol.agregarSimbolos(newTabla.obtenerSimbolos());
-        } while ((boolean) this.condicion.interpretar(arbol, tabla));
+        } while (this.condicion.interpretar(arbol, tabla).equals("true"));
         return null;
     }
 

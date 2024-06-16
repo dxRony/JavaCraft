@@ -52,7 +52,7 @@ CADENA = [\"]([^\"])*[\"]
 CARACTER = [\']([^\']){1}[\']
 BOOLEANO = "true"|"false"
 MUTABILIDAD = "var"|"const"
-ID = [a-z]+
+ID = [A-za-z]+[0-9]*
 
 //comentarios
 COMENTARIOLINEA = "//"[^\n]*

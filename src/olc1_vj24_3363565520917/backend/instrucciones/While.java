@@ -12,7 +12,7 @@ import olc1_vj24_3363565520917.backend.simbolo.tipoDato;
 /*
     * Condicion -> expresion 
     * Intrucciones
-*/
+ */
 public class While extends Instruccion {
 
     private Instruccion condicion;
@@ -36,11 +36,11 @@ public class While extends Instruccion {
         if (this.condicion.tipo.getTipo() != tipoDato.BOOLEANO) {
             return new Errores("SEMANTICO", "La condicion no es bool", this.linea, this.columna);
         }
-        var newTabla = new tablaSimbolos(tabla);
-        newTabla.setNombre(tabla.getNombre() + " WHILE (linea: " + this.linea + ")");
+
         while ((boolean) this.condicion.interpretar(arbol, tabla)) {
             // creando el entorno para el while
-
+            var newTabla = new tablaSimbolos(tabla);
+            newTabla.setNombre(tabla.getNombre() + " WHILE (linea: " + this.linea + ")");
             for (var i : this.instrucciones) {// ejecutando lista de instrucciones
                 if (i instanceof Break) {
                     return null;

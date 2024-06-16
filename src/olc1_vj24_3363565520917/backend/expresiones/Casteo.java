@@ -33,7 +33,7 @@ public class Casteo extends Instruccion {
                 return castearADecimal(valor);
             }
             case CARACTER -> {
-                return castearCaracter(valor);
+                return castearACaracter(valor);
             }
             default -> {
                 return new Errores("SEMANTICO", "No se puede castear este tipo de dato", this.linea, this.columna);
@@ -42,36 +42,58 @@ public class Casteo extends Instruccion {
     }
 
     public Object castearAEntero(Object valor) {
+        System.out.println("casteando a entero");
+        System.out.println("valor = " + valor.getClass());
+        
         if (valor instanceof Integer) {
             return valor;
 
         } else if (valor instanceof Double) {
             return ((Double) valor).intValue();
 
-        } else if (valor instanceof Character) {
-            return (int) ((char) valor);
-
+        } else if (valor instanceof String) {
+            String valorString = (String) valor;
+             int valorEntero = Integer.parseInt(valorString);
+            return (int) (valorEntero);  
+            
         } else {
             return new Errores("SEMANTICO", "No se puede castear este tipo de dato", this.linea, this.columna);
         }
     }
 
     public Object castearADecimal(Object valor) {
+        System.out.println("casteando a decimal");
+        System.out.println("valor = " + valor.getClass());
 
         if (valor instanceof Integer) {
             return ((Integer) valor).doubleValue();
         } else if (valor instanceof Double) {
             return valor;
-        } else {
+        } else if (valor instanceof String) {
+            String valorString = (String) valor;
+             char caracter = (valorString).charAt(0);
+             int valorEntero = (int) caracter;
+             double valorDouble = (double) valorEntero;
+            return (double) (valorDouble);  
+        }
+        else {
             return new Errores("SEMANTICO", "No se puede castear este tipo de dato", this.linea, this.columna);
         }
     }
 
-    public Object castearCaracter(Object valor) {
-
+    public Object castearACaracter(Object valor) {
+        System.out.println("casteando a  caracter");
+        System.out.println("valor = " + valor);
         if (valor instanceof Integer) {
-            return (char) ((int) valor);
+            int valorEntero = (int) valor;
+            System.out.println("valorEntero = " + valorEntero);
+            char caracterFinal = (char) valorEntero;
+            System.out.println("caracterFinal = " + caracterFinal);
+            String stringCaracter = ""+ caracterFinal;
+            return stringCaracter;
+            
         } else if (valor instanceof Double) {
+            
             return (char) ((double) valor);
         } else if (valor instanceof Character) {
             return valor;
