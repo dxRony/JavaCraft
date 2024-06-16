@@ -26,7 +26,7 @@ public class While extends Instruccion {
 
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
-        //validar la condicion booleana
+        // validar la condicion booleana
         var cond = this.condicion.interpretar(arbol, tabla);
 
         if (cond instanceof Errores) {
@@ -36,25 +36,27 @@ public class While extends Instruccion {
         if (this.condicion.tipo.getTipo() != tipoDato.BOOLEANO) {
             return new Errores("SEMANTICO", "La condicion no es bool", this.linea, this.columna);
         }
-
+        var newTabla = new tablaSimbolos(tabla);
+        newTabla.setNombre(tabla.getNombre() + " WHILE (linea: " + this.linea + ")");
         while ((boolean) this.condicion.interpretar(arbol, tabla)) {
-            //creando el entorno para el while
-            var newTabla = new tablaSimbolos(tabla);
-            newTabla.setNombre(tabla.getNombre() + " WHILE (linea: " + this.linea + ")");
-            
-            for (var i : this.instrucciones) {//ejecutando lista de instrucciones 
-                var resIns = i.interpretar(arbol, newTabla);
-                if (resIns instanceof Errores) {
-                    return new Errores("SEMANTICO", "Instrucciones dentro de este while, no son validas", this.linea, this.columna);
-                } 
+            // creando el entorno para el while
+
+            for (var i : this.instrucciones) {// ejecutando lista de instrucciones
+                if (i instanceof Break) {
+                    return null;
+                }
+                var res = i.interpretar(arbol, newTabla);
+                if (res instanceof Break) {
+                    return null;
+                }
+                if (res instanceof Errores) {
+                    return new Errores("SEMANTICO", "Instrucciones dentro de este while, no son validas", this.linea,
+                            this.columna);
+                }
             }
             arbol.agregarSimbolos(newTabla.obtenerSimbolos());
         }
         return null;
     }
 
-    
-
-
-    
 }

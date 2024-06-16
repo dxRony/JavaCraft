@@ -36,11 +36,17 @@ public class IfElseIf extends Instruccion {
         }
 
         var newTabla = new tablaSimbolos(tabla);
-        newTabla.setNombre(tabla.getNombre() + " ELSE IF (linea: " + this.linea + ")");
+        newTabla.setNombre(tabla.getNombre() + " IF ELSE IF (linea: " + this.linea + ")");
 
         if ((boolean) cond) {
             for (var i : this.instrucciones) {
+                if (i instanceof Break) {
+                    return i;
+                }
                 var resultado = i.interpretar(arbol, newTabla);
+                if (resultado instanceof Break) {
+                    return resultado;
+                }
                 if (resultado instanceof Errores) {
                     return new Errores("SEMANTICO", "Instrucciones dentro de este else if, no son validas", this.linea,
                             this.columna);
@@ -49,6 +55,9 @@ public class IfElseIf extends Instruccion {
             arbol.agregarSimbolos(newTabla.obtenerSimbolos());
         } else if (elseIf != null) {
             var resultado = elseIf.interpretar(arbol, tabla);
+            if (resultado instanceof Break) {
+                return resultado;
+            }
             if (resultado instanceof Errores) {
                 arbol.errores.add((Errores) resultado);
             }

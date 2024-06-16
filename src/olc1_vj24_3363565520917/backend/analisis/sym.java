@@ -8,53 +8,53 @@ package olc1_vj24_3363565520917.backend.analisis;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int DOSPUNTOS = 46;
+  public static final int DOSPUNTOS = 45;
   public static final int PAR2 = 16;
   public static final int PAR1 = 15;
   public static final int MULTIPLICAR = 13;
   public static final int CHAR = 21;
-  public static final int IGUALACION = 30;
-  public static final int LLAVE2 = 49;
-  public static final int LLAVE1 = 48;
+  public static final int IGUALACION = 29;
+  public static final int LLAVE2 = 47;
+  public static final int LLAVE1 = 46;
   public static final int IMPRIMIR = 10;
   public static final int ENTERO = 3;
-  public static final int XOR = 37;
+  public static final int XOR = 36;
   public static final int DOUBLE = 19;
-  public static final int CONTINUE = 47;
+  public static final int CONTINUE = 49;
   public static final int INT = 18;
   public static final int FOR = 27;
   public static final int MATCH = 25;
-  public static final int NOT = 38;
-  public static final int AND = 36;
-  public static final int MAYORQUE = 45;
-  public static final int IGUAL = 41;
+  public static final int NOT = 37;
+  public static final int AND = 35;
+  public static final int MAYORQUE = 44;
+  public static final int IGUAL = 40;
   public static final int CARACTER = 5;
-  public static final int OR = 35;
+  public static final int OR = 34;
   public static final int BOOL = 20;
   public static final int MUTABILIDAD = 8;
-  public static final int INCREMENTO = 39;
+  public static final int INCREMENTO = 38;
   public static final int UMENOS = 17;
   public static final int IF = 23;
   public static final int FININSTRUCCION = 9;
   public static final int ID = 7;
   public static final int EOF = 0;
   public static final int DECIMAL = 4;
-  public static final int MAYORIGUALQUE = 34;
-  public static final int DECREMENTO = 40;
+  public static final int MAYORIGUALQUE = 33;
+  public static final int DECREMENTO = 39;
   public static final int error = 1;
   public static final int CADENA = 2;
-  public static final int MODULO = 42;
+  public static final int MODULO = 41;
   public static final int MENOS = 12;
-  public static final int BREAK = 29;
-  public static final int DIFERENCIACION = 32;
-  public static final int MENORQUE = 44;
-  public static final int POTENCIA = 31;
+  public static final int BREAK = 48;
+  public static final int DIFERENCIACION = 31;
+  public static final int MENORQUE = 43;
+  public static final int POTENCIA = 30;
   public static final int ELSE = 24;
   public static final int DIVIDIR = 14;
   public static final int WHILE = 26;
-  public static final int DEFAULT = 43;
+  public static final int DEFAULT = 42;
   public static final int BOOLEANO = 6;
-  public static final int MENORIGUALQUE = 33;
+  public static final int MENORIGUALQUE = 32;
   public static final int STRING = 22;
   public static final int DO = 28;
   public static final int MAS = 11;
@@ -88,7 +88,6 @@ public class sym {
   "WHILE",
   "FOR",
   "DO",
-  "BREAK",
   "IGUALACION",
   "POTENCIA",
   "DIFERENCIACION",
@@ -106,9 +105,10 @@ public class sym {
   "MENORQUE",
   "MAYORQUE",
   "DOSPUNTOS",
-  "CONTINUE",
   "LLAVE1",
-  "LLAVE2"
+  "LLAVE2",
+  "BREAK",
+  "CONTINUE"
   };
 }
 

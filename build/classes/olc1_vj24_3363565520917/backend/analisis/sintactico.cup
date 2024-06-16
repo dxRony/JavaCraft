@@ -20,6 +20,8 @@ import olc1_vj24_3363565520917.backend.instrucciones.Match;
 import olc1_vj24_3363565520917.backend.instrucciones.For;
 import olc1_vj24_3363565520917.backend.instrucciones.While;
 import olc1_vj24_3363565520917.backend.instrucciones.DoWhile;
+import olc1_vj24_3363565520917.backend.instrucciones.Break;
+import olc1_vj24_3363565520917.backend.instrucciones.Continue;
 
 //expresiones
 import olc1_vj24_3363565520917.backend.expresiones.Nativo;
@@ -57,9 +59,10 @@ action code
                                                                        
 terminal String CADENA, ENTERO, DECIMAL, CARACTER, BOOLEANO, ID, MUTABILIDAD;
 terminal FININSTRUCCION, IMPRIMIR, MAS, MENOS, MULTIPLICAR, DIVIDIR, PAR1, PAR2, UMENOS, INT, DOUBLE, BOOL;
-terminal CHAR, STRING, IF, ELSE, MATCH, WHILE, FOR, DO, BREAK, IGUALACION, POTENCIA, DIFERENCIACION, MENORIGUALQUE;
-terminal MAYORIGUALQUE, OR, AND, XOR, NOT, INCREMENTO, DECREMENTO, IGUAL, MODULO, DEFAULT, MENORQUE, MAYORQUE, DOSPUNTOS, CONTINUE;
+terminal CHAR, STRING, IF, ELSE, MATCH, WHILE, FOR, DO, IGUALACION, POTENCIA, DIFERENCIACION, MENORIGUALQUE;
+terminal MAYORIGUALQUE, OR, AND, XOR, NOT, INCREMENTO, DECREMENTO, IGUAL, MODULO, DEFAULT, MENORQUE, MAYORQUE, DOSPUNTOS;
 terminal LLAVE1, LLAVE2; 
+terminal String BREAK, CONTINUE;
 
 nonterminal LinkedList<Instruccion> INICIO, INSTRUCCIONES;
 nonterminal Instruccion INSTRUCCION;
@@ -72,6 +75,7 @@ nonterminal Instruccion CDOWHILE;
 nonterminal LinkedList<Caso> CASOS;
 nonterminal Caso CASO;
 nonterminal Tipo TIPOS;
+nonterminal Instruccion BREAKK, CONTINUEE;
 
 precedence left OR;
 precedence left AND;
@@ -100,6 +104,8 @@ INSTRUCCION ::= IMPRESION:a                       {:    RESULT=a;    :}
             | SMATCH:a                            {:    RESULT=a;    :}
             | CWHILE:a                            {:    RESULT=a;    :}
             | CDOWHILE:a                          {:    RESULT=a;    :}
+            | BREAKK:a                            {:    RESULT=a;    :}
+            | CONTINUEE:a                         {:    RESULT=a;    :}
             | error FININSTRUCCION
             | error        
 ;
@@ -128,6 +134,12 @@ CFOR ::= FOR PAR1 ASIGNACION:a EXPRESION:b FININSTRUCCION ACTUALIZA_FOR:c PAR2 L
 ACTUALIZA_FOR ::= ID:a IGUAL EXPRESION:b      {:  RESULT = new AsignacionVar(a, b, aleft, aright);    :}
                 | EXPRESION:a INCREMENTO      {:  RESULT = new Incremento(aleft, aright, a);          :}
                 | EXPRESION:a DECREMENTO      {:  RESULT = new Decremento(aleft, aright, a);          :}
+;
+
+BREAKK ::= BREAK:a FININSTRUCCION         {:   RESULT = new Break(aleft, aright);   :}
+;
+
+CONTINUEE ::= CONTINUE:a FININSTRUCCION   {:    RESULT = new Continue(aleft, aright);        :}
 ;
 
 CWHILE ::= WHILE PAR1 EXPRESION:a PAR2 LLAVE1 INSTRUCCIONES:b LLAVE2    {:  RESULT = new While(aleft, aright, a, b);   :}

@@ -37,12 +37,18 @@ public class DoWhile extends Instruccion {
             return new Errores("SEMANTICO", "La condicion no es bool", this.linea, this.columna);
         }
 
+        var newTabla = new tablaSimbolos(tabla);
+        newTabla.setNombre(tabla.getNombre() + " WHILE (linea: " + this.linea + ")");
         do {
-            var newTabla = new tablaSimbolos(tabla);
-            newTabla.setNombre(tabla.getNombre() + " WHILE (linea: " + this.linea + ")");
 
             for (var i : this.instrucciones) {// ejecutando lista de instrucciones
+                if (i instanceof Break) {
+                    return null;
+                }
                 var resIns = i.interpretar(arbol, newTabla);
+                if (resIns instanceof Break) {
+                    return null;
+                }
                 if (resIns instanceof Errores) {
                     return new Errores("SEMANTICO", "Instrucciones dentro de este do-while, no son validas", this.linea,
                             this.columna);

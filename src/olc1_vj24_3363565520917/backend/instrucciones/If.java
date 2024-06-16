@@ -37,7 +37,13 @@ public class If extends Instruccion {
 
         if ((boolean) cond) {
             for (var i : this.instrucciones) {// recorriendo las instrucciones de adentro del bloque
+                if (i instanceof Break) {
+                    return i;
+                }
                 var resultado = i.interpretar(arbol, newTabla);// le mandamos la tabla del bloque y que la interprete
+                if (resultado instanceof Break) {
+                    return resultado;
+                }
                 if (resultado instanceof Errores) {
                     return new Errores("SEMANTICO", "Instrucciones dentro de este if, no son validas", this.linea,
                             this.columna);

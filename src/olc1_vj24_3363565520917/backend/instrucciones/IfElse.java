@@ -35,7 +35,13 @@ public class IfElse extends Instruccion {
 
         if ((boolean) cond) {
             for (var i : this.instruccionesA) {
+                if (i instanceof Break) {
+                    return i;
+                }
                 var resultado = i.interpretar(arbol, newTabla);
+                if (resultado instanceof Break) {
+                    return resultado;
+                }
                 if (resultado instanceof Errores) {
                     return new Errores("SEMANTICO", "Instrucciones dentro de este if, no son validas", this.linea,
                             this.columna);
@@ -44,7 +50,13 @@ public class IfElse extends Instruccion {
             arbol.agregarSimbolos(newTabla.obtenerSimbolos());
         } else {
             for (var i : this.instruccionesB) {
+                if (i instanceof Break) {
+                    return i;
+                }
                 var resultado = i.interpretar(arbol, newTabla);
+                if (resultado instanceof Break) {
+                    return resultado;
+                }
                 if (resultado instanceof Errores) {
                     if (resultado instanceof Errores) {
                         return new Errores("SEMANTICO", "Instrucciones dentro de este else, no son validas", this.linea,
