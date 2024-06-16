@@ -294,6 +294,8 @@ public class Interfaz extends javax.swing.JFrame {
         // el breakpoint va en declaracion ast
         try {
             listaErrores.clear();
+            //listaSimbolos.clear();
+            
             String texto = archivo.obtenerTextoPestanaActual(pnlEntrada); // obteniendo texto del text area
             String erroresConsola = "";
 
