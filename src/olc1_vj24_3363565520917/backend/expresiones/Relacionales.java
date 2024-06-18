@@ -330,8 +330,6 @@ public class Relacionales extends Instruccion {
                     case ENTERO -> {
                         String caracterString = (String) op1;
                         char caracter = caracterString.charAt(0);
-                        System.out.println("op1 = " + op1);
-                        System.out.println("op2 = " + op2);
                         return (int) caracter != (int) op2;
                     }
                     case DECIMAL -> {

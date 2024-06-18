@@ -297,7 +297,7 @@ public class Interfaz extends javax.swing.JFrame {
             if (this.listaSimbolos != null) {
                 listaSimbolos.clear();
             }
-            
+          
             txtAreaConsola.setText("");
             
             String texto = archivo.obtenerTextoPestanaActual(pnlEntrada); // obteniendo texto del text area

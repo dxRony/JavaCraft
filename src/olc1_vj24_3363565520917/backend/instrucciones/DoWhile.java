@@ -32,11 +32,9 @@ public class DoWhile extends Instruccion {
         if (cond instanceof Errores) {
             return cond;
         }
-
         if (this.condicion.tipo.getTipo() != tipoDato.BOOLEANO) {
             return new Errores("SEMANTICO", "La condicion no es bool", this.linea, this.columna);
         }
-
         do {
             var newTabla = new tablaSimbolos(tabla);
             newTabla.setNombre(tabla.getNombre() + " WHILE (linea: " + this.linea + ")");
@@ -57,5 +55,4 @@ public class DoWhile extends Instruccion {
         } while ((boolean) this.condicion.interpretar(arbol, tabla));
         return null;
     }
-
 }

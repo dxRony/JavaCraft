@@ -45,18 +45,15 @@ public class For extends Instruccion {
         if (res1 instanceof Errores) {
             return res1;
         }
-
         // validar condicion booleana
         var cond = this.condicion.interpretar(arbol, newTabla);
 
         if (cond instanceof Errores) {
             return cond;
         }
-
         if (this.condicion.tipo.getTipo() != tipoDato.BOOLEANO) {
             return new Errores("SEMANTICO", "La condicion no es bool", this.linea, this.columna);
         }
-
         while ((boolean) this.condicion.interpretar(arbol, newTabla)) {// interpretando la condicion hasta que se cumpla
             // creando nuevo entorno
             var newTabla2 = new tablaSimbolos(newTabla);
@@ -82,8 +79,6 @@ public class For extends Instruccion {
             }
             arbol.agregarSimbolos(newTabla2.obtenerSimbolos());
         }
-
         return null;
     }
-
 }

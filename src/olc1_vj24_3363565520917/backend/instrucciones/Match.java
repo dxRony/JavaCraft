@@ -29,7 +29,6 @@ public class Match extends Instruccion {
         if (valor instanceof Errores) {
             return valor;
         }
-
         for (var caso : casos) {
             var valorCaso = caso.interpretar(arbol, tabla);// interpretando cada caso
 
@@ -41,11 +40,9 @@ public class Match extends Instruccion {
                 return null;
             }
         }
-
         if (casoDefault != null) {//si hay un caso default, se ejecuta
             casoDefault.ejecutarCaso(arbol, tabla);
         }
         return null;
     }
-
 }

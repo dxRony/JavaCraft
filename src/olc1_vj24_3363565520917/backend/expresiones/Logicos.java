@@ -44,10 +44,6 @@ public class Logicos extends Instruccion {
                 return opDer;
             }
         }
-        System.out.println("Unico = " + Unico);
-        System.out.println("opIzq = " + opIzq);
-        System.out.println("opDer = " + opDer);
-        System.out.println("operacion = " + operacion);
         return switch (operacion) {
             case OR ->
                 this.or(opIzq, opDer);
@@ -110,8 +106,6 @@ public class Logicos extends Instruccion {
         } else if (op2.toString().equals("false")) {
             bool2 = false;
         }
-        System.out.println("bool1 = " + bool1);
-        System.out.println("bool2 = " + bool2);
         this.tipo.setTipo(tipoDato.BOOLEANO);
         return bool1 ^ bool2;
     }

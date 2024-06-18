@@ -32,11 +32,9 @@ public class While extends Instruccion {
         if (cond instanceof Errores) {
             return cond;
         }
-
         if (this.condicion.tipo.getTipo() != tipoDato.BOOLEANO) {
             return new Errores("SEMANTICO", "La condicion no es bool", this.linea, this.columna);
         }
-
         while ((boolean) this.condicion.interpretar(arbol, tabla)) {
             // creando el entorno para el while
             var newTabla = new tablaSimbolos(tabla);
@@ -58,5 +56,4 @@ public class While extends Instruccion {
         }
         return null;
     }
-
 }
