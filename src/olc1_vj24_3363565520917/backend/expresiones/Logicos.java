@@ -59,67 +59,23 @@ public class Logicos extends Instruccion {
         };
     }
 
-    public Object or(Object op1, Object op2) {
-        boolean bool1 = true, bool2 = true;
-
-        if (op1.toString().equals("true")) {
-            bool1 = true;
-        } else if (op1.toString().equals("false")) {
-            bool1 = false;
-        }
-        if (op2.toString().equals("true")) {
-            bool2 = true;
-        } else if (op2.toString().equals("false")) {
-            bool2 = false;
-        }
+    public Object or(Object op1, Object op2) {       
         this.tipo.setTipo(tipoDato.BOOLEANO);
-        return bool1 || bool2;
+        return (boolean) op1 || (boolean) op2;
     }
 
-    public Object and(Object op1, Object op2) {
-        boolean bool1 = true, bool2 = true;
-
-        if (op1.toString().equals("true")) {
-            bool1 = true;
-        } else if (op1.toString().equals("false")) {
-            bool1 = false;
-        }
-        if (op2.toString().equals("true")) {
-            bool2 = true;
-        } else if (op2.toString().equals("false")) {
-            bool2 = false;
-        }
+    public Object and(Object op1, Object op2) {       
         this.tipo.setTipo(tipoDato.BOOLEANO);
-        return bool1 && bool2;
+        return (boolean) op1 && (boolean) op2;
     }
 
     public Object xor(Object op1, Object op2) {
-        boolean bool1 = true, bool2 = true;
-
-        if (op1.toString().equals("true")) {
-            bool1 = true;
-        } else if (op1.equals("false")) {
-            bool1 = false;
-        }
-        if (op2.toString().equals("true")) {
-            bool2 = true;
-        } else if (op2.toString().equals("false")) {
-            bool2 = false;
-        }
         this.tipo.setTipo(tipoDato.BOOLEANO);
-        return bool1 ^ bool2;
+        return (boolean) op1 ^ (boolean) op2;
     }
 
-    public Object not(Object op1) {
-        boolean bool = true;
-
-        if (op1.toString().equals("true")) {
-            bool = true;
-        } else if (op1.toString().equals("false")) {
-            bool = false;
-        }
+    public Object not(Object op1) {       
         this.tipo.setTipo(tipoDato.BOOLEANO);
-        return !bool;
+        return !(boolean) op1;
     }
-
 }
