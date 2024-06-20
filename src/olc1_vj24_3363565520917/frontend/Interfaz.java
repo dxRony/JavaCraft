@@ -17,6 +17,9 @@ import olc1_vj24_3363565520917.backend.analisis.parser;
 import olc1_vj24_3363565520917.backend.analisis.scanner;
 import olc1_vj24_3363565520917.backend.archivo.Archivo;
 import olc1_vj24_3363565520917.backend.excepciones.Errores;
+import olc1_vj24_3363565520917.backend.instrucciones.AsignacionVar;
+import olc1_vj24_3363565520917.backend.instrucciones.Declaracion;
+import olc1_vj24_3363565520917.backend.instrucciones.Metodo;
 import olc1_vj24_3363565520917.backend.simbolo.Arbol;
 import olc1_vj24_3363565520917.backend.simbolo.Simbolo;
 import olc1_vj24_3363565520917.backend.simbolo.tablaSimbolos;
@@ -305,26 +308,44 @@ public class Interfaz extends javax.swing.JFrame {
             
             scanner s = new scanner(new BufferedReader(new StringReader(texto)));
             parser p = new parser(s);
-            var resultado = p.parse();
-            var ast = new Arbol((LinkedList<Instruccion>) resultado.value);
             
+            var resultado = p.parse();
+            var ast = new Arbol((LinkedList<Instruccion>) resultado.value);            
             var tabla = new tablaSimbolos();// creando tabla global
 
             tabla.setNombre("GLOBAL");
             ast.setConsola("");
+            ast.setTablaGlobal(tabla);
             
             listaErrores.addAll(s.listaErrores);
             listaErrores.addAll(p.listaErrores);
-            for (var a : ast.getInstrucciones()) {
+
+            //recorrido del arbol            
+            for (var a : ast.getInstrucciones()) {//1ra vuelta
+                if (a == null) {
+                    continue;
+                }            
+                if (a instanceof Metodo) {
+                    ast.addFunciones(a);
+                }
+                //en esta vuelta se añaden metodos, funciones y structs            
+            }
+
+            for (var a : ast.getInstrucciones()) {//2da vuelta
                 if (a == null) {
                     continue;
                 }
                 
-                var res = a.interpretar(ast, tabla);
-                if (res instanceof Errores) {
+                if (a instanceof Declaracion || a instanceof AsignacionVar) {
+                   var res = a.interpretar(ast, tabla);
+                   if (res instanceof Errores) {
                     listaErrores.add((Errores) res);
+                   }
                 }
+                //esta vuelta es para declaraciones, asignaciones y otros             
             }
+
+            //en la 3ra vuelta del arbol se busca el start_with
             ast.agregarSimbolos(tabla.obtenerSimbolos());
             listaSimbolos = ast.getSimbolos();
             txtAreaConsola.setText(ast.getConsola() + "\n\n\n\n\n\n\n");

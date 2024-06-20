@@ -14,18 +14,21 @@ public class sym {
   public static final int MULTIPLICAR = 13;
   public static final int CHAR = 21;
   public static final int IGUALACION = 29;
+  public static final int FIND = 62;
+  public static final int REMOVE = 55;
   public static final int LLAVE2 = 47;
   public static final int LLAVE1 = 46;
   public static final int IMPRIMIR = 10;
   public static final int ENTERO = 3;
   public static final int XOR = 36;
   public static final int DOUBLE = 19;
-  public static final int CONTINUE = 49;
+  public static final int CONTINUE = 65;
   public static final int INT = 18;
   public static final int FOR = 27;
   public static final int MATCH = 25;
   public static final int NOT = 37;
   public static final int AND = 35;
+  public static final int APPEND = 54;
   public static final int MAYORQUE = 44;
   public static final int IGUAL = 40;
   public static final int CARACTER = 5;
@@ -39,23 +42,36 @@ public class sym {
   public static final int ID = 7;
   public static final int EOF = 0;
   public static final int DECIMAL = 4;
+  public static final int RETURN = 57;
+  public static final int STARTWITH = 63;
   public static final int MAYORIGUALQUE = 33;
+  public static final int NEW = 53;
   public static final int DECREMENTO = 39;
   public static final int error = 1;
+  public static final int COMA = 51;
   public static final int CADENA = 2;
   public static final int MODULO = 41;
   public static final int MENOS = 12;
-  public static final int BREAK = 48;
+  public static final int BREAK = 64;
+  public static final int TOSTRING = 61;
+  public static final int VOID = 58;
   public static final int DIFERENCIACION = 31;
   public static final int MENORQUE = 43;
   public static final int POTENCIA = 30;
   public static final int ELSE = 24;
+  public static final int PUNTO = 50;
   public static final int DIVIDIR = 14;
   public static final int WHILE = 26;
+  public static final int LIST = 52;
   public static final int DEFAULT = 42;
+  public static final int CORCH2 = 49;
+  public static final int CORCH1 = 48;
   public static final int BOOLEANO = 6;
   public static final int MENORIGUALQUE = 32;
   public static final int STRING = 22;
+  public static final int STRUCT = 56;
+  public static final int LENGTH = 60;
+  public static final int ROUND = 59;
   public static final int DO = 28;
   public static final int MAS = 11;
   public static final String[] terminalNames = new String[] {
@@ -107,6 +123,22 @@ public class sym {
   "DOSPUNTOS",
   "LLAVE1",
   "LLAVE2",
+  "CORCH1",
+  "CORCH2",
+  "PUNTO",
+  "COMA",
+  "LIST",
+  "NEW",
+  "APPEND",
+  "REMOVE",
+  "STRUCT",
+  "RETURN",
+  "VOID",
+  "ROUND",
+  "LENGTH",
+  "TOSTRING",
+  "FIND",
+  "STARTWITH",
   "BREAK",
   "CONTINUE"
   };

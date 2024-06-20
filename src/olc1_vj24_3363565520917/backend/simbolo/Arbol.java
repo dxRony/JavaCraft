@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 import olc1_vj24_3363565520917.backend.abstracto.Instruccion;
 import olc1_vj24_3363565520917.backend.excepciones.Errores;
+import olc1_vj24_3363565520917.backend.instrucciones.Metodo;
 
 public class Arbol {
 
@@ -12,6 +13,7 @@ public class Arbol {
     private tablaSimbolos tablaGlobal;
     public LinkedList<Errores> errores;
     public LinkedList<Simbolo> simbolos;
+    public LinkedList<Instruccion> funciones;
 
     public Arbol(LinkedList<Instruccion> instrucciones) {
         this.instrucciones = instrucciones;
@@ -19,6 +21,7 @@ public class Arbol {
         this.tablaGlobal = new tablaSimbolos();
         this.errores = new LinkedList<>();
         this.simbolos = new LinkedList<>();
+        this.funciones = new LinkedList<>();
     }
 
     public LinkedList<Instruccion> getInstrucciones() {
@@ -53,7 +56,7 @@ public class Arbol {
         this.errores = errores;
     }
 
-    public void Print(String valor) {// print es una instruccion
+    public void Print(String valor) {//print es una instruccion
         this.consola += valor + "\n";
     }
 
@@ -67,6 +70,31 @@ public class Arbol {
 
     public void agregarSimbolos(LinkedList<Simbolo> nuevoSimbolo){
         this.simbolos.addAll(nuevoSimbolo);
+    }
+
+    public LinkedList<Instruccion> getFunciones() {
+        return funciones;
+    }
+
+    public void setFunciones(LinkedList<Instruccion> funciones) {
+        this.funciones = funciones;
+    }
+
+    public void addFunciones(Instruccion funcion){
+        //llamar a getFuncion y si es null agregar funcion, sino no agregar
+        //opcional
+        this.funciones.add(funcion);
+    }
+
+    public Instruccion getFuncion(String id){
+        for(var i : this.funciones){
+            if (i instanceof Metodo) {
+                if (((Metodo) i ).id.equalsIgnoreCase(id)) {
+                    return i;
+                }
+            }
+        }
+        return null;
     }
 
 }
