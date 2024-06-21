@@ -37,11 +37,11 @@ public class If extends Instruccion {
 
         if ((boolean) cond) {
             for (var i : this.instrucciones) {// recorriendo las instrucciones de adentro del bloque
-                if (i instanceof Break) {
+                if (i instanceof Break || i instanceof Continue) {
                     return i;
                 }
                 var resultado = i.interpretar(arbol, newTabla);// le mandamos la tabla del bloque y que la interprete
-                if (resultado instanceof Break) {
+                if (resultado instanceof Break || resultado instanceof Continue) {
                     return resultado;
                 }
                 if (resultado instanceof Errores) {

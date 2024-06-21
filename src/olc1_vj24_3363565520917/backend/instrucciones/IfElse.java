@@ -35,11 +35,11 @@ public class IfElse extends Instruccion {
 
         if ((boolean) cond) {
             for (var i : this.instruccionesA) {
-                if (i instanceof Break) {
+                if (i instanceof Break || i instanceof Continue) {
                     return i;
                 }
                 var resultado = i.interpretar(arbol, newTabla);
-                if (resultado instanceof Break) {
+                if (resultado instanceof Break || resultado instanceof Continue) {
                     return resultado;
                 }
                 if (resultado instanceof Errores) {
@@ -50,11 +50,11 @@ public class IfElse extends Instruccion {
             arbol.agregarSimbolos(newTabla.obtenerSimbolos());
         } else {
             for (var i : this.instruccionesB) {
-                if (i instanceof Break) {
+                if (i instanceof Break || i instanceof Continue) {
                     return i;
                 }
                 var resultado = i.interpretar(arbol, newTabla);
-                if (resultado instanceof Break) {
+                if (resultado instanceof Break || resultado instanceof Continue) {
                     return resultado;
                 }
                 if (resultado instanceof Errores) {

@@ -59,12 +59,18 @@ public class For extends Instruccion {
             var newTabla2 = new tablaSimbolos(newTabla);
             newTabla2.setNombre(newTabla.getNombre() + " INS FOR (linea: " + this.linea + ")");
             for (var i : this.instrucciones) {// si se cumple lo anterior, se ejecutan las instrucciones
-                if (i instanceof Break) {
+                if (i instanceof Break) {//manejo de break
                     return null;
                 }
+                if (i instanceof Continue) {
+                    break;
+                }
                 var resIns = i.interpretar(arbol, newTabla2);
-                if (resIns instanceof Break) {
+                if (resIns instanceof Break) {//manejo de break
                     return null;
+                }
+                if (resIns instanceof Continue) {
+                    break;
                 }
                 if (resIns instanceof Errores) {
                     return new Errores("SEMANTICO", "Instrucciones dentro de este for, no son validas", this.linea,

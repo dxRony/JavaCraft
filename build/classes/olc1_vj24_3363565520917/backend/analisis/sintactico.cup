@@ -22,6 +22,7 @@ import olc1_vj24_3363565520917.backend.instrucciones.While;
 import olc1_vj24_3363565520917.backend.instrucciones.DoWhile;
 import olc1_vj24_3363565520917.backend.instrucciones.Break;
 import olc1_vj24_3363565520917.backend.instrucciones.Continue;
+import olc1_vj24_3363565520917.backend.instrucciones.Metodo;
 
 //expresiones
 import olc1_vj24_3363565520917.backend.expresiones.Nativo;
@@ -61,7 +62,8 @@ terminal String CADENA, ENTERO, DECIMAL, CARACTER, BOOLEANO, ID, MUTABILIDAD;
 terminal FININSTRUCCION, IMPRIMIR, MAS, MENOS, MULTIPLICAR, DIVIDIR, PAR1, PAR2, UMENOS, INT, DOUBLE, BOOL;
 terminal CHAR, STRING, IF, ELSE, MATCH, WHILE, FOR, DO, IGUALACION, POTENCIA, DIFERENCIACION, MENORIGUALQUE;
 terminal MAYORIGUALQUE, OR, AND, XOR, NOT, INCREMENTO, DECREMENTO, IGUAL, MODULO, DEFAULT, MENORQUE, MAYORQUE, DOSPUNTOS;
-terminal LLAVE1, LLAVE2; 
+terminal LLAVE1, LLAVE2, CORCH1, CORCH2, PUNTO, COMA;
+terminal LIST, NEW, APPEND, REMOVE, STRUCT, RETURN, VOID, ROUND, LENGTH, TOSTRING, FIND, STARTWITH; 
 terminal String BREAK, CONTINUE;
 
 nonterminal LinkedList<Instruccion> INICIO, INSTRUCCIONES;
@@ -76,6 +78,7 @@ nonterminal LinkedList<Caso> CASOS;
 nonterminal Caso CASO;
 nonterminal Tipo TIPOS;
 nonterminal Instruccion BREAKK, CONTINUEE;
+nonterminal Instruccion METODO;
 
 precedence left OR;
 precedence left AND;
@@ -106,6 +109,7 @@ INSTRUCCION ::= IMPRESION:a                       {:    RESULT=a;    :}
             | CDOWHILE:a                          {:    RESULT=a;    :}
             | BREAKK:a                            {:    RESULT=a;    :}
             | CONTINUEE:a                         {:    RESULT=a;    :}
+            | METODO:a                            {:    RESULT=a;    :}
             | error FININSTRUCCION
             | error        
 ;
@@ -120,6 +124,9 @@ DECLARACION ::= MUTABILIDAD:a ID:b DOSPUNTOS TIPOS:c IGUAL EXPRESION:d FININSTRU
 ASIGNACION ::= ID:a IGUAL EXPRESION:b FININSTRUCCION     {:  RESULT = new AsignacionVar(a, b, aleft, aright);       :}
             | EXPRESION:a INCREMENTO FININSTRUCCION      {:  RESULT = new Incremento(aleft, aright, a);             :}
             | EXPRESION:a DECREMENTO FININSTRUCCION      {:  RESULT = new Decremento(aleft, aright, a);             :}
+;
+
+METODO ::= TIPOS:a ID:b PAR1 PAR2 LLAVE1 INSTRUCCIONES:c LLAVE2 {:   RESULT = new Metodo(a, aleft, aright, b, c);   :}
 ;
 
 SIF ::= IF PAR1 EXPRESION:a PAR2 LLAVE1 INSTRUCCIONES:b LLAVE2                                    {:  RESULT = new If(aleft, aright, a, b);            :} 
@@ -151,7 +158,7 @@ CDOWHILE ::= DO LLAVE1 INSTRUCCIONES:a LLAVE2 WHILE PAR1 EXPRESION:b PAR2 FININS
 
 SMATCH ::= MATCH EXPRESION:a LLAVE1 CASOS:b DEFAULT:c LLAVE2 {:     RESULT = new Match(aleft, aright, a, b, (Caso) c);       :} //cuando hay un match completo
         |  MATCH EXPRESION:a LLAVE1 CASOS:b LLAVE2           {:     RESULT = new Match(aleft, aright, a, b, null);           :} //cuando hay un match solo con casos
-        |  MATCH EXPRESION:a LLAVE1 DEFAULT:c LLAVE2         {:     RESULT = new Match(aleft, aright, a, new LinkedList<Caso>(), (Caso) c);       :} //cuando hay un match solo con default
+        |  MATCH EXPRESION:a LLAVE1 DEFAULT:c LLAVE2         {:     RESULT = new Match(aleft, aright, a, new LinkedList<Caso>(), (Caso) c); :}//cuando hay un match solo con default
 ;
 
 CASOS ::= CASOS:a CASO:b            {:  RESULT = a; RESULT.add(b);                      :}//agregando el caso a la lista de casos
@@ -160,13 +167,6 @@ CASOS ::= CASOS:a CASO:b            {:  RESULT = a; RESULT.add(b);              
 
 CASO ::= EXPRESION:a IGUAL MAYORQUE LLAVE1 INSTRUCCIONES:b LLAVE2    {:      RESULT = new Caso(a, b, true);        :}//creando un caso, con sus instrucciones 
         | DEFAULT IGUAL MAYORQUE LLAVE1 INSTRUCCIONES:b LLAVE2       {:      RESULT = new Caso(null, b, false);    :}//crea un caso default, con sus instrucciones        
-;
-
-TIPOS ::= INT       {:  RESULT = new Tipo(tipoDato.ENTERO);     :}
-        | DOUBLE    {:  RESULT = new Tipo(tipoDato.DECIMAL);    :}
-        | STRING    {:  RESULT = new Tipo(tipoDato.CADENA);     :}
-        | CHAR      {:  RESULT = new Tipo(tipoDato.CARACTER);   :}
-        | BOOL      {:  RESULT = new Tipo(tipoDato.BOOLEANO);   :}
 ;
 
 EXPRESION ::= MENOS EXPRESION:a                       {:  RESULT = new Aritmeticas(aleft, aright, OperadoresAritmeticos.NEGACION, a);            :}%prec UMENOS
@@ -199,4 +199,12 @@ EXPRESION ::= MENOS EXPRESION:a                       {:  RESULT = new Aritmetic
             | CARACTER:a                              {:  RESULT = new Nativo(new Tipo(tipoDato.CARACTER), aleft, aright, a);                    :}
             | BOOLEANO:a                              {:  RESULT = new Nativo(new Tipo(tipoDato.BOOLEANO), aleft, aright, Boolean.parseBoolean(a));                    :}
             | ID:a                                    {:  RESULT = new AccesoVar(aleft, aright, a);                                              :}            
+;
+
+TIPOS ::= INT       {:  RESULT = new Tipo(tipoDato.ENTERO);     :}
+        | DOUBLE    {:  RESULT = new Tipo(tipoDato.DECIMAL);    :}
+        | STRING    {:  RESULT = new Tipo(tipoDato.CADENA);     :}
+        | CHAR      {:  RESULT = new Tipo(tipoDato.CARACTER);   :}
+        | BOOL      {:  RESULT = new Tipo(tipoDato.BOOLEANO);   :}
+        | VOID      {:  RESULT = new Tipo(tipoDato.VOID);       :}
 ;

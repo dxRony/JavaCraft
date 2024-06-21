@@ -14,6 +14,6 @@ public class Continue extends Instruccion {
 
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
-        return null;
+        return this;
     }
 }

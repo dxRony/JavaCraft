@@ -43,9 +43,15 @@ public class While extends Instruccion {
                 if (i instanceof Break) {
                     return null;
                 }
+                if (i instanceof Continue) {
+                    break;
+                }
                 var res = i.interpretar(arbol, newTabla);
                 if (res instanceof Break) {
                     return null;
+                }
+                if (res instanceof Continue) {
+                    break;
                 }
                 if (res instanceof Errores) {
                     return new Errores("SEMANTICO", "Instrucciones dentro de este while, no son validas", this.linea,

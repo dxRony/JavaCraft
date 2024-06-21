@@ -42,9 +42,15 @@ public class DoWhile extends Instruccion {
                 if (i instanceof Break) {
                     return null;
                 }
+                if (i instanceof Continue) {
+                    break;
+                }
                 var resIns = i.interpretar(arbol, newTabla);
                 if (resIns instanceof Break) {
                     return null;
+                }
+                if (resIns instanceof Continue) {
+                    break;
                 }
                 if (resIns instanceof Errores) {
                     return new Errores("SEMANTICO", "Instrucciones dentro de este do-while, no son validas", this.linea,

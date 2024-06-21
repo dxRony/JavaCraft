@@ -347,6 +347,7 @@ public class Interfaz extends javax.swing.JFrame {
 
             //en la 3ra vuelta del arbol se busca el start_with
             ast.agregarSimbolos(tabla.obtenerSimbolos());
+            System.out.println("breakpoint");
             listaSimbolos = ast.getSimbolos();
             txtAreaConsola.setText(ast.getConsola() + "\n\n\n\n\n\n\n");
             for (Errores error : listaErrores) {
