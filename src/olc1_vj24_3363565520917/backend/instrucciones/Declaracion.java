@@ -52,9 +52,9 @@ public class Declaracion extends Instruccion {
             return new Errores("SEMANTICO", "Tipos erroneos", this.linea, this.columna);
         }
 
-        Simbolo s = new Simbolo(this.identificador, this.tipo, true, tabla.getNombre(), valorInterpretado,
+        Simbolo s = new Simbolo(this.identificador, this.tipo, "Variable", tabla.getNombre(), valorInterpretado,
                 mutabilidadBool, this.linea, this.columna);
-        boolean creacion = tabla.setVaribale(s);// mandando el simbolo a la tabla
+        boolean creacion = tabla.setVariable(s);// mandando el simbolo a la tabla
 
         if (!creacion) {// viendo si se creo el simbolo
             return new Errores("SEMANTICO", "la variable ya existe", this.linea, this.columna);

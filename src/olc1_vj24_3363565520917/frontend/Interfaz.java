@@ -257,18 +257,12 @@ public class Interfaz extends javax.swing.JFrame {
         model.addColumn("Linea");
         model.addColumn("Columna");
         
-        for (Simbolo simbolo : listaSimbolos) {
-            String tipo1 = "";
-            if (simbolo.isEsVariable()) {
-                tipo1 = "variable";
-            } else if (!simbolo.isEsVariable()) {
-                tipo1 = "arreglo";
-            }
+        for (Simbolo simbolo : listaSimbolos) {            
             numero++;
             model.addRow(new Object[]{
                 numero,
                 simbolo.getId(),
-                tipo1,
+                simbolo.getTipo2(),
                 simbolo.getTipo().getTipo(),
                 simbolo.getEntorno(),
                 simbolo.getValor(),

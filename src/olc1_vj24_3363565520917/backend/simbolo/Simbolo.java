@@ -3,7 +3,7 @@ package olc1_vj24_3363565520917.backend.simbolo;
 public class Simbolo {
     private String id;
     private Tipo tipo;
-    private boolean esVariable;
+    private String tipo2;
     private String entorno;
     private Object valor;
     private boolean mutabilidad;// var -> true, const -> false
@@ -15,14 +15,24 @@ public class Simbolo {
         this.id = id;
     }
 
-    public Simbolo(String id, Tipo tipo, boolean esVariable, String entorno, Object valor, boolean mutabilidad,
+    // constructor para variables
+    public Simbolo(String id, Tipo tipo, String tipo2, String entorno, Object valor, boolean mutabilidad,
             int linea, int columna) {
         this.id = id;
         this.tipo = tipo;
-        this.esVariable = esVariable;
+        this.tipo2 = tipo2;
         this.entorno = entorno;
         this.valor = valor;
         this.mutabilidad = mutabilidad;
+        this.linea = linea;
+        this.columna = columna;
+    }
+    //constructor para listas
+    public Simbolo(String id, Tipo tipo, String tipo2, String entorno, int linea, int columna) {
+        this.id = id;
+        this.tipo = tipo;
+        this.tipo2 = tipo2;
+        this.entorno = entorno;
         this.linea = linea;
         this.columna = columna;
     }
@@ -59,12 +69,12 @@ public class Simbolo {
         this.mutabilidad = mutabilidad;
     }
 
-    public boolean isEsVariable() {
-        return esVariable;
+    public String getTipo2() {
+        return tipo2;
     }
 
-    public void setEsVariable(boolean esVariable) {
-        this.esVariable = esVariable;
+    public void setTipo2(String tipo2) {
+        this.tipo2 = tipo2;
     }
 
     public String getEntorno() {
@@ -93,8 +103,8 @@ public class Simbolo {
 
     @Override
     public String toString() {
-        return "Simbolo [id=" + id + ", tipo=" + tipo.getTipo() + ", esVariable=" + esVariable + ", entorno=" + entorno
-                + ", valor=" + valor + ", mutabilidad=" + mutabilidad + ", linea=" + linea + ", columna=" + columna
-                + "]";
+        return "Simbolo [id=" + id + ", tipo=" + tipo + ", tipo2=" + tipo2 + ", entorno=" + entorno + ", valor=" + valor
+                + ", mutabilidad=" + mutabilidad + ", linea=" + linea + ", columna=" + columna + "]";
     }
+
 }

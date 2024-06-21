@@ -44,7 +44,7 @@ public class tablaSimbolos {
         this.nombre = nombre;
     }
 
-    public boolean setVaribale(Simbolo simbolo) {// setear simbolo a la tabla de simbolos
+    public boolean setVariable(Simbolo simbolo) {// setear simbolo a la tabla de simbolos
         Simbolo busqueda = (Simbolo) this.tablaActual.get(simbolo.getId().toLowerCase());// viendo que el simbolo no
                                                                                          // exista
 
