@@ -177,17 +177,17 @@ CASO ::= EXPRESION:a IGUAL MAYORQUE LLAVE1 INSTRUCCIONES:b LLAVE2    {:      RES
         | DEFAULT IGUAL MAYORQUE LLAVE1 INSTRUCCIONES:b LLAVE2       {:      RESULT = new Caso(null, b, false);    :}//crea un caso default, con sus instrucciones        
 ;
 
-DECLARACION_LIST ::= LIST MENORQUE TIPOS:a MAYORQUE ID:b IGUAL NEW LIST PAR1 PAR2 FININSTRUCCION        {:      RESULT = new DeclaracionList();         :}
+DECLARACION_LIST ::= LIST MENORQUE TIPOS:a MAYORQUE ID:b IGUAL NEW LIST PAR1 PAR2 FININSTRUCCION        {:      RESULT = new DeclaracionList(a, aleft, aright, b);         :}
 ;
 
-ACCESO_LIST ::= ID:a CORCH1 EXPRESION:b CORCH2                                          {:        RESULT= new AccesoList();         :}
+ACCESO_LIST ::= ID:a CORCH1 EXPRESION:b CORCH2                                          {:        RESULT= new AccesoList(aleft, aright, a, b);         :}
 ;
 
-ASIGNACION_LIST ::= ID:a CORCH1 EXPRESION:b CORCH2 IGUAL EXPRESION:c FININSTRUCCION     {:      RESULT = new AsignacionList();      :}
+ASIGNACION_LIST ::= ID:a CORCH1 EXPRESION:b CORCH2 IGUAL EXPRESION:c FININSTRUCCION     {:      RESULT = new AsignacionList(aleft, aright, a, b, c);      :}
 ;
 
-NATIVO_LIST ::= ID:a PUNTO APPEND PAR1 EXPRESION:b PAR2 FININSTRUCCION                  {:      RESULT = new Append();              :}
-              | ID:a PUNTO REMOVE PAR1 EXPRESION:b PAR2 FININSTRUCCION                  {:      RESULT = new Remove();              :} 
+NATIVO_LIST ::= ID:a PUNTO APPEND PAR1 EXPRESION:b PAR2 FININSTRUCCION                  {:      RESULT = new Append(aleft, aright, a, b);              :}
+              | ID:a PUNTO REMOVE PAR1 EXPRESION:b PAR2 FININSTRUCCION                  {:      RESULT = new Remove(aleft, aright, a, b);              :} 
 ;
 
 EXPRESION ::= MENOS EXPRESION:a                       {:  RESULT = new Aritmeticas(aleft, aright, OperadoresAritmeticos.NEGACION, a);                   :}%prec UMENOS
