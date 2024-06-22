@@ -1,5 +1,7 @@
 package olc1_vj24_3363565520917.backend.instrucciones;
 
+import java.util.LinkedList;
+
 import olc1_vj24_3363565520917.backend.abstracto.Instruccion;
 import olc1_vj24_3363565520917.backend.excepciones.Errores;
 import olc1_vj24_3363565520917.backend.simbolo.Arbol;
@@ -18,8 +20,9 @@ public class DeclaracionList extends Instruccion {
 
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
-        //creando simbolo 
-        Simbolo s = new Simbolo(this.identificador, this.tipo, "Lista", tabla.getNombre(), this.linea, this.columna);
+        // creando simbolo
+        Simbolo s = new Simbolo(this.identificador, this.tipo, "Lista", tabla.getNombre(), new LinkedList<>(),
+                this.linea, this.columna);
         boolean creacion = tabla.setVariable(s);// mandando el simbolo a la tabla
 
         if (!creacion) {// viendo si se creo el simbolo

@@ -48,6 +48,7 @@ public class AsignacionList extends Instruccion {
             if (listaExistente.getTipo().getTipo() != this.valor.tipo.getTipo()) {
                 return new Errores("SEMANTICO", "Tipos no coincidentes para la asignacion", this.linea, this.columna);
             }
+
             lista.set((int) indiceAsignar, newValor);// modificando el valor en el indice recibido
 
         } else {// sino es de tipo lista se toma como error

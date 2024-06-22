@@ -23,8 +23,9 @@ public class AccesoList extends Instruccion {
 
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
+        System.out.println("entrando a interpretar acceso lista");
         Simbolo listaExistente = tabla.getVariable(identificador);
-        
+
         if (listaExistente == null) {
             return new Errores("SEMANTICO", "La lista: " + this.identificador + ", no existe", this.linea,
                     this.columna);
@@ -36,7 +37,11 @@ public class AccesoList extends Instruccion {
             var indiceObtener = indice.interpretar(arbol, tabla);
             if (indiceObtener instanceof Errores) {
                 return indiceObtener;
-            }     
+            }
+            System.out.println("Obteniendo el valor en el indice: " + indiceObtener);
+            System.out.println("De la lista:" + identificador + " con tamaño: " + lista.size());
+            System.out.println("valor a obtener: " + lista.get((int) indiceObtener));
+            this.tipo.setTipo(listaExistente.getTipo().getTipo());
             return lista.get((int) indiceObtener);
         } else {
             return new Errores("SEMANTICO", "El id no pertenece a una lista", this.linea, this.columna);

@@ -27,12 +27,14 @@ public class Simbolo {
         this.linea = linea;
         this.columna = columna;
     }
-    //constructor para listas
-    public Simbolo(String id, Tipo tipo, String tipo2, String entorno, int linea, int columna) {
+
+    // constructor para listas
+    public Simbolo(String id, Tipo tipo, String tipo2, String entorno, Object valor, int linea, int columna) {
         this.id = id;
         this.tipo = tipo;
         this.tipo2 = tipo2;
         this.entorno = entorno;
+        this.valor = valor;
         this.linea = linea;
         this.columna = columna;
     }

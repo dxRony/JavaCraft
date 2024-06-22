@@ -38,7 +38,7 @@ public class Remove extends Instruccion {
                 return indiceEliminar;
             }
             // devolviendo el valor eliminado
-            return lista.remove(indiceEliminar);
+            return lista.remove((int) indiceEliminar);
         } else {
             return new Errores("SEMANTICO", "El id no pertenece a una lista", this.linea, this.columna);
         }

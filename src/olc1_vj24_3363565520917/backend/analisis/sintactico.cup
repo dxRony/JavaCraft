@@ -89,7 +89,7 @@ nonterminal Instruccion METODO;
 nonterminal LinkedList<HashMap> PARAMS;
 nonterminal Instruccion START;
 nonterminal LinkedList<Instruccion> PARAMSCALL;
-nonterminal Instruccion DECLARACION_LIST, ACCESO_LIST, ASIGNACION_LIST, NATIVO_LIST;
+nonterminal Instruccion DECLARACION_LIST, ASIGNACION_LIST, NATIVO_LIST;
 
 precedence left OR;
 precedence left AND;
@@ -123,7 +123,6 @@ INSTRUCCION ::= IMPRESION:a                       {:    RESULT=a;    :}
             | METODO:a                            {:    RESULT=a;    :}
             | START:a                             {:    RESULT=a;    :}
             | DECLARACION_LIST:a                  {:    RESULT=a;    :}
-            | ACCESO_LIST:a                       {:    RESULT=a;    :}
             | ASIGNACION_LIST:a                   {:    RESULT=a;    :}
             | NATIVO_LIST:a                       {:    RESULT=a;    :}
             | error FININSTRUCCION
@@ -212,9 +211,6 @@ CASO ::= EXPRESION:a IGUAL MAYORQUE LLAVE1 INSTRUCCIONES:b LLAVE2    {:      RES
 DECLARACION_LIST ::= LIST MENORQUE TIPOS:a MAYORQUE ID:b IGUAL NEW LIST PAR1 PAR2 FININSTRUCCION        {:      RESULT = new DeclaracionList(a, aleft, aright, b);         :}
 ;
 
-ACCESO_LIST ::= ID:a CORCH1 EXPRESION:b CORCH2                                          {:        RESULT= new AccesoList(aleft, aright, a, b);         :}
-;
-
 ASIGNACION_LIST ::= ID:a CORCH1 EXPRESION:b CORCH2 IGUAL EXPRESION:c FININSTRUCCION     {:      RESULT = new AsignacionList(aleft, aright, a, b, c);      :}
 ;
 
@@ -251,7 +247,8 @@ EXPRESION ::= MENOS EXPRESION:a                       {:  RESULT = new Aritmetic
             | CADENA:a                                {:  RESULT = new Nativo(new Tipo(tipoDato.CADENA), aleft, aright, a);                             :}
             | CARACTER:a                              {:  RESULT = new Nativo(new Tipo(tipoDato.CARACTER), aleft, aright, a);                           :}
             | BOOLEANO:a                              {:  RESULT = new Nativo(new Tipo(tipoDato.BOOLEANO), aleft, aright, Boolean.parseBoolean(a));     :}
-            | ID:a                                    {:  RESULT = new AccesoVar(aleft, aright, a);                                                     :}            
+            | ID:a                                    {:  RESULT = new AccesoVar(aleft, aright, a);                                                     :}   
+            | ID:a CORCH1 EXPRESION:b CORCH2          {:  RESULT = new AccesoList(aleft, aright, a, b);                                                 :}         
 ;
 
 TIPOS ::= INT       {:  RESULT = new Tipo(tipoDato.ENTERO);     :}

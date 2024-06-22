@@ -17,8 +17,10 @@ import olc1_vj24_3363565520917.backend.analisis.parser;
 import olc1_vj24_3363565520917.backend.analisis.scanner;
 import olc1_vj24_3363565520917.backend.archivo.Archivo;
 import olc1_vj24_3363565520917.backend.excepciones.Errores;
+import olc1_vj24_3363565520917.backend.instrucciones.AsignacionList;
 import olc1_vj24_3363565520917.backend.instrucciones.AsignacionVar;
 import olc1_vj24_3363565520917.backend.instrucciones.Declaracion;
+import olc1_vj24_3363565520917.backend.instrucciones.DeclaracionList;
 import olc1_vj24_3363565520917.backend.instrucciones.Metodo;
 import olc1_vj24_3363565520917.backend.instrucciones.StartWith;
 import olc1_vj24_3363565520917.backend.simbolo.Arbol;
@@ -331,7 +333,7 @@ public class Interfaz extends javax.swing.JFrame {
                     continue;
                 }
                 
-                if (a instanceof Declaracion || a instanceof AsignacionVar) {
+                if (a instanceof Declaracion || a instanceof AsignacionVar || a instanceof DeclaracionList || a instanceof AsignacionList) {
                    var res = a.interpretar(ast, tabla);
                    if (res instanceof Errores) {
                     listaErrores.add((Errores) res);
@@ -358,7 +360,7 @@ public class Interfaz extends javax.swing.JFrame {
             }
 
             ast.agregarSimbolos(tabla.obtenerSimbolos());
-            System.out.println("breakpoint");
+            System.out.println("fin ejecucion");
             listaSimbolos = ast.getSimbolos();
             txtAreaConsola.setText(ast.getConsola() + "\n\n\n\n\n\n\n");
             for (Errores error : listaErrores) {
