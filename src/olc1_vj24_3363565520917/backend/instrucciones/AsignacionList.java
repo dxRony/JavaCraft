@@ -28,19 +28,19 @@ public class AsignacionList extends Instruccion {
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
 
         Simbolo listaExistente = tabla.getVariable(identificador);// viendo que la lista exista
-
         if (listaExistente == null) {
             return new Errores("SEMANTICO", "La lista no existe", this.linea, this.columna);
         }
+
         if (listaExistente.getTipo2().equalsIgnoreCase("Lista")) {// validando que sea una lista
             // interpretando y validando el nuevo valor
-            var lista = (LinkedList<Object>) listaExistente.getValor();//guardando lista
-            
+            var lista = (LinkedList<Object>) listaExistente.getValor();// guardando lista
+
             var indiceAsignar = this.indice.interpretar(arbol, tabla);
             if (indiceAsignar instanceof Errores) {
                 return indiceAsignar;
             }
-            
+
             var newValor = this.valor.interpretar(arbol, tabla);
             if (newValor instanceof Errores) {
                 return newValor;
@@ -48,14 +48,11 @@ public class AsignacionList extends Instruccion {
             if (listaExistente.getTipo().getTipo() != this.valor.tipo.getTipo()) {
                 return new Errores("SEMANTICO", "Tipos no coincidentes para la asignacion", this.linea, this.columna);
             }
-            
-            lista.set((int) indiceAsignar, newValor);//modificando el valor en el indice recibido
+            lista.set((int) indiceAsignar, newValor);// modificando el valor en el indice recibido
 
         } else {// sino es de tipo lista se toma como error
             return new Errores("SEMANTICO", "El id no pertenece a una lista", this.linea, this.columna);
         }
-
         return null;
     }
-
 }

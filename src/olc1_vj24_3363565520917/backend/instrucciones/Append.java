@@ -37,7 +37,6 @@ public class Append extends Instruccion {
             if (valor instanceof Errores) {
                 return valor;
             }
-
             if (listaExistente.getTipo().getTipo() != this.valor.tipo.getTipo()) {
                 return new Errores("SEMANTICO", "Tipos no coincidentes para añadir", this.linea, this.columna);
             }

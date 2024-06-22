@@ -36,12 +36,10 @@ public class AccesoList extends Instruccion {
             var indiceObtener = indice.interpretar(arbol, tabla);
             if (indiceObtener instanceof Errores) {
                 return indiceObtener;
-            }
-            
+            }     
             return lista.get((int) indiceObtener);
         } else {
             return new Errores("SEMANTICO", "El id no pertenece a una lista", this.linea, this.columna);
         }
     }
-
 }

@@ -7,6 +7,7 @@ import olc1_vj24_3363565520917.backend.abstracto.Instruccion;
 import olc1_vj24_3363565520917.backend.simbolo.Tipo;
 import olc1_vj24_3363565520917.backend.simbolo.tipoDato;
 import olc1_vj24_3363565520917.backend.excepciones.Errores;
+import java.util.HashMap;
 
 //instrucciones
 import olc1_vj24_3363565520917.backend.instrucciones.Print;
@@ -27,6 +28,7 @@ import olc1_vj24_3363565520917.backend.instrucciones.Append;
 import olc1_vj24_3363565520917.backend.instrucciones.Remove;
 import olc1_vj24_3363565520917.backend.instrucciones.AsignacionList;
 import olc1_vj24_3363565520917.backend.instrucciones.DeclaracionList;
+import olc1_vj24_3363565520917.backend.instrucciones.StartWith;
 
 //expresiones
 import olc1_vj24_3363565520917.backend.expresiones.Nativo;
@@ -84,6 +86,9 @@ nonterminal Caso CASO;
 nonterminal Tipo TIPOS;
 nonterminal Instruccion BREAKK, CONTINUEE;
 nonterminal Instruccion METODO;
+nonterminal LinkedList<HashMap> PARAMS;
+nonterminal Instruccion START;
+nonterminal LinkedList<Instruccion> PARAMSCALL;
 nonterminal Instruccion DECLARACION_LIST, ACCESO_LIST, ASIGNACION_LIST, NATIVO_LIST;
 
 precedence left OR;
@@ -116,6 +121,7 @@ INSTRUCCION ::= IMPRESION:a                       {:    RESULT=a;    :}
             | BREAKK:a                            {:    RESULT=a;    :}
             | CONTINUEE:a                         {:    RESULT=a;    :}
             | METODO:a                            {:    RESULT=a;    :}
+            | START:a                             {:    RESULT=a;    :}
             | DECLARACION_LIST:a                  {:    RESULT=a;    :}
             | ACCESO_LIST:a                       {:    RESULT=a;    :}
             | ASIGNACION_LIST:a                   {:    RESULT=a;    :}
@@ -136,7 +142,33 @@ ASIGNACION ::= ID:a IGUAL EXPRESION:b FININSTRUCCION     {:  RESULT = new Asigna
             | EXPRESION:a DECREMENTO FININSTRUCCION      {:  RESULT = new Decremento(aleft, aright, a);             :}
 ;
 
-METODO ::= TIPOS:a ID:b PAR1 PAR2 LLAVE1 INSTRUCCIONES:c LLAVE2 {:   RESULT = new Metodo(a, aleft, aright, b, c);   :}
+METODO ::= TIPOS:a ID:b PAR1 PARAMS:p PAR2 LLAVE1 INSTRUCCIONES:c LLAVE2    {:   RESULT = new Metodo(a, aleft, aright, b, p, c);     :}
+         | TIPOS:a ID:b PAR1 PAR2 LLAVE1 INSTRUCCIONES:c LLAVE2             {:   RESULT = new Metodo(a, aleft, aright, b, new LinkedList<HashMap>(),c);   :}         
+;
+
+PARAMS ::= PARAMS:a COMA TIPOS:b ID:c   {:  RESULT = a;
+                                            var hm2 = new HashMap<String, Object>();
+                                            hm2.put("id", c);
+                                            hm2.put("tipo", b);
+                                            RESULT.add(hm2);    :}
+
+         | TIPOS:a ID:b                 {:  RESULT = new LinkedList<HashMap>();
+                                            var hm = new HashMap<String, Object>();
+                                            hm.put("id", b);
+                                            hm.put("tipo", a);
+                                            RESULT.add(hm);     :}
+;
+
+START ::= STARTWITH ID:a PAR1 PARAMSCALL:b PAR2 FININSTRUCCION      {:  RESULT = new StartWith(aleft, aright, a, b);   :}
+        | STARTWITH ID:a PAR1 PAR2 FININSTRUCCION                   {:  RESULT = new StartWith(aleft, aright, a, new LinkedList<Instruccion>());       :}
+;
+
+PARAMSCALL ::= PARAMSCALL:a COMA EXPRESION:e      {:  RESULT = a;
+                                                    RESULT.add(e);    
+                                                :}
+             | EXPRESION:a                      {:  RESULT = new LinkedList<Instruccion>();
+                                                    RESULT.add(a);  
+                                                :}
 ;
 
 SIF ::= IF PAR1 EXPRESION:a PAR2 LLAVE1 INSTRUCCIONES:b LLAVE2                                    {:  RESULT = new If(aleft, aright, a, b);            :} 

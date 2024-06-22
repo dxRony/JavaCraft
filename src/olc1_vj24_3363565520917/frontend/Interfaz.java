@@ -20,6 +20,7 @@ import olc1_vj24_3363565520917.backend.excepciones.Errores;
 import olc1_vj24_3363565520917.backend.instrucciones.AsignacionVar;
 import olc1_vj24_3363565520917.backend.instrucciones.Declaracion;
 import olc1_vj24_3363565520917.backend.instrucciones.Metodo;
+import olc1_vj24_3363565520917.backend.instrucciones.StartWith;
 import olc1_vj24_3363565520917.backend.simbolo.Arbol;
 import olc1_vj24_3363565520917.backend.simbolo.Simbolo;
 import olc1_vj24_3363565520917.backend.simbolo.tablaSimbolos;
@@ -314,7 +315,7 @@ public class Interfaz extends javax.swing.JFrame {
             listaErrores.addAll(s.listaErrores);
             listaErrores.addAll(p.listaErrores);
 
-            //recorrido del arbol            
+            //3 recorridos del arbol            
             for (var a : ast.getInstrucciones()) {//1ra vuelta
                 if (a == null) {
                     continue;
@@ -336,10 +337,26 @@ public class Interfaz extends javax.swing.JFrame {
                     listaErrores.add((Errores) res);
                    }
                 }
-                //esta vuelta es para declaraciones, asignaciones y otros             
+                //esta vuelta es para declaraciones y asignaciones globales
             }
 
-            //en la 3ra vuelta del arbol se busca el start_with
+            StartWith e = null;
+            for (var a : ast.getInstrucciones()) {//3ra vuelta
+                if (a == null) {
+                    continue;
+                }
+                if (a instanceof StartWith) {
+                    e = (StartWith) a;
+                    break;
+                }
+                //en la 3ra vuelta del arbol se busca el start_with
+            }
+
+            var resultadoStart = e.interpretar(ast, tabla);
+            if (resultadoStart instanceof Errores) {
+                System.out.println("F");
+            }
+
             ast.agregarSimbolos(tabla.obtenerSimbolos());
             System.out.println("breakpoint");
             listaSimbolos = ast.getSimbolos();

@@ -29,7 +29,6 @@ public class Remove extends Instruccion {
         if (listaExistente == null) {
             return new Errores("SEMANTICO", "La lista no existe", this.linea, this.columna);
         }
-
         if (listaExistente.getTipo2().equalsIgnoreCase("Lista")) {
             var lista = (LinkedList<Object>) listaExistente.getValor();
 
@@ -38,13 +37,10 @@ public class Remove extends Instruccion {
             if (indiceEliminar instanceof Errores) {
                 return indiceEliminar;
             }
-            //guardando el elemento eliminado
-            var indiceEliminado = lista.remove(indiceEliminar);
-
-            return indiceEliminado;//devolviendo el valor 
+            // devolviendo el valor eliminado
+            return lista.remove(indiceEliminar);
         } else {
-            return new Errores("SEMANTICO", "El id no pertenece a una lista", this.linea, this.columna); 
+            return new Errores("SEMANTICO", "El id no pertenece a una lista", this.linea, this.columna);
         }
     }
-
 }

@@ -23,9 +23,8 @@ public class DeclaracionList extends Instruccion {
         boolean creacion = tabla.setVariable(s);// mandando el simbolo a la tabla
 
         if (!creacion) {// viendo si se creo el simbolo
-            return new Errores("SEMANTICO", "la lista ya existe", this.linea, this.columna);
+            return new Errores("SEMANTICO", "La lista ya existe", this.linea, this.columna);
         }
         return null;
     }
-
 }

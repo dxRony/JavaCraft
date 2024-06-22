@@ -7,6 +7,7 @@ import olc1_vj24_3363565520917.backend.abstracto.Instruccion;
 import olc1_vj24_3363565520917.backend.simbolo.Tipo;
 import olc1_vj24_3363565520917.backend.simbolo.tipoDato;
 import olc1_vj24_3363565520917.backend.excepciones.Errores;
+import java.util.HashMap;
 
 //instrucciones
 import olc1_vj24_3363565520917.backend.instrucciones.Print;
@@ -23,6 +24,11 @@ import olc1_vj24_3363565520917.backend.instrucciones.DoWhile;
 import olc1_vj24_3363565520917.backend.instrucciones.Break;
 import olc1_vj24_3363565520917.backend.instrucciones.Continue;
 import olc1_vj24_3363565520917.backend.instrucciones.Metodo;
+import olc1_vj24_3363565520917.backend.instrucciones.Append;
+import olc1_vj24_3363565520917.backend.instrucciones.Remove;
+import olc1_vj24_3363565520917.backend.instrucciones.AsignacionList;
+import olc1_vj24_3363565520917.backend.instrucciones.DeclaracionList;
+import olc1_vj24_3363565520917.backend.instrucciones.StartWith;
 
 //expresiones
 import olc1_vj24_3363565520917.backend.expresiones.Nativo;
@@ -36,6 +42,7 @@ import olc1_vj24_3363565520917.backend.expresiones.AccesoVar;
 import olc1_vj24_3363565520917.backend.expresiones.Casteo;
 import olc1_vj24_3363565520917.backend.expresiones.Incremento;
 import olc1_vj24_3363565520917.backend.expresiones.Decremento;
+import olc1_vj24_3363565520917.backend.expresiones.AccesoList;
 
 //definiendo el parser
 parser code
@@ -79,6 +86,10 @@ nonterminal Caso CASO;
 nonterminal Tipo TIPOS;
 nonterminal Instruccion BREAKK, CONTINUEE;
 nonterminal Instruccion METODO;
+nonterminal LinkedList<HashMap> PARAMS;
+nonterminal Instruccion START;
+nonterminal LinkedList<Instruccion> PARAMSCALL;
+nonterminal Instruccion DECLARACION_LIST, ACCESO_LIST, ASIGNACION_LIST, NATIVO_LIST;
 
 precedence left OR;
 precedence left AND;
@@ -110,6 +121,11 @@ INSTRUCCION ::= IMPRESION:a                       {:    RESULT=a;    :}
             | BREAKK:a                            {:    RESULT=a;    :}
             | CONTINUEE:a                         {:    RESULT=a;    :}
             | METODO:a                            {:    RESULT=a;    :}
+            | START:a                             {:    RESULT=a;    :}
+            | DECLARACION_LIST:a                  {:    RESULT=a;    :}
+            | ACCESO_LIST:a                       {:    RESULT=a;    :}
+            | ASIGNACION_LIST:a                   {:    RESULT=a;    :}
+            | NATIVO_LIST:a                       {:    RESULT=a;    :}
             | error FININSTRUCCION
             | error        
 ;
@@ -126,7 +142,33 @@ ASIGNACION ::= ID:a IGUAL EXPRESION:b FININSTRUCCION     {:  RESULT = new Asigna
             | EXPRESION:a DECREMENTO FININSTRUCCION      {:  RESULT = new Decremento(aleft, aright, a);             :}
 ;
 
-METODO ::= TIPOS:a ID:b PAR1 PAR2 LLAVE1 INSTRUCCIONES:c LLAVE2 {:   RESULT = new Metodo(a, aleft, aright, b, c);   :}
+METODO ::= TIPOS:a ID:b PAR1 PARAMS:p PAR2 LLAVE1 INSTRUCCIONES:c LLAVE2    {:   RESULT = new Metodo(a, aleft, aright, b, p, c);     :}
+         | TIPOS:a ID:b PAR1 PAR2 LLAVE1 INSTRUCCIONES:c LLAVE2             {:   RESULT = new Metodo(a, aleft, aright, b, new LinkedList<HashMap>(),c);   :}         
+;
+
+PARAMS ::= PARAMS:a COMA TIPOS:b ID:c   {:  RESULT = a;
+                                            var hm2 = new HashMap<String, Object>();
+                                            hm2.put("id", c);
+                                            hm2.put("tipo", b);
+                                            RESULT.add(hm2);    :}
+
+         | TIPOS:a ID:b                 {:  RESULT = new LinkedList<HashMap>();
+                                            var hm = new HashMap<String, Object>();
+                                            hm.put("id", b);
+                                            hm.put("tipo", a);
+                                            RESULT.add(hm);     :}
+;
+
+START ::= STARTWITH ID:a PAR1 PARAMSCALL:b PAR2 FININSTRUCCION      {:  RESULT = new StartWith(aleft, aright, a, b);   :}
+        | STARTWITH ID:a PAR1 PAR2 FININSTRUCCION                   {:  RESULT = new StartWith(aleft, aright, a, new LinkedList<Instruccion>());       :}
+;
+
+PARAMSCALL ::= PARAMSCALL:a COMA EXPRESION:e      {:  RESULT = a;
+                                                    RESULT.add(e);    
+                                                :}
+             | EXPRESION:a                      {:  RESULT = new LinkedList<Instruccion>();
+                                                    RESULT.add(a);  
+                                                :}
 ;
 
 SIF ::= IF PAR1 EXPRESION:a PAR2 LLAVE1 INSTRUCCIONES:b LLAVE2                                    {:  RESULT = new If(aleft, aright, a, b);            :} 
@@ -134,8 +176,7 @@ SIF ::= IF PAR1 EXPRESION:a PAR2 LLAVE1 INSTRUCCIONES:b LLAVE2                  
     |   IF PAR1 EXPRESION:a PAR2 LLAVE1 INSTRUCCIONES:b LLAVE2 ELSE SIF:c                         {:  RESULT = new IfElseIf(aleft, aright, a, b, c);   :}            
 ;
 
-CFOR ::= FOR PAR1 ASIGNACION:a EXPRESION:b FININSTRUCCION ACTUALIZA_FOR:c PAR2 LLAVE1 INSTRUCCIONES:d LLAVE2 
-        {:  RESULT = new For(aleft, aright, a, b, c, d);    :}
+CFOR ::= FOR PAR1 ASIGNACION:a EXPRESION:b FININSTRUCCION ACTUALIZA_FOR:c PAR2 LLAVE1 INSTRUCCIONES:d LLAVE2 {:  RESULT = new For(aleft, aright, a, b, c, d);    :}
 ;
 
 ACTUALIZA_FOR ::= ID:a IGUAL EXPRESION:b      {:  RESULT = new AsignacionVar(a, b, aleft, aright);    :}
@@ -152,8 +193,7 @@ CONTINUEE ::= CONTINUE:a FININSTRUCCION   {:    RESULT = new Continue(aleft, ari
 CWHILE ::= WHILE PAR1 EXPRESION:a PAR2 LLAVE1 INSTRUCCIONES:b LLAVE2    {:  RESULT = new While(aleft, aright, a, b);   :}
 ;
 
-CDOWHILE ::= DO LLAVE1 INSTRUCCIONES:a LLAVE2 WHILE PAR1 EXPRESION:b PAR2 FININSTRUCCION 
-{:    RESULT = new DoWhile(aleft, aright, a, b);   :}
+CDOWHILE ::= DO LLAVE1 INSTRUCCIONES:a LLAVE2 WHILE PAR1 EXPRESION:b PAR2 FININSTRUCCION        {:    RESULT = new DoWhile(aleft, aright, a, b);   :}
 ;
 
 SMATCH ::= MATCH EXPRESION:a LLAVE1 CASOS:b DEFAULT:c LLAVE2 {:     RESULT = new Match(aleft, aright, a, b, (Caso) c);       :} //cuando hay un match completo
@@ -169,36 +209,49 @@ CASO ::= EXPRESION:a IGUAL MAYORQUE LLAVE1 INSTRUCCIONES:b LLAVE2    {:      RES
         | DEFAULT IGUAL MAYORQUE LLAVE1 INSTRUCCIONES:b LLAVE2       {:      RESULT = new Caso(null, b, false);    :}//crea un caso default, con sus instrucciones        
 ;
 
-EXPRESION ::= MENOS EXPRESION:a                       {:  RESULT = new Aritmeticas(aleft, aright, OperadoresAritmeticos.NEGACION, a);            :}%prec UMENOS
-            | EXPRESION:a MAS EXPRESION:b             {:  RESULT = new Aritmeticas(aleft, aright, a, b, OperadoresAritmeticos.SUMA);             :}
-            | EXPRESION:a MENOS EXPRESION:b           {:  RESULT = new Aritmeticas(aleft, aright, a, b, OperadoresAritmeticos.RESTA);            :}
-            | EXPRESION:a MULTIPLICAR EXPRESION:b     {:  RESULT = new Aritmeticas(aleft, aright, a, b, OperadoresAritmeticos.MULTIPLICACION);   :}
-            | EXPRESION:a DIVIDIR EXPRESION:b         {:  RESULT = new Aritmeticas(aleft, aright, a, b, OperadoresAritmeticos.DIVISION);         :}
-            | EXPRESION:a POTENCIA EXPRESION:b        {:  RESULT = new Aritmeticas(aleft, aright, a, b, OperadoresAritmeticos.POTENCIA);         :}
-            | EXPRESION:a MODULO EXPRESION:b          {:  RESULT = new Aritmeticas(aleft, aright, a, b, OperadoresAritmeticos.MODULO);           :}            
+DECLARACION_LIST ::= LIST MENORQUE TIPOS:a MAYORQUE ID:b IGUAL NEW LIST PAR1 PAR2 FININSTRUCCION        {:      RESULT = new DeclaracionList(a, aleft, aright, b);         :}
+;
 
-            | EXPRESION:a IGUALACION EXPRESION:b      {:  RESULT = new Relacionales(aleft, aright, a, b, OperadoresRelacionales.IGUALACION);     :}
-            | EXPRESION:a DIFERENCIACION EXPRESION:b  {:  RESULT = new Relacionales(aleft, aright, a, b, OperadoresRelacionales.DIFERENCIACION); :}
-            | EXPRESION:a MENORQUE EXPRESION:b        {:  RESULT = new Relacionales(aleft, aright, a, b, OperadoresRelacionales.MENORQUE);       :}
-            | EXPRESION:a MENORIGUALQUE EXPRESION:b   {:  RESULT = new Relacionales(aleft, aright, a, b, OperadoresRelacionales.MENORIGUALQUE);  :}
-            | EXPRESION:a MAYORQUE EXPRESION:b        {:  RESULT = new Relacionales(aleft, aright, a, b, OperadoresRelacionales.MAYORQUE);       :}
-            | EXPRESION:a MAYORIGUALQUE EXPRESION:b   {:  RESULT = new Relacionales(aleft, aright, a, b, OperadoresRelacionales.MAYORIGUALQUE);  :}
+ACCESO_LIST ::= ID:a CORCH1 EXPRESION:b CORCH2                                          {:        RESULT= new AccesoList(aleft, aright, a, b);         :}
+;
 
-            | NOT EXPRESION:a                         {:  RESULT = new Logicos(aleft, aright, OperadoresLogicos.NOT, a);                         :}%prec NOT
-            | EXPRESION:a OR EXPRESION:b              {:  RESULT = new Logicos(aleft, aright, a, b, OperadoresLogicos.OR);                       :}
-            | EXPRESION:a AND EXPRESION:b             {:  RESULT = new Logicos(aleft, aright, a, b, OperadoresLogicos.AND);                      :}
-            | EXPRESION:a XOR EXPRESION:b             {:  RESULT = new Logicos(aleft, aright, a, b, OperadoresLogicos.XOR);                      :}
+ASIGNACION_LIST ::= ID:a CORCH1 EXPRESION:b CORCH2 IGUAL EXPRESION:c FININSTRUCCION     {:      RESULT = new AsignacionList(aleft, aright, a, b, c);      :}
+;
 
-            | PAR1 EXPRESION:a PAR2                   {:  RESULT = a;                                                                            :}
+NATIVO_LIST ::= ID:a PUNTO APPEND PAR1 EXPRESION:b PAR2 FININSTRUCCION                  {:      RESULT = new Append(aleft, aright, a, b);              :}
+              | ID:a PUNTO REMOVE PAR1 EXPRESION:b PAR2 FININSTRUCCION                  {:      RESULT = new Remove(aleft, aright, a, b);              :} 
+;
 
-            | PAR1 TIPOS:a PAR2 EXPRESION:b           {:  RESULT = new Casteo(a, aleft, aright, b);                                              :}
+EXPRESION ::= MENOS EXPRESION:a                       {:  RESULT = new Aritmeticas(aleft, aright, OperadoresAritmeticos.NEGACION, a);                   :}%prec UMENOS
+            | EXPRESION:a MAS EXPRESION:b             {:  RESULT = new Aritmeticas(aleft, aright, a, b, OperadoresAritmeticos.SUMA);                    :}
+            | EXPRESION:a MENOS EXPRESION:b           {:  RESULT = new Aritmeticas(aleft, aright, a, b, OperadoresAritmeticos.RESTA);                   :}
+            | EXPRESION:a MULTIPLICAR EXPRESION:b     {:  RESULT = new Aritmeticas(aleft, aright, a, b, OperadoresAritmeticos.MULTIPLICACION);          :}
+            | EXPRESION:a DIVIDIR EXPRESION:b         {:  RESULT = new Aritmeticas(aleft, aright, a, b, OperadoresAritmeticos.DIVISION);                :}
+            | EXPRESION:a POTENCIA EXPRESION:b        {:  RESULT = new Aritmeticas(aleft, aright, a, b, OperadoresAritmeticos.POTENCIA);                :}
+            | EXPRESION:a MODULO EXPRESION:b          {:  RESULT = new Aritmeticas(aleft, aright, a, b, OperadoresAritmeticos.MODULO);                  :}            
+
+            | EXPRESION:a IGUALACION EXPRESION:b      {:  RESULT = new Relacionales(aleft, aright, a, b, OperadoresRelacionales.IGUALACION);            :}
+            | EXPRESION:a DIFERENCIACION EXPRESION:b  {:  RESULT = new Relacionales(aleft, aright, a, b, OperadoresRelacionales.DIFERENCIACION);        :}
+            | EXPRESION:a MENORQUE EXPRESION:b        {:  RESULT = new Relacionales(aleft, aright, a, b, OperadoresRelacionales.MENORQUE);              :}
+            | EXPRESION:a MENORIGUALQUE EXPRESION:b   {:  RESULT = new Relacionales(aleft, aright, a, b, OperadoresRelacionales.MENORIGUALQUE);         :}
+            | EXPRESION:a MAYORQUE EXPRESION:b        {:  RESULT = new Relacionales(aleft, aright, a, b, OperadoresRelacionales.MAYORQUE);              :}
+            | EXPRESION:a MAYORIGUALQUE EXPRESION:b   {:  RESULT = new Relacionales(aleft, aright, a, b, OperadoresRelacionales.MAYORIGUALQUE);         :}
+
+            | NOT EXPRESION:a                         {:  RESULT = new Logicos(aleft, aright, OperadoresLogicos.NOT, a);                                :}%prec NOT
+            | EXPRESION:a OR EXPRESION:b              {:  RESULT = new Logicos(aleft, aright, a, b, OperadoresLogicos.OR);                              :}
+            | EXPRESION:a AND EXPRESION:b             {:  RESULT = new Logicos(aleft, aright, a, b, OperadoresLogicos.AND);                             :}
+            | EXPRESION:a XOR EXPRESION:b             {:  RESULT = new Logicos(aleft, aright, a, b, OperadoresLogicos.XOR);                             :}
+
+            | PAR1 EXPRESION:a PAR2                   {:  RESULT = a;                                                                                   :}
+
+            | PAR1 TIPOS:a PAR2 EXPRESION:b           {:  RESULT = new Casteo(a, aleft, aright, b);                                                     :}
             
-            | ENTERO:a                                {:  RESULT = new Nativo(new Tipo(tipoDato.ENTERO), aleft, aright, Integer.parseInt(a));    :}
-            | DECIMAL:a                               {:  RESULT = new Nativo(new Tipo(tipoDato.DECIMAL), aleft, aright, new Double(a));         :}
-            | CADENA:a                                {:  RESULT = new Nativo(new Tipo(tipoDato.CADENA), aleft, aright, a);                      :}
-            | CARACTER:a                              {:  RESULT = new Nativo(new Tipo(tipoDato.CARACTER), aleft, aright, a);                    :}
-            | BOOLEANO:a                              {:  RESULT = new Nativo(new Tipo(tipoDato.BOOLEANO), aleft, aright, Boolean.parseBoolean(a));                    :}
-            | ID:a                                    {:  RESULT = new AccesoVar(aleft, aright, a);                                              :}            
+            | ENTERO:a                                {:  RESULT = new Nativo(new Tipo(tipoDato.ENTERO), aleft, aright, Integer.parseInt(a));           :}
+            | DECIMAL:a                               {:  RESULT = new Nativo(new Tipo(tipoDato.DECIMAL), aleft, aright, new Double(a));                :}
+            | CADENA:a                                {:  RESULT = new Nativo(new Tipo(tipoDato.CADENA), aleft, aright, a);                             :}
+            | CARACTER:a                              {:  RESULT = new Nativo(new Tipo(tipoDato.CARACTER), aleft, aright, a);                           :}
+            | BOOLEANO:a                              {:  RESULT = new Nativo(new Tipo(tipoDato.BOOLEANO), aleft, aright, Boolean.parseBoolean(a));     :}
+            | ID:a                                    {:  RESULT = new AccesoVar(aleft, aright, a);                                                     :}            
 ;
 
 TIPOS ::= INT       {:  RESULT = new Tipo(tipoDato.ENTERO);     :}
