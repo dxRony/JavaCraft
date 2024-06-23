@@ -15,7 +15,7 @@ public class Simbolo {
         this.id = id;
     }
 
-    // constructor para variables
+    // constructor para variables y vectores
     public Simbolo(String id, Tipo tipo, String tipo2, String entorno, Object valor, boolean mutabilidad,
             int linea, int columna) {
         this.id = id;
@@ -38,6 +38,8 @@ public class Simbolo {
         this.linea = linea;
         this.columna = columna;
     }
+
+
 
     public Tipo getTipo() {
         return tipo;

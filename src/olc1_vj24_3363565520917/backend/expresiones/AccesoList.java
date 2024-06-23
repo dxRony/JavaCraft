@@ -23,7 +23,6 @@ public class AccesoList extends Instruccion {
 
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
-        System.out.println("entrando a interpretar acceso lista");
         Simbolo listaExistente = tabla.getVariable(identificador);
 
         if (listaExistente == null) {
@@ -38,9 +37,6 @@ public class AccesoList extends Instruccion {
             if (indiceObtener instanceof Errores) {
                 return indiceObtener;
             }
-            System.out.println("Obteniendo el valor en el indice: " + indiceObtener);
-            System.out.println("De la lista:" + identificador + " con tamaño: " + lista.size());
-            System.out.println("valor a obtener: " + lista.get((int) indiceObtener));
             this.tipo.setTipo(listaExistente.getTipo().getTipo());
             return lista.get((int) indiceObtener);
         } else {

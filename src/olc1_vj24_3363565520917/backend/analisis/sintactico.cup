@@ -29,6 +29,8 @@ import olc1_vj24_3363565520917.backend.instrucciones.Remove;
 import olc1_vj24_3363565520917.backend.instrucciones.AsignacionList;
 import olc1_vj24_3363565520917.backend.instrucciones.DeclaracionList;
 import olc1_vj24_3363565520917.backend.instrucciones.StartWith;
+import olc1_vj24_3363565520917.backend.instrucciones.AsignacionVector;
+import olc1_vj24_3363565520917.backend.instrucciones.DeclaracionVector;
 
 //expresiones
 import olc1_vj24_3363565520917.backend.expresiones.Nativo;
@@ -43,6 +45,7 @@ import olc1_vj24_3363565520917.backend.expresiones.Casteo;
 import olc1_vj24_3363565520917.backend.expresiones.Incremento;
 import olc1_vj24_3363565520917.backend.expresiones.Decremento;
 import olc1_vj24_3363565520917.backend.expresiones.AccesoList;
+import olc1_vj24_3363565520917.backend.expresiones.AccesoVector;
 
 //definiendo el parser
 parser code
@@ -90,6 +93,9 @@ nonterminal LinkedList<HashMap> PARAMS;
 nonterminal Instruccion START;
 nonterminal LinkedList<Instruccion> PARAMSCALL;
 nonterminal Instruccion DECLARACION_LIST, ASIGNACION_LIST, NATIVO_LIST;
+nonterminal Instruccion DECLARACION_VECTOR, ASIGNACION_VECTOR;
+nonterminal LinkedList<Instruccion> LISTAVALORES1, LISTAVALORES2;
+
 
 precedence left OR;
 precedence left AND;
@@ -125,6 +131,8 @@ INSTRUCCION ::= IMPRESION:a                       {:    RESULT=a;    :}
             | DECLARACION_LIST:a                  {:    RESULT=a;    :}
             | ASIGNACION_LIST:a                   {:    RESULT=a;    :}
             | NATIVO_LIST:a                       {:    RESULT=a;    :}
+            | DECLARACION_VECTOR:a                {:    RESULT=a;    :}
+            | ASIGNACION_VECTOR:a                 {:    RESULT=a;    :}
             | error FININSTRUCCION
             | error        
 ;
@@ -211,11 +219,29 @@ CASO ::= EXPRESION:a IGUAL MAYORQUE LLAVE1 INSTRUCCIONES:b LLAVE2    {:      RES
 DECLARACION_LIST ::= LIST MENORQUE TIPOS:a MAYORQUE ID:b IGUAL NEW LIST PAR1 PAR2 FININSTRUCCION        {:      RESULT = new DeclaracionList(a, aleft, aright, b);         :}
 ;
 
-ASIGNACION_LIST ::= ID:a CORCH1 EXPRESION:b CORCH2 IGUAL EXPRESION:c FININSTRUCCION     {:      RESULT = new AsignacionList(aleft, aright, a, b, c);      :}
+ASIGNACION_LIST ::= ID:a PAR1 EXPRESION:b PAR2 IGUAL EXPRESION:c FININSTRUCCION     {:      RESULT = new AsignacionList(aleft, aright, a, b, c);      :}
 ;
 
 NATIVO_LIST ::= ID:a PUNTO APPEND PAR1 EXPRESION:b PAR2 FININSTRUCCION                  {:      RESULT = new Append(aleft, aright, a, b);              :}
               | ID:a PUNTO REMOVE PAR1 EXPRESION:b PAR2 FININSTRUCCION                  {:      RESULT = new Remove(aleft, aright, a, b);              :} 
+;
+
+DECLARACION_VECTOR ::= MUTABILIDAD:a ID:b DOSPUNTOS TIPOS:c CORCH1 CORCH2 IGUAL CORCH1 LISTAVALORES1:d CORCH2 FININSTRUCCION      
+                                            {:  RESULT = new DeclaracionVector();   :} //vector 1D
+                     | MUTABILIDAD:a ID:b DOSPUNTOS TIPOS:c CORCH1 CORCH2 CORCH1 CORCH2 IGUAL CORCH1 LISTAVALORES2:d CORCH2 FININSTRUCCION
+                                            {:  RESULT = new DeclaracionVector();   :} //vector 2D
+;
+
+LISTAVALORES1 ::= LISTAVALORES1:a COMA EXPRESION:b      {:   RESULT = a; RESULT.add(b);                     :}
+            | EXPRESION:a                               {:   RESULT = new LinkedList<>(); RESULT.add(a);    :}
+;
+
+LISTAVALORES2 ::= LISTAVALORES2:a COMA LISTAVALORES1:b  {:  RESULT = a; RESULT.add(b);                      :}
+                | LISTAVALORES1:a                       {:  RESULT = new LinkedList<>(); RESULT.add(a);     :}
+;
+
+ASIGNACION_VECTOR ::= ID:a CORCH1 EXPRESION:b CORCH2 IGUAL EXPRESION:c FININSTRUCCION                               {:  RESULT = new AsignacionVector();    :}
+                    | ID:a CORCH1 EXPRESION:b CORCH2 CORCH1 EXPRESION:c CORCH2 IGUAL EXPRESION:d FININSTRUCCION     {:  RESULT = new AsignacionVector();    :}    
 ;
 
 EXPRESION ::= MENOS EXPRESION:a                       {:  RESULT = new Aritmeticas(aleft, aright, OperadoresAritmeticos.NEGACION, a);                   :}%prec UMENOS
@@ -247,8 +273,11 @@ EXPRESION ::= MENOS EXPRESION:a                       {:  RESULT = new Aritmetic
             | CADENA:a                                {:  RESULT = new Nativo(new Tipo(tipoDato.CADENA), aleft, aright, a);                             :}
             | CARACTER:a                              {:  RESULT = new Nativo(new Tipo(tipoDato.CARACTER), aleft, aright, a);                           :}
             | BOOLEANO:a                              {:  RESULT = new Nativo(new Tipo(tipoDato.BOOLEANO), aleft, aright, Boolean.parseBoolean(a));     :}
-            | ID:a                                    {:  RESULT = new AccesoVar(aleft, aright, a);                                                     :}   
-            | ID:a CORCH1 EXPRESION:b CORCH2          {:  RESULT = new AccesoList(aleft, aright, a, b);                                                 :}         
+
+            | ID:a                                    {:  RESULT = new AccesoVar(aleft, aright, a);                                                     :} //acceso a valor variable
+            | ID:a PAR1 EXPRESION:b PAR2              {:  RESULT = new AccesoList(aleft, aright, a, b);                                                 :} //acceso a valor en lista
+            | ID:a CORCH1 EXPRESION:b CORCH2          {:  RESULT = new AccesoVector();                                                                  :} //acceso vector 1D
+            | ID:a CORCH1 EXPRESION:b CORCH2 CORCH1 EXPRESION:c CORCH2      {:  RESULT = new AccesoVector();                                            :} //acceso vector 2D
 ;
 
 TIPOS ::= INT       {:  RESULT = new Tipo(tipoDato.ENTERO);     :}
