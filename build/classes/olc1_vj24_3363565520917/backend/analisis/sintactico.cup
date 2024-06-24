@@ -227,21 +227,25 @@ NATIVO_LIST ::= ID:a PUNTO APPEND PAR1 EXPRESION:b PAR2 FININSTRUCCION          
 ;
 
 DECLARACION_VECTOR ::= MUTABILIDAD:a ID:b DOSPUNTOS TIPOS:c CORCH1 CORCH2 IGUAL CORCH1 LISTAVALORES1:d CORCH2 FININSTRUCCION      
-                                            {:  RESULT = new DeclaracionVector();   :} //vector 1D
+                                            {:  RESULT = new DeclaracionVector(c, aleft, aright, a, b, 1, d);   :} //vector 1D
                      | MUTABILIDAD:a ID:b DOSPUNTOS TIPOS:c CORCH1 CORCH2 CORCH1 CORCH2 IGUAL CORCH1 LISTAVALORES2:d CORCH2 FININSTRUCCION
-                                            {:  RESULT = new DeclaracionVector();   :} //vector 2D
+                                            {:  RESULT = new DeclaracionVector(c, aleft, aright, a, b, 2, d);   :} //vector 2D
 ;
 
-LISTAVALORES1 ::= LISTAVALORES1:a COMA EXPRESION:b      {:   RESULT = a; RESULT.add(b);                     :}
-            | EXPRESION:a                               {:   RESULT = new LinkedList<>(); RESULT.add(a);    :}
+LISTAVALORES1 ::= LISTAVALORES1:a COMA EXPRESION:b      {:   RESULT = a; 
+                                                             RESULT.add(b);   :}
+            | EXPRESION:a                               {:   RESULT = new LinkedList<Instruccion>(); 
+                                                             RESULT.add(a);    :}
 ;
 
-LISTAVALORES2 ::= LISTAVALORES2:a COMA LISTAVALORES1:b  {:  RESULT = a; RESULT.add(b);                      :}
-                | LISTAVALORES1:a                       {:  RESULT = new LinkedList<>(); RESULT.add(a);     :}
+LISTAVALORES2 ::= LISTAVALORES2:a COMA CORCH1 LISTAVALORES1:b CORCH2    {:  RESULT = a; 
+                                                                            RESULT.addAll(b);   :}
+                | CORCH1 LISTAVALORES1:a CORCH2                         {:  RESULT = new LinkedList<>(); 
+                                                                            RESULT.addAll(a);    :}
 ;
 
-ASIGNACION_VECTOR ::= ID:a CORCH1 EXPRESION:b CORCH2 IGUAL EXPRESION:c FININSTRUCCION                               {:  RESULT = new AsignacionVector();    :}
-                    | ID:a CORCH1 EXPRESION:b CORCH2 CORCH1 EXPRESION:c CORCH2 IGUAL EXPRESION:d FININSTRUCCION     {:  RESULT = new AsignacionVector();    :}    
+ASIGNACION_VECTOR ::= ID:a CORCH1 EXPRESION:b CORCH2 IGUAL EXPRESION:c FININSTRUCCION                               {:  RESULT = new AsignacionVector(aleft, aright, a, b, null, c);    :}
+                    | ID:a CORCH1 EXPRESION:b CORCH2 CORCH1 EXPRESION:c CORCH2 IGUAL EXPRESION:d FININSTRUCCION     {:  RESULT = new AsignacionVector(aleft, aright, a, b, c, d);    :}    
 ;
 
 EXPRESION ::= MENOS EXPRESION:a                       {:  RESULT = new Aritmeticas(aleft, aright, OperadoresAritmeticos.NEGACION, a);                   :}%prec UMENOS
@@ -274,10 +278,10 @@ EXPRESION ::= MENOS EXPRESION:a                       {:  RESULT = new Aritmetic
             | CARACTER:a                              {:  RESULT = new Nativo(new Tipo(tipoDato.CARACTER), aleft, aright, a);                           :}
             | BOOLEANO:a                              {:  RESULT = new Nativo(new Tipo(tipoDato.BOOLEANO), aleft, aright, Boolean.parseBoolean(a));     :}
 
-            | ID:a                                    {:  RESULT = new AccesoVar(aleft, aright, a);                                                     :} //acceso a valor variable
-            | ID:a PAR1 EXPRESION:b PAR2              {:  RESULT = new AccesoList(aleft, aright, a, b);                                                 :} //acceso a valor en lista
-            | ID:a CORCH1 EXPRESION:b CORCH2          {:  RESULT = new AccesoVector();                                                                  :} //acceso vector 1D
-            | ID:a CORCH1 EXPRESION:b CORCH2 CORCH1 EXPRESION:c CORCH2      {:  RESULT = new AccesoVector();                                            :} //acceso vector 2D
+            | ID:a                                                          {:  RESULT = new AccesoVar(aleft, aright, a);                               :} //acceso a valor variable
+            | ID:a PAR1 EXPRESION:b PAR2                                    {:  RESULT = new AccesoList(aleft, aright, a, b);                           :} //acceso a valor en lista
+            | ID:a CORCH1 EXPRESION:b CORCH2                                {:  RESULT = new AccesoVector(aleft, aright, a, b, null);                   :} //acceso vector 1D
+            | ID:a CORCH1 EXPRESION:b CORCH2 CORCH1 EXPRESION:c CORCH2      {:  RESULT = new AccesoVector(aleft, aright, a, b, c);                      :} //acceso vector 2D
 ;
 
 TIPOS ::= INT       {:  RESULT = new Tipo(tipoDato.ENTERO);     :}

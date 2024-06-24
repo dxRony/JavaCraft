@@ -1,8 +1,6 @@
 package olc1_vj24_3363565520917.backend.instrucciones;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 
 import olc1_vj24_3363565520917.backend.abstracto.Instruccion;
 import olc1_vj24_3363565520917.backend.excepciones.Errores;
@@ -15,7 +13,7 @@ public class DeclaracionVector extends Instruccion {
 
     private String mutabilidad;// mutabilidad del vector
     private String identificador;// identificador del vector
-    private int dimension;// dimensiones -> 1D o 2D
+    private int dimension;// dimension del vector -> 1D o 2D
     private LinkedList<Instruccion> valores; // valores entrantes al vector
 
     public DeclaracionVector(Tipo tipo, int linea, int columna, String mutabilidad, String identificador,
@@ -30,21 +28,29 @@ public class DeclaracionVector extends Instruccion {
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
 
+        System.out.println("entrando a declaracion vector");
+        System.out.println("Datos entrantes.");
+        System.out.println("mutabilidad: " + mutabilidad);
+        System.out.println("identificador: " + identificador);
+        System.out.println("dimension: " + dimension);
+        System.out.println("valores: ");
+        for (Instruccion valor : valores) {
+            System.out.println(valor.tipo.getTipo());
+        }
+
         // if para reconocer si el arreglo es 1D o 2D
         if (dimension == 1) {// si es 1D
             // creando el array del tamaño de los valores
+            System.out.println("es de dimension 1");
             Object[] vector1D = new Object[valores.size()];
+            System.out.println("tamaño del vector: " + vector1D.length);
 
             for (int i = 0; i < valores.size(); i++) {// recorriendo los valores
                 var valor = valores.get(i).interpretar(arbol, tabla);
                 if (valor instanceof Errores) {
                     return valor;
                 }
-                // creando instruccion para comparar los tipos
-                Instruccion ingreso = (Instruccion) valor;
-                if (ingreso.tipo != this.tipo) {
-                    return new Errores("SEMANTICO", "Tipos erroneos", this.linea, this.columna);
-                }
+                //comparar tipos
                 // ingresando el valor a la posicion i
                 vector1D[i] = valor;
             }
