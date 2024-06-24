@@ -34,23 +34,23 @@ public class DeclaracionVector extends Instruccion {
         System.out.println("identificador: " + identificador);
         System.out.println("dimension: " + dimension);
         System.out.println("valores: ");
+
         for (Instruccion valor : valores) {
-            System.out.println(valor.tipo.getTipo());
+            System.out.println("valor: " + valor.interpretar(arbol, tabla));
+            System.out.println("tipo: " + valor.tipo.getTipo());
         }
 
         // if para reconocer si el arreglo es 1D o 2D
         if (dimension == 1) {// si es 1D
             // creando el array del tamaño de los valores
-            System.out.println("es de dimension 1");
             Object[] vector1D = new Object[valores.size()];
-            System.out.println("tamaño del vector: " + vector1D.length);
 
             for (int i = 0; i < valores.size(); i++) {// recorriendo los valores
                 var valor = valores.get(i).interpretar(arbol, tabla);
                 if (valor instanceof Errores) {
                     return valor;
                 }
-                //comparar tipos
+                // comparar tipos
                 // ingresando el valor a la posicion i
                 vector1D[i] = valor;
             }
@@ -71,36 +71,20 @@ public class DeclaracionVector extends Instruccion {
             }
 
         } else if (dimension == 2) {
-            // creando array 2D del tamaño de los valores
+           
             Object[][] vector2D = new Object[valores.size()][];
-
             for (int i = 0; i < valores.size(); i++) {
-                // interpretando las filas
-                LinkedList<Instruccion> valoresDeFila = (LinkedList<Instruccion>) valores.get(i).interpretar(arbol,
-                        tabla);
-                vector2D[i] = new Object[valoresDeFila.size()];
-                for (int j = 0; j < valoresDeFila.size(); j++) {
-                    var ins = valoresDeFila.get(j).interpretar(arbol, tabla);
-                    if (ins instanceof Errores) {
-                        return ins;
-                    }
-                    vector2D[i][j] = ins;
+                LinkedList<Instruccion> fila = (LinkedList<Instruccion>) valores.get(i);
+                vector2D[i] = new Object[fila.size()];
+                for (int j = 0; j < fila.size(); j++) {
+                    Instruccion valor = fila.get(j);
+                    vector2D[i][j] = valor.interpretar(arbol, tabla);
+                    System.out.println("valor[" + i + "][" + j + "]: " + vector2D[i][j]);
+                    System.out.println("tipo: " + valor.tipo.getTipo());
                 }
             }
-            // manejando mutabilidad
-            boolean mutabilidadBool = false;
 
-            if (mutabilidad.equals("var")) {
-                mutabilidadBool = true;
-            } else if (mutabilidad.equals("const")) {
-                mutabilidadBool = false;
-            }
-            Simbolo s = new Simbolo(identificador, this.tipo, "Vector", tabla.getNombre(), vector2D, mutabilidadBool,
-                    this.linea, this.columna);
-            boolean creacion = tabla.setVariable(s);
-            if (!creacion) {
-                return new Errores("SEMANTICO", "El vector ya existe", this.linea, this.columna);
-            }
+
         }
         return null;
     }

@@ -238,10 +238,8 @@ LISTAVALORES1 ::= LISTAVALORES1:a COMA EXPRESION:b      {:   RESULT = a;
                                                              RESULT.add(a);    :}
 ;
 
-LISTAVALORES2 ::= LISTAVALORES2:a COMA CORCH1 LISTAVALORES1:b CORCH2    {:  RESULT = a; 
-                                                                            RESULT.addAll(b);   :}
-                | CORCH1 LISTAVALORES1:a CORCH2                         {:  RESULT = new LinkedList<>(); 
-                                                                            RESULT.addAll(a);    :}
+LISTAVALORES2 ::= LISTAVALORES2:a COMA CORCH1 LISTAVALORES1:b CORCH2 {:  RESULT = a; RESULT.add(new LinkedList<Instruccion>(b));     :}
+                | CORCH1 LISTAVALORES1:a CORCH2                      {:   RESULT = new LinkedList<LinkedList<Instruccion>>(); RESULT.add(new LinkedList<Instruccion>(a));     :}
 ;
 
 ASIGNACION_VECTOR ::= ID:a CORCH1 EXPRESION:b CORCH2 IGUAL EXPRESION:c FININSTRUCCION                               {:  RESULT = new AsignacionVector(aleft, aright, a, b, null, c);    :}
