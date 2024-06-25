@@ -45,8 +45,6 @@ public class DeclaracionVector extends Instruccion {
         System.out.println("dimension: " + dimension);
         System.out.println("valores: ");
 
-
-
         // if para reconocer si el arreglo es 1D o 2D
         if (dimension == 1) {// si es 1D
             // creando el array del tamaño de los valores
@@ -86,7 +84,12 @@ public class DeclaracionVector extends Instruccion {
                 vector2D[i] = new Object[fila.size()];
 
                 for (int j = 0; j < fila.size(); j++) {
-                    vector2D[i][j] = fila.get(j).interpretar(arbol, tabla);
+                    var filaIns = fila.get(j).interpretar(arbol, tabla);
+
+                    if (filaIns instanceof Errores) {
+                        return filaIns;
+                    }
+                    vector2D[i][j] = filaIns;
                 }
             }
             // manejando mutabilidad

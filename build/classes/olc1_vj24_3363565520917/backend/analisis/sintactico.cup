@@ -31,6 +31,7 @@ import olc1_vj24_3363565520917.backend.instrucciones.DeclaracionList;
 import olc1_vj24_3363565520917.backend.instrucciones.StartWith;
 import olc1_vj24_3363565520917.backend.instrucciones.AsignacionVector;
 import olc1_vj24_3363565520917.backend.instrucciones.DeclaracionVector;
+import olc1_vj24_3363565520917.backend.instrucciones.Llamada;
 
 //expresiones
 import olc1_vj24_3363565520917.backend.expresiones.Nativo;
@@ -96,6 +97,7 @@ nonterminal Instruccion DECLARACION_LIST, ASIGNACION_LIST, NATIVO_LIST;
 nonterminal Instruccion DECLARACION_VECTOR, ASIGNACION_VECTOR;
 nonterminal LinkedList<Instruccion> LISTAVALORES1;
 nonterminal LinkedList<LinkedList<Instruccion>> LISTAVALORES2;
+nonterminal Instruccion LLAMADA;
 
 
 precedence left OR;
@@ -134,6 +136,7 @@ INSTRUCCION ::= IMPRESION:a                       {:    RESULT=a;    :}
             | NATIVO_LIST:a                       {:    RESULT=a;    :}
             | DECLARACION_VECTOR:a                {:    RESULT=a;    :}
             | ASIGNACION_VECTOR:a                 {:    RESULT=a;    :}
+            | LLAMADA:a                           {:    RESULT=a;    :}//se pone aca para que funcione como void, pero se debe poner en expresion para que retorne un valor
             | error FININSTRUCCION
             | error        
 ;
@@ -169,6 +172,10 @@ PARAMS ::= PARAMS:a COMA TIPOS:b ID:c   {:  RESULT = a;
 
 START ::= STARTWITH ID:a PAR1 PARAMSCALL:b PAR2 FININSTRUCCION      {:  RESULT = new StartWith(aleft, aright, a, b);   :}
         | STARTWITH ID:a PAR1 PAR2 FININSTRUCCION                   {:  RESULT = new StartWith(aleft, aright, a, new LinkedList<Instruccion>());       :}
+;
+
+LLAMADA ::= ID:a PAR1 PARAMSCALL:b PAR2 FININSTRUCCION              {:  RESULT = new Llamada(aleft, aright, a, b);     :}
+          | ID:a PAR1 PAR2 FININSTRUCCION                           {:  RESULT = new Llamada(aleft, aright, a, new LinkedList<Instruccion>());     :}
 ;
 
 PARAMSCALL ::= PARAMSCALL:a COMA EXPRESION:e      {:  RESULT = a;

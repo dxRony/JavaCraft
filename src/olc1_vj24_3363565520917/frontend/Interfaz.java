@@ -19,8 +19,10 @@ import olc1_vj24_3363565520917.backend.archivo.Archivo;
 import olc1_vj24_3363565520917.backend.excepciones.Errores;
 import olc1_vj24_3363565520917.backend.instrucciones.AsignacionList;
 import olc1_vj24_3363565520917.backend.instrucciones.AsignacionVar;
+import olc1_vj24_3363565520917.backend.instrucciones.AsignacionVector;
 import olc1_vj24_3363565520917.backend.instrucciones.Declaracion;
 import olc1_vj24_3363565520917.backend.instrucciones.DeclaracionList;
+import olc1_vj24_3363565520917.backend.instrucciones.DeclaracionVector;
 import olc1_vj24_3363565520917.backend.instrucciones.Metodo;
 import olc1_vj24_3363565520917.backend.instrucciones.StartWith;
 import olc1_vj24_3363565520917.backend.simbolo.Arbol;
@@ -32,7 +34,7 @@ import olc1_vj24_3363565520917.backend.simbolo.tablaSimbolos;
  * @author romar
  */
 public class Interfaz extends javax.swing.JFrame {
-    
+
     private Archivo archivo;
     private LinkedList<Errores> listaErrores;
     private LinkedList<Simbolo> listaSimbolos;
@@ -227,14 +229,14 @@ public class Interfaz extends javax.swing.JFrame {
         model.addColumn("Descripcion");
         model.addColumn("Linea");
         model.addColumn("Columna");
-        
+
         for (Errores error : listaErrores) {
             numero++;
-            model.addRow(new Object[]{numero,
-                error.getTipo(),
-                error.getDescripcion(),
-                error.getLinea(),
-                error.getColumna()});
+            model.addRow(new Object[] { numero,
+                    error.getTipo(),
+                    error.getDescripcion(),
+                    error.getLinea(),
+                    error.getColumna() });
         }
         JTable tablaErrores = new JTable(model);
         JScrollPane sP = new JScrollPane(tablaErrores);
@@ -244,7 +246,7 @@ public class Interfaz extends javax.swing.JFrame {
         frameErrores.pack();
         frameErrores.setVisible(true);
         frameErrores.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        
+
     }// GEN-LAST:event_btnTablaErroresActionPerformed
 
     private void btnTablaSimbolosActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnTablaSimbolosActionPerformed
@@ -259,30 +261,30 @@ public class Interfaz extends javax.swing.JFrame {
         model.addColumn("Valor");
         model.addColumn("Linea");
         model.addColumn("Columna");
-        
-        for (Simbolo simbolo : listaSimbolos) {            
+
+        for (Simbolo simbolo : listaSimbolos) {
             numero++;
-            model.addRow(new Object[]{
-                numero,
-                simbolo.getId(),
-                simbolo.getTipo2(),
-                simbolo.getTipo().getTipo(),
-                simbolo.getEntorno(),
-                simbolo.getValor(),
-                simbolo.getLinea(),
-                simbolo.getColumna()});
+            model.addRow(new Object[] {
+                    numero,
+                    simbolo.getId(),
+                    simbolo.getTipo2(),
+                    simbolo.getTipo().getTipo(),
+                    simbolo.getEntorno(),
+                    simbolo.getValor(),
+                    simbolo.getLinea(),
+                    simbolo.getColumna() });
         }
-        
+
         JTable tablaSimbolos = new JTable(model);
         JScrollPane sP = new JScrollPane(tablaSimbolos);
-        
+
         JFrame frameErrores = new JFrame("Tabla de Simbolos");
         frameErrores.setLayout(new BorderLayout());
         frameErrores.add(sP, BorderLayout.CENTER);
         frameErrores.pack();
         frameErrores.setVisible(true);
         frameErrores.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        
+
     }// GEN-LAST:event_btnTablaSimbolosActionPerformed
 
     private void btnASTActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnASTActionPerformed
@@ -297,53 +299,55 @@ public class Interfaz extends javax.swing.JFrame {
             if (this.listaSimbolos != null) {
                 listaSimbolos.clear();
             }
-          
+
             txtAreaConsola.setText("");
-            
+
             String texto = archivo.obtenerTextoPestanaActual(pnlEntrada); // obteniendo texto del text area
             String erroresConsola = "";
-            
+
             scanner s = new scanner(new BufferedReader(new StringReader(texto)));
             parser p = new parser(s);
-            
+
             var resultado = p.parse();
-            var ast = new Arbol((LinkedList<Instruccion>) resultado.value);            
+            var ast = new Arbol((LinkedList<Instruccion>) resultado.value);
             var tabla = new tablaSimbolos();// creando tabla global
 
             tabla.setNombre("GLOBAL");
             ast.setConsola("");
             ast.setTablaGlobal(tabla);
-            
+
             listaErrores.addAll(s.listaErrores);
             listaErrores.addAll(p.listaErrores);
 
-            //3 recorridos del arbol            
-            for (var a : ast.getInstrucciones()) {//1ra vuelta
+            // 3 recorridos del arbol
+            for (var a : ast.getInstrucciones()) {// 1ra vuelta
                 if (a == null) {
                     continue;
-                }            
+                }
                 if (a instanceof Metodo) {
                     ast.addFunciones(a);
                 }
-                //en esta vuelta se añaden metodos, funciones y structs            
+                // en esta vuelta se añaden metodos, funciones y structs
             }
 
-            for (var a : ast.getInstrucciones()) {//2da vuelta
+            for (var a : ast.getInstrucciones()) {// 2da vuelta
                 if (a == null) {
                     continue;
                 }
-                
-                if (a instanceof Declaracion || a instanceof AsignacionVar || a instanceof DeclaracionList || a instanceof AsignacionList) {
-                   var res = a.interpretar(ast, tabla);
-                   if (res instanceof Errores) {
-                    listaErrores.add((Errores) res);
-                   }
+
+                if (a instanceof Declaracion || a instanceof AsignacionVar
+                        || a instanceof DeclaracionList || a instanceof AsignacionList
+                        || a instanceof DeclaracionVector || a instanceof AsignacionVector) {
+                    var res = a.interpretar(ast, tabla);
+                    if (res instanceof Errores) {
+                        listaErrores.add((Errores) res);
+                    }
                 }
-                //esta vuelta es para declaraciones y asignaciones globales
+                // esta vuelta es para declaraciones y asignaciones globales
             }
 
             StartWith e = null;
-            for (var a : ast.getInstrucciones()) {//3ra vuelta
+            for (var a : ast.getInstrucciones()) {// 3ra vuelta
                 if (a == null) {
                     continue;
                 }
@@ -351,7 +355,7 @@ public class Interfaz extends javax.swing.JFrame {
                     e = (StartWith) a;
                     break;
                 }
-                //en la 3ra vuelta del arbol se busca el start_with
+                // en la 3ra vuelta del arbol se busca el start_with
             }
 
             var resultadoStart = e.interpretar(ast, tabla);
@@ -372,7 +376,7 @@ public class Interfaz extends javax.swing.JFrame {
             System.out.println("Algo salio mal...");
             System.out.println(e);
         }
-        
+
     }// GEN-LAST:event_btnEjecutarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

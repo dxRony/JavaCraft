@@ -81,7 +81,6 @@ public class Declaracion extends Instruccion {
                 this.valor = new Nativo(new Tipo(tipoDato.CADENA), this.linea, this.columna, "");
             }
             default -> {
-
             }
         }
     }
