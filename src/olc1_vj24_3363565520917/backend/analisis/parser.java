@@ -1901,8 +1901,8 @@ class CUP$parser$actions {
 		Tipo c = (Tipo)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-9)).value;
 		int dleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).left;
 		int dright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).right;
-		LinkedList<Instruccion> d = (LinkedList<Instruccion>)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-2)).value;
-		  RESULT = new DeclaracionVector(c, aleft, aright, a, b, 2, d);   
+		LinkedList<LinkedList<Instruccion>> d = (LinkedList<LinkedList<Instruccion>>)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-2)).value;
+		  RESULT = new DeclaracionVector(c, aleft, aright, a, b, d);   
               CUP$parser$result = parser.getSymbolFactory().newSymbol("DECLARACION_VECTOR",25, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-12)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -1939,14 +1939,14 @@ class CUP$parser$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 63: // LISTAVALORES2 ::= LISTAVALORES2 COMA CORCH1 LISTAVALORES1 CORCH2 
             {
-              LinkedList<Instruccion> RESULT =null;
+              LinkedList<LinkedList<Instruccion>> RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)).right;
-		LinkedList<Instruccion> a = (LinkedList<Instruccion>)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-4)).value;
+		LinkedList<LinkedList<Instruccion>> a = (LinkedList<LinkedList<Instruccion>>)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-4)).value;
 		int bleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int bright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		LinkedList<Instruccion> b = (LinkedList<Instruccion>)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		  RESULT = a; RESULT.add(new LinkedList<Instruccion>(b));     
+		     RESULT = a; RESULT.add(b);  
               CUP$parser$result = parser.getSymbolFactory().newSymbol("LISTAVALORES2",28, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -1954,11 +1954,11 @@ class CUP$parser$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 64: // LISTAVALORES2 ::= CORCH1 LISTAVALORES1 CORCH2 
             {
-              LinkedList<Instruccion> RESULT =null;
+              LinkedList<LinkedList<Instruccion>> RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		LinkedList<Instruccion> a = (LinkedList<Instruccion>)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		   RESULT = new LinkedList<LinkedList<Instruccion>>(); RESULT.add(new LinkedList<Instruccion>(a));     
+		     RESULT = new LinkedList<LinkedList<Instruccion>>();     RESULT.add(a);  
               CUP$parser$result = parser.getSymbolFactory().newSymbol("LISTAVALORES2",28, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;

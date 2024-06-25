@@ -14,7 +14,6 @@ public class Declaracion extends Instruccion {
     public Instruccion valor;// contenido de la variable
     public String mutabilidad;
 
-    // manejar valor por defecto
     public Declaracion(Tipo tipo, int linea, int columna, String identificador, Instruccion valor, String mutabilidad) {
         super(tipo, linea, columna);
         this.identificador = identificador;
@@ -22,6 +21,7 @@ public class Declaracion extends Instruccion {
         this.mutabilidad = mutabilidad;
     }
 
+    //constructor para menejar valor por defecto
     public Declaracion(Tipo tipo, int linea, int columna, String identificador, String mutabilidad) {
         super(tipo, linea, columna);
         this.identificador = identificador;
@@ -72,10 +72,10 @@ public class Declaracion extends Instruccion {
                 this.valor = new Nativo(new Tipo(tipoDato.DECIMAL), this.linea, this.columna, 0.0);
             }
             case BOOLEANO -> {
-                this.valor = new Nativo(new Tipo(tipoDato.BOOLEANO), this.linea, this.columna, "true");
+                this.valor = new Nativo(new Tipo(tipoDato.BOOLEANO), this.linea, this.columna, true);
             }
             case CARACTER -> {
-                this.valor = new Nativo(new Tipo(tipoDato.CARACTER), this.linea, this.columna, 0);
+                this.valor = new Nativo(new Tipo(tipoDato.CARACTER), this.linea, this.columna, '\u0000');
             }
             case CADENA -> {
                 this.valor = new Nativo(new Tipo(tipoDato.CADENA), this.linea, this.columna, "");

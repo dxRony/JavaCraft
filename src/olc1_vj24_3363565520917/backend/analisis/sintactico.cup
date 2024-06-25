@@ -94,7 +94,8 @@ nonterminal Instruccion START;
 nonterminal LinkedList<Instruccion> PARAMSCALL;
 nonterminal Instruccion DECLARACION_LIST, ASIGNACION_LIST, NATIVO_LIST;
 nonterminal Instruccion DECLARACION_VECTOR, ASIGNACION_VECTOR;
-nonterminal LinkedList<Instruccion> LISTAVALORES1, LISTAVALORES2;
+nonterminal LinkedList<Instruccion> LISTAVALORES1;
+nonterminal LinkedList<LinkedList<Instruccion>> LISTAVALORES2;
 
 
 precedence left OR;
@@ -219,7 +220,7 @@ CASO ::= EXPRESION:a IGUAL MAYORQUE LLAVE1 INSTRUCCIONES:b LLAVE2    {:      RES
 DECLARACION_LIST ::= LIST MENORQUE TIPOS:a MAYORQUE ID:b IGUAL NEW LIST PAR1 PAR2 FININSTRUCCION        {:      RESULT = new DeclaracionList(a, aleft, aright, b);         :}
 ;
 
-ASIGNACION_LIST ::= ID:a PAR1 EXPRESION:b PAR2 IGUAL EXPRESION:c FININSTRUCCION     {:      RESULT = new AsignacionList(aleft, aright, a, b, c);      :}
+ASIGNACION_LIST ::= ID:a PAR1 EXPRESION:b PAR2 IGUAL EXPRESION:c FININSTRUCCION         {:      RESULT = new AsignacionList(aleft, aright, a, b, c);      :}
 ;
 
 NATIVO_LIST ::= ID:a PUNTO APPEND PAR1 EXPRESION:b PAR2 FININSTRUCCION                  {:      RESULT = new Append(aleft, aright, a, b);              :}
@@ -229,7 +230,7 @@ NATIVO_LIST ::= ID:a PUNTO APPEND PAR1 EXPRESION:b PAR2 FININSTRUCCION          
 DECLARACION_VECTOR ::= MUTABILIDAD:a ID:b DOSPUNTOS TIPOS:c CORCH1 CORCH2 IGUAL CORCH1 LISTAVALORES1:d CORCH2 FININSTRUCCION      
                                             {:  RESULT = new DeclaracionVector(c, aleft, aright, a, b, 1, d);   :} //vector 1D
                      | MUTABILIDAD:a ID:b DOSPUNTOS TIPOS:c CORCH1 CORCH2 CORCH1 CORCH2 IGUAL CORCH1 LISTAVALORES2:d CORCH2 FININSTRUCCION
-                                            {:  RESULT = new DeclaracionVector(c, aleft, aright, a, b, 2, d);   :} //vector 2D
+                                            {:  RESULT = new DeclaracionVector(c, aleft, aright, a, b, d);   :} //vector 2D
 ;
 
 LISTAVALORES1 ::= LISTAVALORES1:a COMA EXPRESION:b      {:   RESULT = a; 
@@ -238,8 +239,8 @@ LISTAVALORES1 ::= LISTAVALORES1:a COMA EXPRESION:b      {:   RESULT = a;
                                                              RESULT.add(a);    :}
 ;
 
-LISTAVALORES2 ::= LISTAVALORES2:a COMA CORCH1 LISTAVALORES1:b CORCH2 {:  RESULT = a; RESULT.add(new LinkedList<Instruccion>(b));     :}
-                | CORCH1 LISTAVALORES1:a CORCH2                      {:   RESULT = new LinkedList<LinkedList<Instruccion>>(); RESULT.add(new LinkedList<Instruccion>(a));     :}
+LISTAVALORES2 ::= LISTAVALORES2:a COMA CORCH1 LISTAVALORES1:b CORCH2 {:     RESULT = a; RESULT.add(b);  :}
+                | CORCH1 LISTAVALORES1:a CORCH2                        {:     RESULT = new LinkedList<LinkedList<Instruccion>>();     RESULT.add(a);  :}
 ;
 
 ASIGNACION_VECTOR ::= ID:a CORCH1 EXPRESION:b CORCH2 IGUAL EXPRESION:c FININSTRUCCION                               {:  RESULT = new AsignacionVector(aleft, aright, a, b, null, c);    :}
