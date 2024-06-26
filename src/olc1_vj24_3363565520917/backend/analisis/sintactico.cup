@@ -26,7 +26,6 @@ import olc1_vj24_3363565520917.backend.instrucciones.Continue;
 import olc1_vj24_3363565520917.backend.instrucciones.Metodo;
 import olc1_vj24_3363565520917.backend.instrucciones.Append;
 import olc1_vj24_3363565520917.backend.instrucciones.Remove;
-import olc1_vj24_3363565520917.backend.instrucciones.AsignacionList;
 import olc1_vj24_3363565520917.backend.instrucciones.DeclaracionList;
 import olc1_vj24_3363565520917.backend.instrucciones.StartWith;
 import olc1_vj24_3363565520917.backend.instrucciones.AsignacionVector;
@@ -45,7 +44,6 @@ import olc1_vj24_3363565520917.backend.expresiones.AccesoVar;
 import olc1_vj24_3363565520917.backend.expresiones.Casteo;
 import olc1_vj24_3363565520917.backend.expresiones.Incremento;
 import olc1_vj24_3363565520917.backend.expresiones.Decremento;
-import olc1_vj24_3363565520917.backend.expresiones.AccesoList;
 import olc1_vj24_3363565520917.backend.expresiones.AccesoVector;
 
 //definiendo el parser
@@ -225,9 +223,6 @@ CASO ::= EXPRESION:a IGUAL MAYORQUE LLAVE1 INSTRUCCIONES:b LLAVE2    {:      RES
 ;
 
 DECLARACION_LIST ::= LIST MENORQUE TIPOS:a MAYORQUE ID:b IGUAL NEW LIST PAR1 PAR2 FININSTRUCCION        {:      RESULT = new DeclaracionList(a, aleft, aright, b);         :}
-;
-
-ASIGNACION_LIST ::= ID:a PAR1 EXPRESION:b PAR2 IGUAL EXPRESION:c FININSTRUCCION         {:      RESULT = new AsignacionList(aleft, aright, a, b, c);      :}
 ;
 
 NATIVO_LIST ::= ID:a PUNTO APPEND PAR1 EXPRESION:b PAR2 FININSTRUCCION                  {:      RESULT = new Append(aleft, aright, a, b);              :}

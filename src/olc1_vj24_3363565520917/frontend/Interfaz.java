@@ -17,7 +17,6 @@ import olc1_vj24_3363565520917.backend.analisis.parser;
 import olc1_vj24_3363565520917.backend.analisis.scanner;
 import olc1_vj24_3363565520917.backend.archivo.Archivo;
 import olc1_vj24_3363565520917.backend.excepciones.Errores;
-import olc1_vj24_3363565520917.backend.instrucciones.AsignacionList;
 import olc1_vj24_3363565520917.backend.instrucciones.AsignacionVar;
 import olc1_vj24_3363565520917.backend.instrucciones.AsignacionVector;
 import olc1_vj24_3363565520917.backend.instrucciones.Declaracion;
@@ -336,8 +335,8 @@ public class Interfaz extends javax.swing.JFrame {
                 }
 
                 if (a instanceof Declaracion || a instanceof AsignacionVar
-                        || a instanceof DeclaracionList || a instanceof AsignacionList
-                        || a instanceof DeclaracionVector || a instanceof AsignacionVector) {
+                        || a instanceof DeclaracionList || a instanceof DeclaracionVector 
+                        || a instanceof AsignacionVector) {
                     var res = a.interpretar(ast, tabla);
                     if (res instanceof Errores) {
                         listaErrores.add((Errores) res);

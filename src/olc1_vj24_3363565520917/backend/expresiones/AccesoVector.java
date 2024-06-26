@@ -32,7 +32,7 @@ public class AccesoVector extends Instruccion {
             return new Errores("SEMANTICO", "El vector: " + this.identificador + ", no existe", this.linea,
                     this.columna);
         }
-        if (vectorExistente.getTipo2().equalsIgnoreCase("Vector")) {
+        if (vectorExistente.getTipo2().equalsIgnoreCase("Vector")) {// acceso a vector 1D o 2D
             if (indice2 == null) {
                 var indiceVector1 = indice1.interpretar(arbol, tabla);
                 if (indiceVector1 instanceof Errores) {
@@ -56,7 +56,17 @@ public class AccesoVector extends Instruccion {
                 this.tipo.setTipo(vectorExistente.getTipo().getTipo());
                 return vector2D[(int) indiceVector1][(int) indiceVector2];
             }
+        } else if (vectorExistente.getTipo2().equalsIgnoreCase("Lista")) {// acceso a lista
+            var lista = (LinkedList<Object>) vectorExistente.getValor();
+
+            var indiceObtener = indice1.interpretar(arbol, tabla);
+            if (indiceObtener instanceof Errores) {
+                return indiceObtener;
+            }
+            this.tipo.setTipo(vectorExistente.getTipo().getTipo());
+            return lista.get((int) indiceObtener);
+        } else {
+            return new Errores("SEMANTICO", "El id no pertenece a una lista", this.linea, this.columna);
         }
-        return null;
     }
 }

@@ -1,5 +1,7 @@
 package olc1_vj24_3363565520917.backend.instrucciones;
 
+import java.util.LinkedList;
+
 import olc1_vj24_3363565520917.backend.abstracto.Instruccion;
 import olc1_vj24_3363565520917.backend.excepciones.Errores;
 import olc1_vj24_3363565520917.backend.simbolo.Arbol;
@@ -29,7 +31,7 @@ public class AsignacionVector extends Instruccion {
 
         Simbolo vectorExistente = tabla.getVariable(identificador);
         if (vectorExistente == null) {
-            return new Errores("SEMANTICO", "La lista no existe", this.linea, this.columna);
+            return new Errores("SEMANTICO", "La lista/vector no existe", this.linea, this.columna);
         }
 
         if (vectorExistente.getTipo2().equalsIgnoreCase("Vector")) {
@@ -74,6 +76,21 @@ public class AsignacionVector extends Instruccion {
                 Object[][] vector2D = (Object[][]) vectorExistente.getValor();
                 vector2D[(int) indiceVector1][(int) indiceVector2] = newValor;
             }
+        } else if (vectorExistente.getTipo2().equalsIgnoreCase("Lista")) {// si estoy asignando valores a un vector
+            var lista = (LinkedList<Object>) vectorExistente.getValor();
+            var indiceAsignar = this.indice1.interpretar(arbol, tabla);
+            if (indiceAsignar instanceof Errores) {
+                return indiceAsignar;
+            }
+
+            var newValor = this.valor.interpretar(arbol, tabla);
+            if (newValor instanceof Errores) {
+                return newValor;
+            }
+            if (vectorExistente.getTipo().getTipo() != this.valor.tipo.getTipo()) {
+                return new Errores("SEMANTICO", "Tipos no coincidentes para la asignacion", this.linea, this.columna);
+            }
+            lista.set((int) indiceAsignar, newValor);// modificando el valor en el indice recibido
         } else {// sino es de tipo lista se toma como error
             return new Errores("SEMANTICO", "El id no pertenece a un vector", this.linea, this.columna);
         }
