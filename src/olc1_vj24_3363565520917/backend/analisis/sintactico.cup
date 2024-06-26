@@ -134,7 +134,7 @@ INSTRUCCION ::= IMPRESION:a                       {:    RESULT=a;    :}
             | NATIVO_LIST:a                       {:    RESULT=a;    :}
             | DECLARACION_VECTOR:a                {:    RESULT=a;    :}
             | ASIGNACION_VECTOR:a                 {:    RESULT=a;    :}
-            | LLAMADA:a                           {:    RESULT=a;    :}//se pone aca para que funcione como void, pero se debe poner en expresion para que retorne un valor
+            | LLAMADA:a                           {:    RESULT=a;    :}
             | error FININSTRUCCION
             | error        
 ;

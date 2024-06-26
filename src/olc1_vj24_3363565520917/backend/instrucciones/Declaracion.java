@@ -21,7 +21,7 @@ public class Declaracion extends Instruccion {
         this.mutabilidad = mutabilidad;
     }
 
-    //constructor para menejar valor por defecto
+    // constructor para menejar valor por defecto
     public Declaracion(Tipo tipo, int linea, int columna, String identificador, String mutabilidad) {
         super(tipo, linea, columna);
         this.identificador = identificador;

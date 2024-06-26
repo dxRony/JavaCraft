@@ -11,7 +11,7 @@ import olc1_vj24_3363565520917.backend.simbolo.tipoDato;
 
 public class Llamada extends Instruccion {
 
-    private String identificador;
+    private String id;
     private LinkedList<Instruccion> parametros;
 
     /*
@@ -21,37 +21,37 @@ public class Llamada extends Instruccion {
      * los parametros de la llamada del metodo van a interpretarse del
      * entorno de donde se llamo al metodo
      */
-    public Llamada(int linea, int columna, String identificador, LinkedList<Instruccion> parametros) {
+    public Llamada(int linea, int columna, String id, LinkedList<Instruccion> parametros) {
         super(new Tipo(tipoDato.VOID), linea, columna);
-        this.identificador = identificador;
+        this.id = id;
         this.parametros = parametros;
     }
 
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
 
-        var busqueda = arbol.getFuncion(identificador);
+        var busqueda = arbol.getFuncion(this.id);
         if (busqueda == null) {
             return new Errores("SEMANTICO", "La funcion no existe", this.linea, this.columna);
         }
         if (busqueda instanceof Metodo metodo) {
             // creando entorno del metodo y mandandole como anterior el global
             var newTabla = new tablaSimbolos(arbol.getTablaGlobal());
-            newTabla.setNombre("Llamada metodo:" + this.identificador);
-
+            newTabla.setNombre("Llamada metodo:" + this.id);
             if (metodo.parametros.size() != this.parametros.size()) {// validando parametros
                 return new Errores("SEMANTICO", "Los parametros de la llamada no estan correctos", this.linea,
                         this.columna);
             }
             for (int i = 0; i < this.parametros.size(); i++) {
+                var identificador = (String) metodo.parametros.get(i).get("id");
                 var valor = this.parametros.get(i);
                 var tipo2 = (Tipo) metodo.parametros.get(i).get("tipo");
                 // declarando el parametro dentro del entorno del metodo, con valor default
                 var declaracionParametro = new Declaracion(tipo2, this.linea, this.columna, identificador, "var");
                 // declarando el parametro en la tabla del metodo que se llama
-                var resultadoDeclaracion = declaracionParametro.interpretar(arbol, newTabla);
-                if (resultadoDeclaracion instanceof Errores) {
-                    return resultadoDeclaracion;
+                var resultado = declaracionParametro.interpretar(arbol, newTabla);
+                if (resultado instanceof Errores) {
+                    return resultado;
                 }
                 // interpretando el valor del parametro de la tabla donde se llamo al metodo
                 var valorInterpretado = valor.interpretar(arbol, tabla);
