@@ -33,6 +33,7 @@ import olc1_vj24_3363565520917.backend.instrucciones.DeclaracionList;
 import olc1_vj24_3363565520917.backend.instrucciones.StartWith;
 import olc1_vj24_3363565520917.backend.instrucciones.AsignacionVector;
 import olc1_vj24_3363565520917.backend.instrucciones.DeclaracionVector;
+import olc1_vj24_3363565520917.backend.instrucciones.Llamada;
 import olc1_vj24_3363565520917.backend.expresiones.Nativo;
 import olc1_vj24_3363565520917.backend.expresiones.Aritmeticas;
 import olc1_vj24_3363565520917.backend.expresiones.Relacionales;
@@ -1515,7 +1516,7 @@ class CUP$parser$actions {
 		int eright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Instruccion e = (Instruccion)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		  RESULT = a;
-                                                    RESULT.add(e);    
+                                                    RESULT.add(e);
                                                 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("PARAMSCALL",21, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -1528,8 +1529,8 @@ class CUP$parser$actions {
 		int aleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Instruccion a = (Instruccion)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		  RESULT = new LinkedList<Instruccion>();
-                                                    RESULT.add(a);  
+		  RESULT = new LinkedList<Instruccion>(); 
+                                                    RESULT.add(a);
                                                 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("PARAMSCALL",21, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }

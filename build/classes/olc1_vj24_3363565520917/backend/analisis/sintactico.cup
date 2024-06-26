@@ -285,8 +285,7 @@ EXPRESION ::= MENOS EXPRESION:a                       {:  RESULT = new Aritmetic
             | BOOLEANO:a                              {:  RESULT = new Nativo(new Tipo(tipoDato.BOOLEANO), aleft, aright, Boolean.parseBoolean(a));     :}
 
             | ID:a                                                          {:  RESULT = new AccesoVar(aleft, aright, a);                               :} //acceso a valor variable
-            | ID:a PAR1 EXPRESION:b PAR2                                    {:  RESULT = new AccesoList(aleft, aright, a, b);                           :} //acceso a valor en lista
-            | ID:a CORCH1 EXPRESION:b CORCH2                                {:  RESULT = new AccesoVector(aleft, aright, a, b, null);                   :} //acceso vector 1D
+            | ID:a CORCH1 EXPRESION:b CORCH2                                {:  RESULT = new AccesoVector(aleft, aright, a, b, null);                   :} //acceso vector 1D o acceso lista
             | ID:a CORCH1 EXPRESION:b CORCH2 CORCH1 EXPRESION:c CORCH2      {:  RESULT = new AccesoVector(aleft, aright, a, b, c);                      :} //acceso vector 2D
 ;
 
