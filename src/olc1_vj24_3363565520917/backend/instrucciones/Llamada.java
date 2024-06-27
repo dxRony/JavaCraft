@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 import olc1_vj24_3363565520917.backend.abstracto.Instruccion;
 import olc1_vj24_3363565520917.backend.excepciones.Errores;
+import olc1_vj24_3363565520917.backend.expresiones.Return;
 import olc1_vj24_3363565520917.backend.simbolo.Arbol;
 import olc1_vj24_3363565520917.backend.simbolo.Tipo;
 import olc1_vj24_3363565520917.backend.simbolo.tablaSimbolos;
@@ -44,10 +45,12 @@ public class Llamada extends Instruccion {
             }
             for (int i = 0; i < this.parametros.size(); i++) {
                 var identificador = (String) metodo.parametros.get(i).get("id");
-                var valor = this.parametros.get(i);
                 var tipo2 = (Tipo) metodo.parametros.get(i).get("tipo");
+                var valor = this.parametros.get(i);
+                
                 // declarando el parametro dentro del entorno del metodo, con valor default
                 var declaracionParametro = new Declaracion(tipo2, this.linea, this.columna, identificador, "var");
+
                 // declarando el parametro en la tabla del metodo que se llama
                 var resultado = declaracionParametro.interpretar(arbol, newTabla);
                 if (resultado instanceof Errores) {
@@ -78,6 +81,11 @@ public class Llamada extends Instruccion {
             if (resultadoFuncion instanceof Errores) {
                 return resultadoFuncion;
             }
+            //si es return se devuelve el valor
+            if (resultadoFuncion instanceof Return) {
+                return ((Return) resultadoFuncion).getValor().interpretar(arbol, newTabla);
+            }
+            arbol.agregarSimbolos(newTabla.obtenerSimbolos());
         }
         return null;
     }

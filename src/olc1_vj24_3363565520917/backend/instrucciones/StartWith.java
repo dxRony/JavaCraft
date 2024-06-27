@@ -58,8 +58,6 @@ public class StartWith extends Instruccion {// cuando se llama a este metodo se 
             }
             arbol.agregarSimbolos(newTabla.obtenerSimbolos());
         }
-
         return null;
     }
-
 }

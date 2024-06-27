@@ -45,6 +45,7 @@ import olc1_vj24_3363565520917.backend.expresiones.Casteo;
 import olc1_vj24_3363565520917.backend.expresiones.Incremento;
 import olc1_vj24_3363565520917.backend.expresiones.Decremento;
 import olc1_vj24_3363565520917.backend.expresiones.AccesoVector;
+import olc1_vj24_3363565520917.backend.expresiones.Return;
 
 //definiendo el parser
 parser code
@@ -96,7 +97,7 @@ nonterminal Instruccion DECLARACION_VECTOR, ASIGNACION_VECTOR;
 nonterminal LinkedList<Instruccion> LISTAVALORES1;
 nonterminal LinkedList<LinkedList<Instruccion>> LISTAVALORES2;
 nonterminal Instruccion LLAMADA;
-
+nonterminal Instruccion RETORNO;
 
 precedence left OR;
 precedence left AND;
@@ -135,6 +136,7 @@ INSTRUCCION ::= IMPRESION:a                       {:    RESULT=a;    :}
             | DECLARACION_VECTOR:a                {:    RESULT=a;    :}
             | ASIGNACION_VECTOR:a                 {:    RESULT=a;    :}
             | LLAMADA:a                           {:    RESULT=a;    :}
+            | RETORNO:a                           {:    RESULT=a;    :}
             | error FININSTRUCCION
             | error        
 ;
@@ -153,6 +155,9 @@ ASIGNACION ::= ID:a IGUAL EXPRESION:b FININSTRUCCION     {:  RESULT = new Asigna
 
 METODO ::= TIPOS:a ID:b PAR1 PARAMS:p PAR2 LLAVE1 INSTRUCCIONES:c LLAVE2    {:   RESULT = new Metodo(a, aleft, aright, b, p, c);     :}
          | TIPOS:a ID:b PAR1 PAR2 LLAVE1 INSTRUCCIONES:c LLAVE2             {:   RESULT = new Metodo(a, aleft, aright, b, new LinkedList<HashMap>(),c);   :}         
+;
+
+RETORNO ::= RETURN EXPRESION:a FININSTRUCCION {:    RESULT = new Return(aleft, aright, a);    :}
 ;
 
 PARAMS ::= PARAMS:a COMA TIPOS:b ID:c   {:  RESULT = a;
@@ -279,9 +284,9 @@ EXPRESION ::= MENOS EXPRESION:a                       {:  RESULT = new Aritmetic
             | CARACTER:a                              {:  RESULT = new Nativo(new Tipo(tipoDato.CARACTER), aleft, aright, a);                           :}
             | BOOLEANO:a                              {:  RESULT = new Nativo(new Tipo(tipoDato.BOOLEANO), aleft, aright, Boolean.parseBoolean(a));     :}
 
-            | ID:a                                                          {:  RESULT = new AccesoVar(aleft, aright, a);                               :} //acceso a valor variable
-            | ID:a CORCH1 EXPRESION:b CORCH2                                {:  RESULT = new AccesoVector(aleft, aright, a, b, null);                   :} //acceso vector 1D o acceso lista
-            | ID:a CORCH1 EXPRESION:b CORCH2 CORCH1 EXPRESION:c CORCH2      {:  RESULT = new AccesoVector(aleft, aright, a, b, c);                      :} //acceso vector 2D
+            | ID:a                                                          {:  RESULT = new AccesoVar(aleft, aright, a);                               :}
+            | ID:a CORCH1 EXPRESION:b CORCH2                                {:  RESULT = new AccesoVector(aleft, aright, a, b, null);                   :}
+            | ID:a CORCH1 EXPRESION:b CORCH2 CORCH1 EXPRESION:c CORCH2      {:  RESULT = new AccesoVector(aleft, aright, a, b, c);                      :}
 ;
 
 TIPOS ::= INT       {:  RESULT = new Tipo(tipoDato.ENTERO);     :}

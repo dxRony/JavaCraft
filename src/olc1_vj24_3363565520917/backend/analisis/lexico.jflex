@@ -145,10 +145,10 @@ STARTWITH = "start_with"
 <YYINITIAL> {FIND}            {return new Symbol(sym.FIND, yyline, yycolumn, yytext());        }
 <YYINITIAL> {STARTWITH}       {return new Symbol(sym.STARTWITH, yyline, yycolumn, yytext());   }
 
-<YYINITIAL> {XOR}             {return new Symbol(sym.XOR, yyline, yycolumn, yytext());              }
-<YYINITIAL> {DEFAULT}         {return new Symbol(sym.DEFAULT, yyline, yycolumn, yytext());          }
-<YYINITIAL> {CORCH1}          {return new Symbol(sym.CORCH1, yyline, yycolumn, yytext());           }
-<YYINITIAL> {CORCH2}          {return new Symbol(sym.CORCH2, yyline, yycolumn, yytext());           }
+<YYINITIAL> {XOR}             {return new Symbol(sym.XOR, yyline, yycolumn, yytext());         }
+<YYINITIAL> {DEFAULT}         {return new Symbol(sym.DEFAULT, yyline, yycolumn, yytext());     }
+<YYINITIAL> {CORCH1}          {return new Symbol(sym.CORCH1, yyline, yycolumn, yytext());      }
+<YYINITIAL> {CORCH2}          {return new Symbol(sym.CORCH2, yyline, yycolumn, yytext());      }
 
 //simbolos del sistema
 <YYINITIAL> {COMENTARIOLINEA}       {}
