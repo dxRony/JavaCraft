@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 import olc1_vj24_3363565520917.backend.abstracto.Instruccion;
 import olc1_vj24_3363565520917.backend.excepciones.Errores;
+import olc1_vj24_3363565520917.backend.expresiones.Return;
 import olc1_vj24_3363565520917.backend.simbolo.Arbol;
 import olc1_vj24_3363565520917.backend.simbolo.Tipo;
 import olc1_vj24_3363565520917.backend.simbolo.tablaSimbolos;
@@ -33,21 +34,26 @@ public class Caso extends Instruccion {
         if (valor instanceof Errores) {
             return valor;
         }
-        return valor;//devolviendo valor 
+        return valor;// devolviendo valor
     }
 
-    public boolean ejecutarCaso(Arbol arbol, tablaSimbolos tabla) {
-        
-        var newTabla = new tablaSimbolos(tabla); // creando el entorno del caso
-        newTabla.setNombre(tabla.getNombre()+ " MATCH (linea: " + this.linea + ")");
+    public Object ejecutarCaso(Arbol arbol, tablaSimbolos tabla) {
 
+        var newTabla = new tablaSimbolos(tabla); // creando el entorno del caso
+        newTabla.setNombre(tabla.getNombre() + " MATCH (linea: " + this.linea + ")");
+        arbol.agregarSimbolos(newTabla.obtenerSimbolos());
         for (var instruccion : this.instrucciones) {
             var resultado = instruccion.interpretar(arbol, newTabla);
             if (resultado instanceof Errores) {
-                return new Errores("SEMANTICO", "Instrucciones dentro de este match, no son validas", this.linea, this.columna) != null;            }
+                return new Errores("SEMANTICO", "Instrucciones dentro de este match, no son validas", this.linea,
+                        this.columna) != null;
+            }
+            if (resultado instanceof Break || resultado instanceof Continue 
+            || resultado instanceof Return) {
+                return resultado;    
+            }
         }
-        arbol.agregarSimbolos(newTabla.obtenerSimbolos());
-        return true;
+        return null;
     }
 
     public Instruccion getExpresion() {

@@ -26,7 +26,6 @@ import olc1_vj24_3363565520917.backend.instrucciones.Continue;
 import olc1_vj24_3363565520917.backend.instrucciones.Metodo;
 import olc1_vj24_3363565520917.backend.instrucciones.Append;
 import olc1_vj24_3363565520917.backend.instrucciones.Remove;
-import olc1_vj24_3363565520917.backend.instrucciones.AsignacionList;
 import olc1_vj24_3363565520917.backend.instrucciones.DeclaracionList;
 import olc1_vj24_3363565520917.backend.instrucciones.StartWith;
 import olc1_vj24_3363565520917.backend.instrucciones.AsignacionVector;
@@ -45,8 +44,8 @@ import olc1_vj24_3363565520917.backend.expresiones.AccesoVar;
 import olc1_vj24_3363565520917.backend.expresiones.Casteo;
 import olc1_vj24_3363565520917.backend.expresiones.Incremento;
 import olc1_vj24_3363565520917.backend.expresiones.Decremento;
-import olc1_vj24_3363565520917.backend.expresiones.AccesoList;
 import olc1_vj24_3363565520917.backend.expresiones.AccesoVector;
+import olc1_vj24_3363565520917.backend.expresiones.Return;
 
 //definiendo el parser
 parser code
@@ -98,7 +97,7 @@ nonterminal Instruccion DECLARACION_VECTOR, ASIGNACION_VECTOR;
 nonterminal LinkedList<Instruccion> LISTAVALORES1;
 nonterminal LinkedList<LinkedList<Instruccion>> LISTAVALORES2;
 nonterminal Instruccion LLAMADA;
-
+nonterminal Instruccion RETORNO;
 
 precedence left OR;
 precedence left AND;
@@ -136,7 +135,8 @@ INSTRUCCION ::= IMPRESION:a                       {:    RESULT=a;    :}
             | NATIVO_LIST:a                       {:    RESULT=a;    :}
             | DECLARACION_VECTOR:a                {:    RESULT=a;    :}
             | ASIGNACION_VECTOR:a                 {:    RESULT=a;    :}
-            | LLAMADA:a                           {:    RESULT=a;    :}//se pone aca para que funcione como void, pero se debe poner en expresion para que retorne un valor
+            | LLAMADA:a  FININSTRUCCION           {:    RESULT=a;    :}
+            | RETORNO:a                           {:    RESULT=a;    :}
             | error FININSTRUCCION
             | error        
 ;
@@ -157,6 +157,9 @@ METODO ::= TIPOS:a ID:b PAR1 PARAMS:p PAR2 LLAVE1 INSTRUCCIONES:c LLAVE2    {:  
          | TIPOS:a ID:b PAR1 PAR2 LLAVE1 INSTRUCCIONES:c LLAVE2             {:   RESULT = new Metodo(a, aleft, aright, b, new LinkedList<HashMap>(),c);   :}         
 ;
 
+RETORNO ::= RETURN EXPRESION:a FININSTRUCCION {:    RESULT = new Return(aleft, aright, a);    :}
+;
+
 PARAMS ::= PARAMS:a COMA TIPOS:b ID:c   {:  RESULT = a;
                                             var hm2 = new HashMap<String, Object>();
                                             hm2.put("id", c);
@@ -174,8 +177,8 @@ START ::= STARTWITH ID:a PAR1 PARAMSCALL:b PAR2 FININSTRUCCION      {:  RESULT =
         | STARTWITH ID:a PAR1 PAR2 FININSTRUCCION                   {:  RESULT = new StartWith(aleft, aright, a, new LinkedList<Instruccion>());       :}
 ;
 
-LLAMADA ::= ID:a PAR1 PARAMSCALL:b PAR2 FININSTRUCCION              {:  RESULT = new Llamada(aleft, aright, a, b);     :}
-          | ID:a PAR1 PAR2 FININSTRUCCION                           {:  RESULT = new Llamada(aleft, aright, a, new LinkedList<Instruccion>());     :}
+LLAMADA ::= ID:a PAR1 PARAMSCALL:b PAR2               {:  RESULT = new Llamada(aleft, aright, a, b);     :}
+          | ID:a PAR1 PAR2                            {:  RESULT = new Llamada(aleft, aright, a, new LinkedList<Instruccion>());     :}
 ;
 
 PARAMSCALL ::= PARAMSCALL:a COMA EXPRESION:e      {:  RESULT = a;
@@ -225,9 +228,6 @@ CASO ::= EXPRESION:a IGUAL MAYORQUE LLAVE1 INSTRUCCIONES:b LLAVE2    {:      RES
 ;
 
 DECLARACION_LIST ::= LIST MENORQUE TIPOS:a MAYORQUE ID:b IGUAL NEW LIST PAR1 PAR2 FININSTRUCCION        {:      RESULT = new DeclaracionList(a, aleft, aright, b);         :}
-;
-
-ASIGNACION_LIST ::= ID:a PAR1 EXPRESION:b PAR2 IGUAL EXPRESION:c FININSTRUCCION         {:      RESULT = new AsignacionList(aleft, aright, a, b, c);      :}
 ;
 
 NATIVO_LIST ::= ID:a PUNTO APPEND PAR1 EXPRESION:b PAR2 FININSTRUCCION                  {:      RESULT = new Append(aleft, aright, a, b);              :}
@@ -284,9 +284,10 @@ EXPRESION ::= MENOS EXPRESION:a                       {:  RESULT = new Aritmetic
             | CARACTER:a                              {:  RESULT = new Nativo(new Tipo(tipoDato.CARACTER), aleft, aright, a);                           :}
             | BOOLEANO:a                              {:  RESULT = new Nativo(new Tipo(tipoDato.BOOLEANO), aleft, aright, Boolean.parseBoolean(a));     :}
 
-            | ID:a                                                          {:  RESULT = new AccesoVar(aleft, aright, a);                               :} //acceso a valor variable
-            | ID:a CORCH1 EXPRESION:b CORCH2                                {:  RESULT = new AccesoVector(aleft, aright, a, b, null);                   :} //acceso vector 1D o acceso lista
-            | ID:a CORCH1 EXPRESION:b CORCH2 CORCH1 EXPRESION:c CORCH2      {:  RESULT = new AccesoVector(aleft, aright, a, b, c);                      :} //acceso vector 2D
+            | ID:a                                                          {:  RESULT = new AccesoVar(aleft, aright, a);                               :}
+            | ID:a CORCH1 EXPRESION:b CORCH2                                {:  RESULT = new AccesoVector(aleft, aright, a, b, null);                   :}
+            | ID:a CORCH1 EXPRESION:b CORCH2 CORCH1 EXPRESION:c CORCH2      {:  RESULT = new AccesoVector(aleft, aright, a, b, c); :}  
+            | LLAMADA:a                             {:  RESULT=a; :}                                           
 ;
 
 TIPOS ::= INT       {:  RESULT = new Tipo(tipoDato.ENTERO);     :}

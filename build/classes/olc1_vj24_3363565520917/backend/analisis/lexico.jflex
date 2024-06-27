@@ -52,7 +52,7 @@ CADENA = [\"]([^\"])*[\"]
 CARACTER = [\']([^\']){1}[\']
 BOOLEANO = "true"|"false"
 MUTABILIDAD = "var"|"const"
-ID = [A-za-z]+[0-9]*
+ID = [A-Za-z]+[0-9]*
 
 //comentarios
 COMENTARIOLINEA = "//"[^\n]*
@@ -145,10 +145,7 @@ STARTWITH = "start_with"
 <YYINITIAL> {FIND}            {return new Symbol(sym.FIND, yyline, yycolumn, yytext());        }
 <YYINITIAL> {STARTWITH}       {return new Symbol(sym.STARTWITH, yyline, yycolumn, yytext());   }
 
-<YYINITIAL> {XOR}             {return new Symbol(sym.XOR, yyline, yycolumn, yytext());              }
-<YYINITIAL> {DEFAULT}         {return new Symbol(sym.DEFAULT, yyline, yycolumn, yytext());          }
-<YYINITIAL> {CORCH1}          {return new Symbol(sym.CORCH1, yyline, yycolumn, yytext());           }
-<YYINITIAL> {CORCH2}          {return new Symbol(sym.CORCH2, yyline, yycolumn, yytext());           }
+
 
 //simbolos del sistema
 <YYINITIAL> {COMENTARIOLINEA}       {}
@@ -177,7 +174,7 @@ STARTWITH = "start_with"
 <YYINITIAL> {MAYORIGUALQUE}   {return new Symbol(sym.MAYORIGUALQUE, yyline, yycolumn, yytext());    }
 <YYINITIAL> {OR}              {return new Symbol(sym.OR, yyline, yycolumn, yytext());               }
 <YYINITIAL> {AND}             {return new Symbol(sym.AND, yyline, yycolumn, yytext());              }
-
+<YYINITIAL> {XOR}             {return new Symbol(sym.XOR, yyline, yycolumn, yytext());         }
 <YYINITIAL> {NOT}             {return new Symbol(sym.NOT, yyline, yycolumn, yytext());              }
 <YYINITIAL> {INCREMENTO}      {return new Symbol(sym.INCREMENTO, yyline, yycolumn, yytext());       }
 <YYINITIAL> {DECREMENTO}      {return new Symbol(sym.DECREMENTO, yyline, yycolumn, yytext());       }
@@ -187,13 +184,14 @@ STARTWITH = "start_with"
 <YYINITIAL> {MULTIPLICAR}     {return new Symbol(sym.MULTIPLICAR, yyline, yycolumn, yytext());      }
 <YYINITIAL> {DIVIDIR}         {return new Symbol(sym.DIVIDIR, yyline, yycolumn, yytext());          }
 <YYINITIAL> {MODULO}          {return new Symbol(sym.MODULO, yyline, yycolumn, yytext());           }
-
+<YYINITIAL> {DEFAULT}         {return new Symbol(sym.DEFAULT, yyline, yycolumn, yytext());     }
 <YYINITIAL> {MENORQUE}        {return new Symbol(sym.MENORQUE, yyline, yycolumn, yytext());         }
 <YYINITIAL> {MAYORQUE}        {return new Symbol(sym.MAYORQUE, yyline, yycolumn, yytext());         }
 <YYINITIAL> {PAR1}            {return new Symbol(sym.PAR1, yyline, yycolumn, yytext());             }
 <YYINITIAL> {PAR2}            {return new Symbol(sym.PAR2, yyline, yycolumn, yytext());             }
 <YYINITIAL> {LLAVE1}          {return new Symbol(sym.LLAVE1, yyline, yycolumn, yytext());           }
 <YYINITIAL> {LLAVE2}          {return new Symbol(sym.LLAVE2, yyline, yycolumn, yytext());           }
-
+<YYINITIAL> {CORCH1}          {return new Symbol(sym.CORCH1, yyline, yycolumn, yytext());      }
+<YYINITIAL> {CORCH2}          {return new Symbol(sym.CORCH2, yyline, yycolumn, yytext());      }
 
 <YYINITIAL> . {listaErrores.add(new Errores("LEXICO", "No se esperaba el caracter: " +yytext(), yyline, yycolumn));}

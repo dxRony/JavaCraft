@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 import olc1_vj24_3363565520917.backend.abstracto.Instruccion;
 import olc1_vj24_3363565520917.backend.excepciones.Errores;
+import olc1_vj24_3363565520917.backend.expresiones.Return;
 import olc1_vj24_3363565520917.backend.simbolo.Arbol;
 import olc1_vj24_3363565520917.backend.simbolo.Tipo;
 import olc1_vj24_3363565520917.backend.simbolo.tablaSimbolos;
@@ -65,17 +66,23 @@ public class For extends Instruccion {
                 if (i instanceof Continue) {
                     break;
                 }
+                if (i instanceof Return) {
+                    return i;
+                }
                 var resIns = i.interpretar(arbol, newTabla2);
+                if (resIns instanceof Errores) {
+                    return new Errores("SEMANTICO", "Instrucciones dentro de este for, no son validas", this.linea,
+                            this.columna);
+                }
                 if (resIns instanceof Break) {//manejo de break
                     return null;
                 }
                 if (resIns instanceof Continue) {
                     break;
                 }
-                if (resIns instanceof Errores) {
-                    return new Errores("SEMANTICO", "Instrucciones dentro de este for, no son validas", this.linea,
-                            this.columna);
-                }
+                if (resIns instanceof Return) {
+                    return resIns;
+                }                
             }
             // actualizando la variable
             var act = this.actualizacion.interpretar(arbol, newTabla);

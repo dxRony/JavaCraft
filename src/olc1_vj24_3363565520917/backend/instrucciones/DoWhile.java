@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 import olc1_vj24_3363565520917.backend.abstracto.Instruccion;
 import olc1_vj24_3363565520917.backend.excepciones.Errores;
+import olc1_vj24_3363565520917.backend.expresiones.Return;
 import olc1_vj24_3363565520917.backend.simbolo.Arbol;
 import olc1_vj24_3363565520917.backend.simbolo.Tipo;
 import olc1_vj24_3363565520917.backend.simbolo.tablaSimbolos;
@@ -46,16 +47,20 @@ public class DoWhile extends Instruccion {
                     break;
                 }
                 var resIns = i.interpretar(arbol, newTabla);
+                if (resIns instanceof Errores) {
+                    return new Errores("SEMANTICO", "Instrucciones dentro de este do-while, no son validas", this.linea,
+                            this.columna);
+                }
                 if (resIns instanceof Break) {
                     return null;
                 }
                 if (resIns instanceof Continue) {
                     break;
                 }
-                if (resIns instanceof Errores) {
-                    return new Errores("SEMANTICO", "Instrucciones dentro de este do-while, no son validas", this.linea,
-                            this.columna);
+                if (resIns instanceof Return) {
+                    return resIns;
                 }
+
             }
             arbol.agregarSimbolos(newTabla.obtenerSimbolos());
         } while ((boolean) this.condicion.interpretar(arbol, tabla));

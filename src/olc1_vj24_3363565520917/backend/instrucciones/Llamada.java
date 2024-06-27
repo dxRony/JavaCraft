@@ -47,7 +47,7 @@ public class Llamada extends Instruccion {
                 var identificador = (String) metodo.parametros.get(i).get("id");
                 var tipo2 = (Tipo) metodo.parametros.get(i).get("tipo");
                 var valor = this.parametros.get(i);
-                
+
                 // declarando el parametro dentro del entorno del metodo, con valor default
                 var declaracionParametro = new Declaracion(tipo2, this.linea, this.columna, identificador, "var");
 
@@ -81,11 +81,28 @@ public class Llamada extends Instruccion {
             if (resultadoFuncion instanceof Errores) {
                 return resultadoFuncion;
             }
-            //si es return se devuelve el valor
-            if (resultadoFuncion instanceof Return) {
-                return ((Return) resultadoFuncion).getValor().interpretar(arbol, newTabla);
+            //validando que no haya break o continue
+            if (resultadoFuncion instanceof Break || resultadoFuncion instanceof Continue) {
+                return new Errores("SEMANTICO", "Sentencia Break/Continue no permitida", this.linea,
+                            this.columna);
             }
+            //agregando simbolos a la tabla
             arbol.agregarSimbolos(newTabla.obtenerSimbolos());
+            //cuando haya return
+            if (resultadoFuncion instanceof Return retorno) {              
+                // interpretando valor con la tabla de la funcion
+                var resultadoReturn = retorno.interpretar(arbol, newTabla);
+
+                if (resultadoReturn == null) {
+                    //si el resultado es null, la funcion es tipo void
+                    this.tipo.setTipo(tipoDato.VOID);
+                    return null;
+                } else {
+                    //se actualiza el tipo de la funcion y se retorna el valor
+                    this.tipo.setTipo(retorno.tipo.getTipo());
+                    return resultadoReturn;
+                }
+            }
         }
         return null;
     }

@@ -26,27 +26,17 @@ public class Metodo extends Instruccion {
     }
 
     @Override
-    public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
-        System.out.println("tipo: " + this.tipo.getTipo());
+    public Object interpretar(Arbol arbol, tablaSimbolos tabla) {       
 
         for (var i : this.instrucciones) {
             var resultado = i.interpretar(arbol, tabla);// interpretando cada instruccion de la lista
             if (resultado instanceof Errores) {
                 return new Errores("SEMANTICO", "Las instrucciones dentro de este metodo no son validas", this.linea,
                         this.columna);
-            }
-            
-            if (resultado instanceof Return) {// cuando haya retorno
-                // casteando instruccion a retorno
-                Return retorno = (Return) resultado;
-                if (!retorno.getValor().tipo.equals(this.tipo)) {
-                    return new Errores("SEMANTICO", "El valor retornado no coincide.", this.linea,
-                    this.columna);                    
-                }
-                //retornando el valor y finalizando la ejecucion de la funcion
-                return retorno.getValor();
-            }
-            // validar que no haya break o continue
+            }            
+            if (resultado instanceof Return) {// cuando la instruccion sea retorno se finaliza la ejecucion del metodo
+                    return resultado;                
+            }                  
         }
         return null;
     }

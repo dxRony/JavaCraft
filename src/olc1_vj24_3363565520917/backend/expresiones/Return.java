@@ -17,19 +17,19 @@ public class Return extends Instruccion {
         this.valor = valor;
     }
 
-
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
         // interpretando el valor
-        if (valor != null) {
+        if (valor != null) {// si hay valor de retorno, se interpreta y se retorna
             var resultado = valor.interpretar(arbol, tabla);
             if (resultado instanceof Errores) {
                 return resultado;
             }
             this.tipo.setTipo(valor.tipo.getTipo());
             return resultado;
+        } else {//si no hay valor se retorna null
+            return null;
         }
-        return null;
     }
 
     public Instruccion getValor() {

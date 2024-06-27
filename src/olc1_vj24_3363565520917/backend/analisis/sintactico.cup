@@ -135,7 +135,7 @@ INSTRUCCION ::= IMPRESION:a                       {:    RESULT=a;    :}
             | NATIVO_LIST:a                       {:    RESULT=a;    :}
             | DECLARACION_VECTOR:a                {:    RESULT=a;    :}
             | ASIGNACION_VECTOR:a                 {:    RESULT=a;    :}
-            | LLAMADA:a                           {:    RESULT=a;    :}
+            | LLAMADA:a  FININSTRUCCION           {:    RESULT=a;    :}
             | RETORNO:a                           {:    RESULT=a;    :}
             | error FININSTRUCCION
             | error        
@@ -177,8 +177,8 @@ START ::= STARTWITH ID:a PAR1 PARAMSCALL:b PAR2 FININSTRUCCION      {:  RESULT =
         | STARTWITH ID:a PAR1 PAR2 FININSTRUCCION                   {:  RESULT = new StartWith(aleft, aright, a, new LinkedList<Instruccion>());       :}
 ;
 
-LLAMADA ::= ID:a PAR1 PARAMSCALL:b PAR2 FININSTRUCCION              {:  RESULT = new Llamada(aleft, aright, a, b);     :}
-          | ID:a PAR1 PAR2 FININSTRUCCION                           {:  RESULT = new Llamada(aleft, aright, a, new LinkedList<Instruccion>());     :}
+LLAMADA ::= ID:a PAR1 PARAMSCALL:b PAR2               {:  RESULT = new Llamada(aleft, aright, a, b);     :}
+          | ID:a PAR1 PAR2                            {:  RESULT = new Llamada(aleft, aright, a, new LinkedList<Instruccion>());     :}
 ;
 
 PARAMSCALL ::= PARAMSCALL:a COMA EXPRESION:e      {:  RESULT = a;
@@ -286,7 +286,8 @@ EXPRESION ::= MENOS EXPRESION:a                       {:  RESULT = new Aritmetic
 
             | ID:a                                                          {:  RESULT = new AccesoVar(aleft, aright, a);                               :}
             | ID:a CORCH1 EXPRESION:b CORCH2                                {:  RESULT = new AccesoVector(aleft, aright, a, b, null);                   :}
-            | ID:a CORCH1 EXPRESION:b CORCH2 CORCH1 EXPRESION:c CORCH2      {:  RESULT = new AccesoVector(aleft, aright, a, b, c);                      :}
+            | ID:a CORCH1 EXPRESION:b CORCH2 CORCH1 EXPRESION:c CORCH2      {:  RESULT = new AccesoVector(aleft, aright, a, b, c); :}  
+            | LLAMADA:a                             {:  RESULT=a; :}                                           
 ;
 
 TIPOS ::= INT       {:  RESULT = new Tipo(tipoDato.ENTERO);     :}
