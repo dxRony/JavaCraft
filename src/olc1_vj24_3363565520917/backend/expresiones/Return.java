@@ -9,7 +9,7 @@ import olc1_vj24_3363565520917.backend.simbolo.tipoDato;
 
 public class Return extends Instruccion {
 
-    private Instruccion valor;// valor a retornar
+    public Instruccion valor;// valor a retornar
 
     // constructor para cuando haya valor a retornar
     public Return(int linea, int columna, Instruccion valor) {
@@ -27,17 +27,8 @@ public class Return extends Instruccion {
             }
             this.tipo.setTipo(valor.tipo.getTipo());
             return resultado;
-        } else {//si no hay valor se retorna null
+        } else {// si no hay valor se retorna null
             return null;
         }
     }
-
-    public Instruccion getValor() {
-        return valor;
-    }
-
-    public void setValor(Instruccion valor) {
-        this.valor = valor;
-    }
-
 }

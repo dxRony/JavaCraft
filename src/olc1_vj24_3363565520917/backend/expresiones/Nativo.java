@@ -5,7 +5,7 @@ import olc1_vj24_3363565520917.backend.simbolo.Arbol;
 import olc1_vj24_3363565520917.backend.simbolo.Tipo;
 import olc1_vj24_3363565520917.backend.simbolo.tablaSimbolos;
 
-public class Nativo extends Instruccion { //el tipo puede ser un numero, decimal, boolean, char, etc / valores
+public class Nativo extends Instruccion { // el tipo puede ser un numero, decimal, boolean, char, etc / valores
 
     private Object valor;
 
@@ -16,6 +16,6 @@ public class Nativo extends Instruccion { //el tipo puede ser un numero, decimal
 
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
-        return this.valor;//retorna el valor del nativo
+        return this.valor;// retorna el valor del nativo
     }
 }

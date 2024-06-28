@@ -59,12 +59,12 @@ public class Logicos extends Instruccion {
         };
     }
 
-    public Object or(Object op1, Object op2) {       
+    public Object or(Object op1, Object op2) {
         this.tipo.setTipo(tipoDato.BOOLEANO);
         return (boolean) op1 || (boolean) op2;
     }
 
-    public Object and(Object op1, Object op2) {       
+    public Object and(Object op1, Object op2) {
         this.tipo.setTipo(tipoDato.BOOLEANO);
         return (boolean) op1 && (boolean) op2;
     }
@@ -74,7 +74,7 @@ public class Logicos extends Instruccion {
         return (boolean) op1 ^ (boolean) op2;
     }
 
-    public Object not(Object op1) {       
+    public Object not(Object op1) {
         this.tipo.setTipo(tipoDato.BOOLEANO);
         return !(boolean) op1;
     }

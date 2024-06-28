@@ -26,17 +26,17 @@ public class Metodo extends Instruccion {
     }
 
     @Override
-    public Object interpretar(Arbol arbol, tablaSimbolos tabla) {       
+    public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
 
         for (var i : this.instrucciones) {
             var resultado = i.interpretar(arbol, tabla);// interpretando cada instruccion de la lista
             if (resultado instanceof Errores) {
                 return new Errores("SEMANTICO", "Las instrucciones dentro de este metodo no son validas", this.linea,
                         this.columna);
-            }            
+            }
             if (resultado instanceof Return) {// cuando la instruccion sea retorno se finaliza la ejecucion del metodo
-                    return resultado;                
-            }                  
+                return resultado;
+            }
         }
         return null;
     }

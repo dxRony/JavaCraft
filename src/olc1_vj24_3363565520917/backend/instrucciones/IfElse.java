@@ -51,13 +51,13 @@ public class IfElse extends Instruccion {
             arbol.agregarSimbolos(newTabla.obtenerSimbolos());
         } else {
             for (var i : this.instruccionesB) {
-                if (i instanceof Break || i instanceof Continue 
-                || i instanceof Return) {
+                if (i instanceof Break || i instanceof Continue
+                        || i instanceof Return) {
                     return i;
                 }
                 var resultado = i.interpretar(arbol, newTabla);
-                if (resultado instanceof Break || resultado instanceof Continue 
-                || resultado instanceof Return) {
+                if (resultado instanceof Break || resultado instanceof Continue
+                        || resultado instanceof Return) {
                     return resultado;
                 }
                 if (resultado instanceof Errores) {

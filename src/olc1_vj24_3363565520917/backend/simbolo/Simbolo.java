@@ -15,7 +15,7 @@ public class Simbolo {
         this.id = id;
     }
 
-    // constructor para variables y vectores
+    // constructor para variables, vectores e instancias struct
     public Simbolo(String id, Tipo tipo, String tipo2, String entorno, Object valor, boolean mutabilidad,
             int linea, int columna) {
         this.id = id;
@@ -38,8 +38,6 @@ public class Simbolo {
         this.linea = linea;
         this.columna = columna;
     }
-
-
 
     public Tipo getTipo() {
         return tipo;
@@ -110,5 +108,4 @@ public class Simbolo {
         return "Simbolo [id=" + id + ", tipo=" + tipo + ", tipo2=" + tipo2 + ", entorno=" + entorno + ", valor=" + valor
                 + ", mutabilidad=" + mutabilidad + ", linea=" + linea + ", columna=" + columna + "]";
     }
-
 }

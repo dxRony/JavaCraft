@@ -35,10 +35,10 @@ public class AsignacionVar extends Instruccion {// la instruccion tiene tipo VOI
         if (newValor instanceof Errores) {
             return newValor;
         }
-        
+
         if (variable.getTipo().getTipo() != this.exp.tipo.getTipo()) {// validar que los tipos coincidan
             return new Errores("SEMANTICO", "Tipos no coincidentes para la asignacion", this.linea, this.columna);
-        }        
+        }
         variable.setValor(newValor);// actualizando el nuevo valor de la var
         return null;
     }

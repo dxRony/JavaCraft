@@ -11,9 +11,9 @@ import olc1_vj24_3363565520917.backend.simbolo.tipoDato;
 
 public class Match extends Instruccion {
 
-    private Instruccion expresion;//la que se compara para el caso
-    private LinkedList<Caso> casos;//lista de casos, para comparar
-    private Caso casoDefault;//si no coincide algun caso, se ejecuta este
+    private Instruccion expresion;// la que se compara para el caso
+    private LinkedList<Caso> casos;// lista de casos, para comparar
+    private Caso casoDefault;// si no coincide algun caso, se ejecuta este
 
     public Match(int linea, int columna, Instruccion expresion, LinkedList<Caso> casos, Caso casoDefault) {
         super(new Tipo(tipoDato.VOID), linea, columna);
@@ -40,7 +40,7 @@ public class Match extends Instruccion {
                 return null;
             }
         }
-        if (casoDefault != null) {//si hay un caso default, se ejecuta
+        if (casoDefault != null) {// si hay un caso default, se ejecuta
             casoDefault.ejecutarCaso(arbol, tabla);
         }
         return null;

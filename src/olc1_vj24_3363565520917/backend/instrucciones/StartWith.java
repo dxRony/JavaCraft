@@ -45,7 +45,8 @@ public class StartWith extends Instruccion {// cuando se llama a este metodo se 
                 // obteniendo el tipo de dato de la variable del hashmap en el indice indicado
                 var tipoParametro = (Tipo) metodo.parametros.get(i).get("tipo");
                 // creando instancia de declaracion
-                var declaracionParametro = new Declaracion(tipoParametro, this.linea, this.columna, identificador, valor, "const");
+                var declaracionParametro = new Declaracion(tipoParametro, this.linea, this.columna, identificador,
+                        valor, "const");
                 // declarandoolo el parametro
                 var resultadoDeclaracion = declaracionParametro.interpretar(arbol, newTabla);
                 if (resultadoDeclaracion instanceof Errores) {

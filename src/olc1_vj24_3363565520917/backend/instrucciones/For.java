@@ -60,7 +60,7 @@ public class For extends Instruccion {
             var newTabla2 = new tablaSimbolos(newTabla);
             newTabla2.setNombre(newTabla.getNombre() + " INS FOR (linea: " + this.linea + ")");
             for (var i : this.instrucciones) {// si se cumple lo anterior, se ejecutan las instrucciones
-                if (i instanceof Break) {//manejo de break
+                if (i instanceof Break) {// manejo de break
                     return null;
                 }
                 if (i instanceof Continue) {
@@ -74,7 +74,7 @@ public class For extends Instruccion {
                     return new Errores("SEMANTICO", "Instrucciones dentro de este for, no son validas", this.linea,
                             this.columna);
                 }
-                if (resIns instanceof Break) {//manejo de break
+                if (resIns instanceof Break) {// manejo de break
                     return null;
                 }
                 if (resIns instanceof Continue) {
@@ -82,7 +82,7 @@ public class For extends Instruccion {
                 }
                 if (resIns instanceof Return) {
                     return resIns;
-                }                
+                }
             }
             // actualizando la variable
             var act = this.actualizacion.interpretar(arbol, newTabla);

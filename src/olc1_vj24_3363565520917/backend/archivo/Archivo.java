@@ -13,13 +13,11 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JViewport;
-import javax.swing.SwingUtilities;
 
 /**
  *
@@ -114,6 +112,6 @@ public class Archivo {
             txtArea.setFont(TEXT_AREA);
             return txtArea.getText();
         }
-        return null;  // No hay pestaña seleccionada
+        return null; // No hay pestaña seleccionada
     }
 }

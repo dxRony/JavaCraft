@@ -48,9 +48,9 @@ public class Caso extends Instruccion {
                 return new Errores("SEMANTICO", "Instrucciones dentro de este match, no son validas", this.linea,
                         this.columna) != null;
             }
-            if (resultado instanceof Break || resultado instanceof Continue 
-            || resultado instanceof Return) {
-                return resultado;    
+            if (resultado instanceof Break || resultado instanceof Continue
+                    || resultado instanceof Return) {
+                return resultado;
             }
         }
         return null;

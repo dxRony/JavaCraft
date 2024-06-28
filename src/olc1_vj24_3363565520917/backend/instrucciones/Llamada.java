@@ -81,24 +81,24 @@ public class Llamada extends Instruccion {
             if (resultadoFuncion instanceof Errores) {
                 return resultadoFuncion;
             }
-            //validando que no haya break o continue
+            // validando que no haya break o continue
             if (resultadoFuncion instanceof Break || resultadoFuncion instanceof Continue) {
                 return new Errores("SEMANTICO", "Sentencia Break/Continue no permitida", this.linea,
-                            this.columna);
+                        this.columna);
             }
-            //agregando simbolos a la tabla
+            // agregando simbolos a la tabla
             arbol.agregarSimbolos(newTabla.obtenerSimbolos());
-            //cuando haya return
-            if (resultadoFuncion instanceof Return retorno) {              
+            // cuando haya return
+            if (resultadoFuncion instanceof Return retorno) {
                 // interpretando valor con la tabla de la funcion
                 var resultadoReturn = retorno.interpretar(arbol, newTabla);
 
                 if (resultadoReturn == null) {
-                    //si el resultado es null, la funcion es tipo void
+                    // si el resultado es null, la funcion es tipo void
                     this.tipo.setTipo(tipoDato.VOID);
                     return null;
                 } else {
-                    //se actualiza el tipo de la funcion y se retorna el valor
+                    // se actualiza el tipo de la funcion y se retorna el valor
                     this.tipo.setTipo(retorno.tipo.getTipo());
                     return resultadoReturn;
                 }

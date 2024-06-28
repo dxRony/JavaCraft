@@ -7,6 +7,7 @@ package olc1_vj24_3363565520917.frontend;
 import java.awt.BorderLayout;
 import java.io.BufferedReader;
 import java.io.StringReader;
+import java.sql.Struct;
 import java.util.LinkedList;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
@@ -17,11 +18,14 @@ import olc1_vj24_3363565520917.backend.analisis.parser;
 import olc1_vj24_3363565520917.backend.analisis.scanner;
 import olc1_vj24_3363565520917.backend.archivo.Archivo;
 import olc1_vj24_3363565520917.backend.excepciones.Errores;
+import olc1_vj24_3363565520917.backend.instrucciones.AsignacionStruct;
 import olc1_vj24_3363565520917.backend.instrucciones.AsignacionVar;
 import olc1_vj24_3363565520917.backend.instrucciones.AsignacionVector;
 import olc1_vj24_3363565520917.backend.instrucciones.Declaracion;
 import olc1_vj24_3363565520917.backend.instrucciones.DeclaracionList;
+import olc1_vj24_3363565520917.backend.instrucciones.DeclaracionStruct;
 import olc1_vj24_3363565520917.backend.instrucciones.DeclaracionVector;
+import olc1_vj24_3363565520917.backend.instrucciones.InstanciaStruct;
 import olc1_vj24_3363565520917.backend.instrucciones.Metodo;
 import olc1_vj24_3363565520917.backend.instrucciones.StartWith;
 import olc1_vj24_3363565520917.backend.simbolo.Arbol;
@@ -317,14 +321,17 @@ public class Interfaz extends javax.swing.JFrame {
 
             listaErrores.addAll(s.listaErrores);
             listaErrores.addAll(p.listaErrores);
-
             // 3 recorridos del arbol
+
             for (var a : ast.getInstrucciones()) {// 1ra vuelta
                 if (a == null) {
                     continue;
                 }
                 if (a instanceof Metodo) {
                     ast.addFunciones(a);
+                }
+                if (a instanceof DeclaracionStruct) {
+                    ast.addStruct(a);
                 }
                 // en esta vuelta se añaden metodos, funciones y structs
             }
@@ -335,8 +342,9 @@ public class Interfaz extends javax.swing.JFrame {
                 }
 
                 if (a instanceof Declaracion || a instanceof AsignacionVar
-                        || a instanceof DeclaracionList || a instanceof DeclaracionVector 
-                        || a instanceof AsignacionVector) {
+                        || a instanceof DeclaracionList || a instanceof DeclaracionVector
+                        || a instanceof AsignacionVector || a instanceof InstanciaStruct
+                        || a instanceof AsignacionStruct) {
                     var res = a.interpretar(ast, tabla);
                     if (res instanceof Errores) {
                         listaErrores.add((Errores) res);

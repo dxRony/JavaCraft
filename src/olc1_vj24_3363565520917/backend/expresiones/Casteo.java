@@ -87,5 +87,4 @@ public class Casteo extends Instruccion {
             return new Errores("SEMANTICO", "No se puede castear este tipo de dato", this.linea, this.columna);
         }
     }
-
 }

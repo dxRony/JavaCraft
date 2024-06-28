@@ -23,7 +23,7 @@ public class Generador {
              * 2) -d: donde se generaran la salida
              * 3) ruta:
              */
-            String Flex[] = {ruta + "lexico.jflex", "-d", ruta};
+            String Flex[] = { ruta + "lexico.jflex", "-d", ruta };
             jflex.Main.generate(Flex);
             /*
              * PARAMETROS
@@ -32,7 +32,7 @@ public class Generador {
              * 3) -parser: indica el nombre del archivo
              * 4) ruta: ruta del archivo.cup
              */
-            String Cup[] = {"-destdir", ruta, "-parser", "parser", ruta + "sintactico.cup"};
+            String Cup[] = { "-destdir", ruta, "-parser", "parser", ruta + "sintactico.cup" };
             java_cup.Main.main(Cup);
 
         } catch (Exception e) {

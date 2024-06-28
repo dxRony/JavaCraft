@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 import olc1_vj24_3363565520917.backend.abstracto.Instruccion;
 import olc1_vj24_3363565520917.backend.excepciones.Errores;
+import olc1_vj24_3363565520917.backend.instrucciones.DeclaracionStruct;
 import olc1_vj24_3363565520917.backend.instrucciones.Metodo;
 
 public class Arbol {
@@ -14,6 +15,7 @@ public class Arbol {
     public LinkedList<Errores> errores;
     public LinkedList<Simbolo> simbolos;
     public LinkedList<Instruccion> funciones;
+    public LinkedList<Instruccion> structs;
 
     public Arbol(LinkedList<Instruccion> instrucciones) {
         this.instrucciones = instrucciones;
@@ -22,6 +24,7 @@ public class Arbol {
         this.errores = new LinkedList<>();
         this.simbolos = new LinkedList<>();
         this.funciones = new LinkedList<>();
+        this.structs = new LinkedList<>();
     }
 
     public LinkedList<Instruccion> getInstrucciones() {
@@ -56,7 +59,7 @@ public class Arbol {
         this.errores = errores;
     }
 
-    public void Print(String valor) {//print es una instruccion
+    public void Print(String valor) {// print es una instruccion
         this.consola += valor + "\n";
     }
 
@@ -68,7 +71,7 @@ public class Arbol {
         this.simbolos = simbolos;
     }
 
-    public void agregarSimbolos(LinkedList<Simbolo> nuevoSimbolo){
+    public void agregarSimbolos(LinkedList<Simbolo> nuevoSimbolo) {
         this.simbolos.addAll(nuevoSimbolo);
     }
 
@@ -80,16 +83,16 @@ public class Arbol {
         this.funciones = funciones;
     }
 
-    public void addFunciones(Instruccion funcion){
-        //llamar a getFuncion y si es null agregar funcion, sino no agregar
-        //opcional
+    public void addFunciones(Instruccion funcion) {
+        // llamar a getFuncion y si es null agregar funcion, sino no agregar
+        // opcional
         this.funciones.add(funcion);
     }
 
-    public Instruccion getFuncion(String id){
-        for(var i : this.funciones){
+    public Instruccion getFuncion(String id) {
+        for (var i : this.funciones) {
             if (i instanceof Metodo) {
-                if (((Metodo) i ).id.equalsIgnoreCase(id)) {
+                if (((Metodo) i).id.equalsIgnoreCase(id)) {
                     return i;
                 }
             }
@@ -97,4 +100,27 @@ public class Arbol {
         return null;
     }
 
+    public LinkedList<Instruccion> getStructs() {
+        return structs;
+    }
+
+    public void setStructs(LinkedList<Instruccion> structs) {
+        this.structs = structs;
+    }
+
+    public void addStruct(Instruccion struct) {
+        this.structs.add(struct);
+    }
+
+    public Instruccion getStruct(String id) {
+        for (var i : this.structs) {
+            if (i instanceof DeclaracionStruct) {
+                if (((DeclaracionStruct) i).id.equalsIgnoreCase(id)) {
+                    return i;
+                }
+            }
+        }
+        return null;
+    }
+    // crear metodo getStruct
 }

@@ -50,5 +50,4 @@ public class Decremento extends Instruccion {
             return valorNuevo;
         }
     }
-
 }
