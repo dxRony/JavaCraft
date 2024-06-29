@@ -38,13 +38,6 @@ public class DeclaracionVector extends Instruccion {
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
 
-        System.out.println("entrando a declaracion vector");
-        System.out.println("Datos entrantes.");
-        System.out.println("mutabilidad: " + mutabilidad);
-        System.out.println("identificador: " + identificador);
-        System.out.println("dimension: " + dimension);
-        System.out.println("valores: ");
-
         // if para reconocer si el arreglo es 1D o 2D
         if (dimension == 1) {// si es 1D
             // creando el array del tamaño de los valores
@@ -68,7 +61,7 @@ public class DeclaracionVector extends Instruccion {
                 mutabilidadBool = false;
             }
             // creando simbolo -> vector 1D
-            Simbolo s = new Simbolo(identificador, this.tipo, "Vector", tabla.getNombre(), vector1D, mutabilidadBool,
+            Simbolo s = new Simbolo(identificador, this.tipo, "Vector1D", tabla.getNombre(), vector1D, mutabilidadBool,
                     this.linea, this.columna);
             boolean creacion = tabla.setVariable(s);
             if (!creacion) {
@@ -76,7 +69,6 @@ public class DeclaracionVector extends Instruccion {
             }
 
         } else if (dimension == 2) {
-            System.out.println("Entrando a declaracion de 2 vectores");
             Object[][] vector2D = new Object[valores2.size()][];
 
             for (int i = 0; i < valores2.size(); i++) {
@@ -101,7 +93,7 @@ public class DeclaracionVector extends Instruccion {
                 mutabilidadBool = false;
             }
 
-            Simbolo s = new Simbolo(identificador, this.tipo, "Vector", tabla.getNombre(), vector2D, mutabilidadBool,
+            Simbolo s = new Simbolo(identificador, this.tipo, "Vector2D", tabla.getNombre(), vector2D, mutabilidadBool,
                     this.linea, this.columna);
             boolean creacion = tabla.setVariable(s);
             if (!creacion) {

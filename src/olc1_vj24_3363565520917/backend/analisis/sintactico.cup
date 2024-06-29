@@ -50,6 +50,10 @@ import olc1_vj24_3363565520917.backend.expresiones.Decremento;
 import olc1_vj24_3363565520917.backend.expresiones.AccesoVector;
 import olc1_vj24_3363565520917.backend.expresiones.AccesoStruct;
 import olc1_vj24_3363565520917.backend.expresiones.Return;
+import olc1_vj24_3363565520917.backend.expresiones.Round;
+import olc1_vj24_3363565520917.backend.expresiones.ToString;
+import olc1_vj24_3363565520917.backend.expresiones.Length;
+import olc1_vj24_3363565520917.backend.expresiones.Find;
 
 //definiendo el parser
 parser code
@@ -302,7 +306,7 @@ VALORES_STRUCT ::= VALORES_STRUCT:a ID:b DOSPUNTOS EXPRESION:c FININSTRUCCION   
 
 ASIGNACION_STRUCT ::= ID:a PUNTO ID:b IGUAL EXPRESION:c FININSTRUCCION  {:  RESULT = new AsignacionStruct(aleft, aright, a, b, c);    :}
 ;
- 
+
 EXPRESION ::= MENOS EXPRESION:a                       {:  RESULT = new Aritmeticas(aleft, aright, OperadoresAritmeticos.NEGACION, a);                   :}%prec UMENOS
             | EXPRESION:a MAS EXPRESION:b             {:  RESULT = new Aritmeticas(aleft, aright, a, b, OperadoresAritmeticos.SUMA);                    :}
             | EXPRESION:a MENOS EXPRESION:b           {:  RESULT = new Aritmeticas(aleft, aright, a, b, OperadoresAritmeticos.RESTA);                   :}
@@ -337,7 +341,12 @@ EXPRESION ::= MENOS EXPRESION:a                       {:  RESULT = new Aritmetic
             | ID:a CORCH1 EXPRESION:b CORCH2                                {:  RESULT = new AccesoVector(aleft, aright, a, b, null);                   :}
             | ID:a CORCH1 EXPRESION:b CORCH2 CORCH1 EXPRESION:c CORCH2      {:  RESULT = new AccesoVector(aleft, aright, a, b, c);                      :}
             | ID:a PUNTO ID:b                                               {:  RESULT = new AccesoStruct(aleft, aright, a, b);                         :}
-            | LLAMADA:a                                                     {:  RESULT = a;                                                             :}                                           
+            | LLAMADA:a                                                     {:  RESULT = a;                                                             :}
+
+            | ROUND PAR1 EXPRESION:a PAR2                                   {:  RESULT = new Round(aleft, aright, a);       :}
+            | LENGTH PAR1 EXPRESION:a PAR2                                  {:  RESULT = new Length(aleft, aright, a);      :}
+            | TOSTRING PAR1 EXPRESION:a PAR2                                {:  RESULT = new ToString(aleft, aright, a);    :}
+            | ID:a PUNTO FIND PAR1 EXPRESION:b PAR2                         {:  RESULT = new Find(aleft, aright, a, b);     :}
 ;
 
 TIPOS ::= INT       {:  RESULT = new Tipo(tipoDato.ENTERO);     :}
