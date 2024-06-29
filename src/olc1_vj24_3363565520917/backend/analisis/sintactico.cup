@@ -106,7 +106,7 @@ nonterminal LinkedList<Instruccion> LISTAVALORES1;
 nonterminal LinkedList<LinkedList<Instruccion>> LISTAVALORES2;
 nonterminal Instruccion DECLARACION_STRUCT, INSTANCIA_STRUCT, ASIGNACION_STRUCT;
 nonterminal LinkedList<HashMap> LISTA_STRUCT, VALORES_STRUCT;
-nonterminal Instruccion LLAMADA;
+nonterminal Instruccion LLAMADA, REMOVE_LISTA;
 nonterminal Instruccion RETORNO;
 
 precedence left OR;
@@ -149,6 +149,7 @@ INSTRUCCION ::= IMPRESION:a                       {:    RESULT=a;    :}
             | INSTANCIA_STRUCT:a                  {:    RESULT=a;    :}
             | ASIGNACION_STRUCT:a                 {:    RESULT=a;    :}
             | LLAMADA:a  FININSTRUCCION           {:    RESULT=a;    :}
+            | REMOVE_LISTA:a  FININSTRUCCION      {:    RESULT=a;    :}
             | RETORNO:a                           {:    RESULT=a;    :}
             | error FININSTRUCCION
             | error        
@@ -188,6 +189,9 @@ PARAMS ::= PARAMS:a COMA TIPOS:b ID:c   {:  RESULT = a;
 
 START ::= STARTWITH ID:a PAR1 PARAMSCALL:b PAR2 FININSTRUCCION      {:  RESULT = new StartWith(aleft, aright, a, b);   :}
         | STARTWITH ID:a PAR1 PAR2 FININSTRUCCION                   {:  RESULT = new StartWith(aleft, aright, a, new LinkedList<Instruccion>());       :}
+;
+
+REMOVE_LISTA ::= ID:a PUNTO REMOVE PAR1 EXPRESION:b PAR2                       {:  RESULT = new Remove(aleft, aright, a, b);   :}
 ;
 
 LLAMADA ::= ID:a PAR1 PARAMSCALL:b PAR2               {:  RESULT = new Llamada(aleft, aright, a, b);     :}
@@ -341,12 +345,12 @@ EXPRESION ::= MENOS EXPRESION:a                       {:  RESULT = new Aritmetic
             | ID:a CORCH1 EXPRESION:b CORCH2 CORCH1 EXPRESION:c CORCH2      {:  RESULT = new AccesoVector(aleft, aright, a, b, c);                      :}
             | ID:a PUNTO ID:b                                               {:  RESULT = new AccesoStruct(aleft, aright, a, b);                         :}
             | LLAMADA:a                                                     {:  RESULT = a;                                                             :}
-
+            
             | ROUND PAR1 EXPRESION:a PAR2                                   {:  RESULT = new Round(aleft, aright, a);       :}
             | LENGTH PAR1 EXPRESION:a PAR2                                  {:  RESULT = new Length(aleft, aright, a);      :}
             | TOSTRING PAR1 EXPRESION:a PAR2                                {:  RESULT = new ToString(aleft, aright, a);    :}
-            | ID:a PUNTO FIND PAR1 EXPRESION:b PAR2                         {:  RESULT = new Find(aleft, aright, a, b);     :}
-            | ID:a PUNTO REMOVE PAR1 EXPRESION:b PAR2                       {:  RESULT = new Remove(aleft, aright, a, b);   :}
+            | ID:a PUNTO FIND PAR1 EXPRESION:b PAR2                         {:  RESULT = new Find(aleft, aright, a, b);     :} 
+            | REMOVE_LISTA:a                                                {:  RESULT = a;                                 :}           
 ;
 
 TIPOS ::= INT       {:  RESULT = new Tipo(tipoDato.ENTERO);     :}
