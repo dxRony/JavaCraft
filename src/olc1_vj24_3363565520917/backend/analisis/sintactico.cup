@@ -100,7 +100,7 @@ nonterminal Instruccion METODO;
 nonterminal LinkedList<HashMap> PARAMS;
 nonterminal Instruccion START;
 nonterminal LinkedList<Instruccion> PARAMSCALL;
-nonterminal Instruccion DECLARACION_LIST, ASIGNACION_LIST, NATIVO_LIST;
+nonterminal Instruccion DECLARACION_LIST, ASIGNACION_LIST, APPEND_LIST;
 nonterminal Instruccion DECLARACION_VECTOR, ASIGNACION_VECTOR;
 nonterminal LinkedList<Instruccion> LISTAVALORES1;
 nonterminal LinkedList<LinkedList<Instruccion>> LISTAVALORES2;
@@ -142,7 +142,7 @@ INSTRUCCION ::= IMPRESION:a                       {:    RESULT=a;    :}
             | START:a                             {:    RESULT=a;    :}
             | DECLARACION_LIST:a                  {:    RESULT=a;    :}
             | ASIGNACION_LIST:a                   {:    RESULT=a;    :}
-            | NATIVO_LIST:a                       {:    RESULT=a;    :}
+            | APPEND_LIST:a                       {:    RESULT=a;    :}
             | DECLARACION_VECTOR:a                {:    RESULT=a;    :}
             | ASIGNACION_VECTOR:a                 {:    RESULT=a;    :}
             | DECLARACION_STRUCT:a                {:    RESULT=a;    :}
@@ -243,8 +243,7 @@ CASO ::= EXPRESION:a IGUAL MAYORQUE LLAVE1 INSTRUCCIONES:b LLAVE2    {:      RES
 DECLARACION_LIST ::= LIST MENORQUE TIPOS:a MAYORQUE ID:b IGUAL NEW LIST PAR1 PAR2 FININSTRUCCION        {:      RESULT = new DeclaracionList(a, aleft, aright, b);         :}
 ;
 
-NATIVO_LIST ::= ID:a PUNTO APPEND PAR1 EXPRESION:b PAR2 FININSTRUCCION                  {:      RESULT = new Append(aleft, aright, a, b);              :}
-              | ID:a PUNTO REMOVE PAR1 EXPRESION:b PAR2 FININSTRUCCION                  {:      RESULT = new Remove(aleft, aright, a, b);              :} 
+APPEND_LIST ::= ID:a PUNTO APPEND PAR1 EXPRESION:b PAR2 FININSTRUCCION    {:      RESULT = new Append(aleft, aright, a, b);     :}        
 ;
 
 DECLARACION_VECTOR ::= MUTABILIDAD:a ID:b DOSPUNTOS TIPOS:c CORCH1 CORCH2 IGUAL CORCH1 LISTAVALORES1:d CORCH2 FININSTRUCCION      
@@ -347,6 +346,7 @@ EXPRESION ::= MENOS EXPRESION:a                       {:  RESULT = new Aritmetic
             | LENGTH PAR1 EXPRESION:a PAR2                                  {:  RESULT = new Length(aleft, aright, a);      :}
             | TOSTRING PAR1 EXPRESION:a PAR2                                {:  RESULT = new ToString(aleft, aright, a);    :}
             | ID:a PUNTO FIND PAR1 EXPRESION:b PAR2                         {:  RESULT = new Find(aleft, aright, a, b);     :}
+            | ID:a PUNTO REMOVE PAR1 EXPRESION:b PAR2                       {:  RESULT = new Remove(aleft, aright, a, b);   :}
 ;
 
 TIPOS ::= INT       {:  RESULT = new Tipo(tipoDato.ENTERO);     :}

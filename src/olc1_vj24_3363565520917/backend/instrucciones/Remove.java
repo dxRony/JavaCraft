@@ -23,23 +23,27 @@ public class Remove extends Instruccion {
 
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
+        System.out.println("entrando a remove");
+        System.out.println("lista a buscar: " + identificador);
 
         Simbolo listaExistente = tabla.getVariable(identificador);
 
         if (listaExistente == null) {
+            System.out.println("la lista no existe");
             return new Errores("SEMANTICO", "La lista no existe", this.linea, this.columna);
         }
         if (listaExistente.getTipo2().equalsIgnoreCase("Lista")) {
-            var lista = (LinkedList<Object>) listaExistente.getValor();
+            LinkedList<Object> lista = (LinkedList<Object>) listaExistente.getValor();
+            System.out.println("lista existente: " + lista);
 
             var indiceEliminar = this.indice.interpretar(arbol, tabla);
-
             if (indiceEliminar instanceof Errores) {
                 return indiceEliminar;
             }
+            System.out.println("indice a elimnar interpretado: " + indiceEliminar);
             // devolviendo el valor eliminado
-            var eliminado = (Instruccion) lista.remove((int) indiceEliminar);
-            this.tipo.setTipo(eliminado.tipo.getTipo());
+            var eliminado =  lista.remove((int) indiceEliminar);
+            this.tipo.setTipo(indice.tipo.getTipo());
             return eliminado;
         } else {
             return new Errores("SEMANTICO", "El id no pertenece a una lista", this.linea, this.columna);
