@@ -26,14 +26,15 @@ public class IfElse extends Instruccion {
 
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
+        System.out.println("hay ifelse");
         var cond = this.condicion.interpretar(arbol, tabla);
-
+        System.out.println("cond: " + cond);
         if (cond instanceof Errores) {
             return cond;
         }
         var newTabla = new tablaSimbolos(tabla);
         newTabla.setNombre(tabla.getNombre() + " IF ElSE (linea: " + this.linea + ")");
-
+        
         if ((boolean) cond) {
             for (var i : this.instruccionesA) {
                 if (i instanceof Break || i instanceof Continue || i instanceof Return) {
@@ -41,7 +42,7 @@ public class IfElse extends Instruccion {
                     return i;
                 }
                 var resultado = i.interpretar(arbol, newTabla);
-                if (resultado instanceof Break || resultado instanceof Continue || resultado instanceof Return) {
+                if (resultado instanceof Return) {
                     arbol.agregarSimbolos(newTabla.obtenerSimbolos());
                     return resultado;
                 }
@@ -52,9 +53,10 @@ public class IfElse extends Instruccion {
             }
             arbol.agregarSimbolos(newTabla.obtenerSimbolos());
         } else {
+            arbol.agregarSimbolos(newTabla.obtenerSimbolos());
+            System.out.println("cond no se cumple");
             for (var i : this.instruccionesB) {
-                if (i instanceof Break || i instanceof Continue
-                        || i instanceof Return) {
+                if ( i instanceof Return) {
                     arbol.agregarSimbolos(newTabla.obtenerSimbolos());
                     return i;
                 }

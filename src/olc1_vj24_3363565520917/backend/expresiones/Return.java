@@ -21,8 +21,9 @@ public class Return extends Instruccion {
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
         // interpretando el valor
         if (valor != null) {// si hay valor de retorno, se interpreta y se retorna
-            var resultado = valor.interpretar(arbol, tabla);
+            var resultado = valor.interpretar(arbol, tabla);            
             if (resultado instanceof Errores) {
+                System.out.println("res: " + valor.interpretar(arbol, tabla));
                 return resultado;
             }            
             this.tipo.setTipo(valor.tipo.getTipo());

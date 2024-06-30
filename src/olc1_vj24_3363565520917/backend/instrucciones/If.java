@@ -23,6 +23,7 @@ public class If extends Instruccion {
 
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
+        System.out.println("hay if");
         var cond = this.condicion.interpretar(arbol, tabla);
 
         if (cond instanceof Errores) {
@@ -35,6 +36,7 @@ public class If extends Instruccion {
 
         var newTabla = new tablaSimbolos(tabla);// creando tabla que contiene una tabla anterior de la que nos dan
         newTabla.setNombre(tabla.getNombre() + " IF (linea: " + this.linea + ")");
+       // System.out.println("newTabla if: "+ newTabla.getNombre());
 
         if ((boolean) cond) {
             arbol.agregarSimbolos(newTabla.obtenerSimbolos());

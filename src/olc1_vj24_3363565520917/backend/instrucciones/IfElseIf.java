@@ -26,6 +26,7 @@ public class IfElseIf extends Instruccion {
 
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
+        System.out.println("hay ifelseif");
         var cond = this.condicion.interpretar(arbol, tabla);
 
         if (cond instanceof Errores) {
@@ -41,7 +42,7 @@ public class IfElseIf extends Instruccion {
 
         if ((boolean) cond) {
             for (var i : this.instrucciones) {
-                if (i instanceof Break || i instanceof Continue || i instanceof Return) {
+                if (i instanceof Return) {
                     arbol.agregarSimbolos(newTabla.obtenerSimbolos());
                     return i;
                 }
