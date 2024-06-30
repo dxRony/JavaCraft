@@ -37,10 +37,12 @@ public class IfElse extends Instruccion {
         if ((boolean) cond) {
             for (var i : this.instruccionesA) {
                 if (i instanceof Break || i instanceof Continue || i instanceof Return) {
+                    arbol.agregarSimbolos(newTabla.obtenerSimbolos());
                     return i;
                 }
                 var resultado = i.interpretar(arbol, newTabla);
                 if (resultado instanceof Break || resultado instanceof Continue || resultado instanceof Return) {
+                    arbol.agregarSimbolos(newTabla.obtenerSimbolos());
                     return resultado;
                 }
                 if (resultado instanceof Errores) {
@@ -53,11 +55,13 @@ public class IfElse extends Instruccion {
             for (var i : this.instruccionesB) {
                 if (i instanceof Break || i instanceof Continue
                         || i instanceof Return) {
+                    arbol.agregarSimbolos(newTabla.obtenerSimbolos());
                     return i;
                 }
                 var resultado = i.interpretar(arbol, newTabla);
                 if (resultado instanceof Break || resultado instanceof Continue
                         || resultado instanceof Return) {
+                    arbol.agregarSimbolos(newTabla.obtenerSimbolos());
                     return resultado;
                 }
                 if (resultado instanceof Errores) {

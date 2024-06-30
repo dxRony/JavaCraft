@@ -37,12 +37,15 @@ public class If extends Instruccion {
         newTabla.setNombre(tabla.getNombre() + " IF (linea: " + this.linea + ")");
 
         if ((boolean) cond) {
+            arbol.agregarSimbolos(newTabla.obtenerSimbolos());
             for (var i : this.instrucciones) {// recorriendo las instrucciones de adentro del bloque
                 if (i instanceof Break || i instanceof Continue || i instanceof Return) {
+                    arbol.agregarSimbolos(newTabla.obtenerSimbolos());
                     return i;
                 }
                 var resultado = i.interpretar(arbol, newTabla);// le mandamos la tabla del bloque y que la interprete
                 if (resultado instanceof Break || resultado instanceof Continue || resultado instanceof Return) {
+                    arbol.agregarSimbolos(newTabla.obtenerSimbolos());
                     return resultado;
                 }
                 if (resultado instanceof Errores) {

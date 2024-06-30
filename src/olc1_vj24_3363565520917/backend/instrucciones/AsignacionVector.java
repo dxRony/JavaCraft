@@ -34,48 +34,46 @@ public class AsignacionVector extends Instruccion {
             return new Errores("SEMANTICO", "La lista/vector no existe", this.linea, this.columna);
         }
 
-        if (vectorExistente.getTipo2().equalsIgnoreCase("Vector")) {
+        if (vectorExistente.getTipo2().equalsIgnoreCase("Vector1D")) {
 
-            if (indice2 == null) {// si solo hay 1 indice -> 1D
-                // interpretando el indice
-                var indiceVector1 = indice1.interpretar(arbol, tabla);
-                if (indiceVector1 instanceof Errores) {
-                    return indiceVector1;
-                }
-
-                var newValor = this.valor.interpretar(arbol, tabla);
-                if (newValor instanceof Errores) {
-                    return newValor;
-                }
-                if (vectorExistente.getTipo().getTipo() != this.valor.tipo.getTipo()) {
-                    return new Errores("SEMANTICO", "Tipos no coincidentes para la asignacion", this.linea,
-                            this.columna);
-                }
-                // obteniendo el vector y casteandolo
-                Object[] vector1D = (Object[]) vectorExistente.getValor();
-                // mandando el nuevo valor al indice indicado
-                vector1D[(int) indiceVector1] = newValor;
-
-            } else { // 2 indices -> 2D
-                var indiceVector1 = indice1.interpretar(arbol, tabla);
-                if (indiceVector1 instanceof Errores) {
-                    return indiceVector1;
-                }
-                var indiceVector2 = indice2.interpretar(arbol, tabla);
-                if (indiceVector2 instanceof Errores) {
-                    return indiceVector2;
-                }
-                var newValor = this.valor.interpretar(arbol, tabla);
-                if (newValor instanceof Errores) {
-                    return newValor;
-                }
-                if (vectorExistente.getTipo().getTipo() != this.valor.tipo.getTipo()) {
-                    return new Errores("SEMANTICO", "Tipos no coincidentes para la asignacion", this.linea,
-                            this.columna);
-                }
-                Object[][] vector2D = (Object[][]) vectorExistente.getValor();
-                vector2D[(int) indiceVector1][(int) indiceVector2] = newValor;
+            // interpretando el indice
+            var indiceVector1 = indice1.interpretar(arbol, tabla);
+            if (indiceVector1 instanceof Errores) {
+                return indiceVector1;
             }
+
+            var newValor = this.valor.interpretar(arbol, tabla);
+            if (newValor instanceof Errores) {
+                return newValor;
+            }
+            if (vectorExistente.getTipo().getTipo() != this.valor.tipo.getTipo()) {
+                return new Errores("SEMANTICO", "Tipos no coincidentes para la asignacion", this.linea,
+                        this.columna);
+            }
+            // obteniendo el vector y casteandolo
+            Object[] vector1D = (Object[]) vectorExistente.getValor();
+            // mandando el nuevo valor al indice indicado
+            vector1D[(int) indiceVector1] = newValor;
+
+        } else if (vectorExistente.getTipo2().equalsIgnoreCase("Vector2D")) {
+            var indiceVector1 = indice1.interpretar(arbol, tabla);
+            if (indiceVector1 instanceof Errores) {
+                return indiceVector1;
+            }
+            var indiceVector2 = indice2.interpretar(arbol, tabla);
+            if (indiceVector2 instanceof Errores) {
+                return indiceVector2;
+            }
+            var newValor = this.valor.interpretar(arbol, tabla);
+            if (newValor instanceof Errores) {
+                return newValor;
+            }
+            if (vectorExistente.getTipo().getTipo() != this.valor.tipo.getTipo()) {
+                return new Errores("SEMANTICO", "Tipos no coincidentes para la asignacion", this.linea,
+                        this.columna);
+            }
+            Object[][] vector2D = (Object[][]) vectorExistente.getValor();
+            vector2D[(int) indiceVector1][(int) indiceVector2] = newValor;
         } else if (vectorExistente.getTipo2().equalsIgnoreCase("Lista")) {// si estoy asignando valores a un vector
             var lista = (LinkedList<Object>) vectorExistente.getValor();
             var indiceAsignar = this.indice1.interpretar(arbol, tabla);

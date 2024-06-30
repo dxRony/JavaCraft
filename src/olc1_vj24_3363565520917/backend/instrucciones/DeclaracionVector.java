@@ -17,6 +17,7 @@ public class DeclaracionVector extends Instruccion {
     private LinkedList<Instruccion> valores; // valores entrantes al vector
     private LinkedList<LinkedList<Instruccion>> valores2; // si este es nulo, el vectore es de 1D
 
+    //constructor para vectores 1D
     public DeclaracionVector(Tipo tipo, int linea, int columna, String mutabilidad, String identificador,
             int dimension, LinkedList<Instruccion> valores) {
         super(tipo, linea, columna);
@@ -26,6 +27,7 @@ public class DeclaracionVector extends Instruccion {
         this.valores = valores;
     }
 
+    //constructor para vectores 2D
     public DeclaracionVector(Tipo tipo, int linea, int columna, String mutabilidad, String identificador,
             LinkedList<LinkedList<Instruccion>> valores2) {
         super(tipo, linea, columna);

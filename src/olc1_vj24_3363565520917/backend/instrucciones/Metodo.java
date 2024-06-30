@@ -27,13 +27,18 @@ public class Metodo extends Instruccion {
 
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
-
+        System.out.println("entrando a metodo...");
+        System.out.println("id metodo: " + id);
+        System.out.println("tamaño lista instrucciones: "+ instrucciones.size());
+        System.out.println("tipo metodo: " + this.tipo.getTipo());
         for (var i : this.instrucciones) {
             var resultado = i.interpretar(arbol, tabla);// interpretando cada instruccion de la lista
             if (resultado instanceof Errores) {
+                System.out.println("hay error en la instruccion");
                 return new Errores("SEMANTICO", "Las instrucciones dentro de este metodo no son validas", this.linea,
                         this.columna);
             }
+            System.out.println("resultado metodo: " +resultado);
             if (resultado instanceof Return) {// cuando la instruccion sea retorno se finaliza la ejecucion del metodo
                 return resultado;
             }

@@ -19,13 +19,17 @@ public class Return extends Instruccion {
 
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
+        System.out.println("entrando a Return...");
         // interpretando el valor
         if (valor != null) {// si hay valor de retorno, se interpreta y se retorna
             var resultado = valor.interpretar(arbol, tabla);
             if (resultado instanceof Errores) {
                 return resultado;
             }
+            
             this.tipo.setTipo(valor.tipo.getTipo());
+            System.out.println("valor retorno: "+ valor);
+            System.out.println("tipo valor return: " + valor.tipo.getTipo());
             return resultado;
         } else {// si no hay valor se retorna null
             return null;

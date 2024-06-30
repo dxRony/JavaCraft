@@ -23,12 +23,9 @@ public class Find extends Instruccion {
 
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
-        System.out.println("entrando a find...");
-        System.out.println("idVector/Lista: " + this.id);
 
         Simbolo simboloExistente = tabla.getVariable(id);
         if (simboloExistente == null) {
-            System.out.println("no existe la lista/vector");
             return new Errores("SEMANTICO", "La lista o vector no existe", this.linea, this.columna);
         }
 
@@ -36,29 +33,20 @@ public class Find extends Instruccion {
         if (res instanceof Errores) {
             return res;
         }
-        System.out.println("res valor interpretado: " + res);
 
         if (simboloExistente.getTipo2().equalsIgnoreCase("Lista")) {
-            System.out.println("es lista");
-
             var valoresLista = (LinkedList<Object>) simboloExistente.getValor();
-            System.out.println("contenido lista: ");
-            for (int i = 0; i < valoresLista.size(); i++) {
-                System.out.println(valoresLista.get(i));
-            }
 
             boolean encontrado = buscarLista(valoresLista, res);
             this.tipo.setTipo(tipoDato.BOOLEANO);
             return encontrado;
 
         } else if (simboloExistente.getTipo2().equalsIgnoreCase("Vector1D")) {
-            System.out.println("es vector 1D");
             var valoresVector = (Object[]) simboloExistente.getValor();
             boolean encontrado = buscarVector1D(valoresVector, res);
             this.tipo.setTipo(tipoDato.BOOLEANO);
             return encontrado;
         } else if (simboloExistente.getTipo2().equalsIgnoreCase("Vector2D")) {
-            System.out.println("es vector 2D");
             var valoresVector = (Object[][]) simboloExistente.getValor();
             boolean encontrado = buscarVector2D(valoresVector, res);
             this.tipo.setTipo(tipoDato.BOOLEANO);

@@ -172,6 +172,7 @@ METODO ::= TIPOS:a ID:b PAR1 PARAMS:p PAR2 LLAVE1 INSTRUCCIONES:c LLAVE2    {:  
 ;
 
 RETORNO ::= RETURN EXPRESION:a FININSTRUCCION {:    RESULT = new Return(aleft, aright, a);    :}
+          | RETURN:a FININSTRUCCION           {:    RESULT = new Return(aleft, aright, null); :}
 ;
 
 PARAMS ::= PARAMS:a COMA TIPOS:b ID:c   {:  RESULT = a;

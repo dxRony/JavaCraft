@@ -42,10 +42,12 @@ public class IfElseIf extends Instruccion {
         if ((boolean) cond) {
             for (var i : this.instrucciones) {
                 if (i instanceof Break || i instanceof Continue || i instanceof Return) {
+                    arbol.agregarSimbolos(newTabla.obtenerSimbolos());
                     return i;
                 }
                 var resultado = i.interpretar(arbol, newTabla);
                 if (resultado instanceof Break || resultado instanceof Continue || resultado instanceof Return) {
+                    arbol.agregarSimbolos(newTabla.obtenerSimbolos());
                     return resultado;
                 }
                 if (resultado instanceof Errores) {
@@ -57,6 +59,7 @@ public class IfElseIf extends Instruccion {
         } else if (elseIf != null) {
             var resultado = elseIf.interpretar(arbol, tabla);
             if (resultado instanceof Break || resultado instanceof Continue || resultado instanceof Return) {
+                arbol.agregarSimbolos(newTabla.obtenerSimbolos());
                 return resultado;
             }
             if (resultado instanceof Errores) {

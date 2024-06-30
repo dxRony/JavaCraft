@@ -50,6 +50,7 @@ public class Caso extends Instruccion {
             }
             if (resultado instanceof Break || resultado instanceof Continue
                     || resultado instanceof Return) {
+                        arbol.agregarSimbolos(newTabla.obtenerSimbolos());
                 return resultado;
             }
         }
