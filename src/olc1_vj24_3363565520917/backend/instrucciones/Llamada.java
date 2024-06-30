@@ -30,9 +30,7 @@ public class Llamada extends Instruccion {
 
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
-        System.out.println("entrando a llamada metodo...");
-        System.out.println("id metodo llamado: " + id);
-
+       
         var busqueda = arbol.getFuncion(this.id);
         if (busqueda == null) {
             return new Errores("SEMANTICO", "La funcion no existe", this.linea, this.columna);
@@ -83,7 +81,6 @@ public class Llamada extends Instruccion {
             if (resultadoFuncion instanceof Errores) {
                 return resultadoFuncion;
             }
-            System.out.println("resFuncion:" + resultadoFuncion);
             // validando que no haya break o continue
             if (resultadoFuncion instanceof Break || resultadoFuncion instanceof Continue) {
                 return new Errores("SEMANTICO", "Sentencia Break/Continue no permitida", this.linea,
@@ -98,22 +95,17 @@ public class Llamada extends Instruccion {
                 if (resultadoReturn instanceof Errores) {
                     return resultadoReturn;
                 }
-                System.out.println("resultadoReturn: "+ retorno.tipo.getTipo());
                 if (resultadoReturn == null) {
                     // si el resultado es null, la funcion es tipo void
-                    System.out.println("return nulo");
                     this.tipo.setTipo(tipoDato.VOID);
                     return null;
                 } else {
-                    // se actualiza el tipo de la funcion y se retorna el valor
-                    System.out.println("return no nulo");
-                    this.tipo.setTipo(retorno.tipo.getTipo());
-                    System.out.println("tipo llamada: " + this.tipo.getTipo());
+                    // se actualiza el tipo de la funcion y se retorna el valor           
+                    this.tipo.setTipo(retorno.tipo.getTipo());  
                     return resultadoReturn;
                 }
             }
         }
-        System.out.println("se retorno null...");
         return null;
     }
 }

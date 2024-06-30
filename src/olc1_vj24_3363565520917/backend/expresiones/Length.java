@@ -42,9 +42,7 @@ public class Length extends Instruccion {
             int largo = 0;
             if (resExpresion.getClass().getComponentType().isArray()) {
                 //si es vector 2D
-                for (Object array : (Object[]) resExpresion) {
-                    largo += ((Object[]) array).length;
-                }
+                    largo = ((Object[]) resExpresion).length;
             } else {
                 //si es vector 1D
                 largo = ((Object[]) resExpresion).length;

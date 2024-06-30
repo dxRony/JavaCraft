@@ -28,9 +28,12 @@ import olc1_vj24_3363565520917.backend.instrucciones.Append;
 import olc1_vj24_3363565520917.backend.instrucciones.Remove;
 import olc1_vj24_3363565520917.backend.instrucciones.DeclaracionList;
 import olc1_vj24_3363565520917.backend.instrucciones.StartWith;
+import olc1_vj24_3363565520917.backend.instrucciones.Llamada;
 import olc1_vj24_3363565520917.backend.instrucciones.AsignacionVector;
 import olc1_vj24_3363565520917.backend.instrucciones.DeclaracionVector;
-import olc1_vj24_3363565520917.backend.instrucciones.Llamada;
+import olc1_vj24_3363565520917.backend.instrucciones.AsignacionStruct;
+import olc1_vj24_3363565520917.backend.instrucciones.DeclaracionStruct;
+import olc1_vj24_3363565520917.backend.instrucciones.InstanciaStruct;
 
 //expresiones
 import olc1_vj24_3363565520917.backend.expresiones.Nativo;
@@ -45,7 +48,12 @@ import olc1_vj24_3363565520917.backend.expresiones.Casteo;
 import olc1_vj24_3363565520917.backend.expresiones.Incremento;
 import olc1_vj24_3363565520917.backend.expresiones.Decremento;
 import olc1_vj24_3363565520917.backend.expresiones.AccesoVector;
+import olc1_vj24_3363565520917.backend.expresiones.AccesoStruct;
 import olc1_vj24_3363565520917.backend.expresiones.Return;
+import olc1_vj24_3363565520917.backend.expresiones.Round;
+import olc1_vj24_3363565520917.backend.expresiones.ToString;
+import olc1_vj24_3363565520917.backend.expresiones.Length;
+import olc1_vj24_3363565520917.backend.expresiones.Find;
 
 //definiendo el parser
 parser code
@@ -92,11 +100,13 @@ nonterminal Instruccion METODO;
 nonterminal LinkedList<HashMap> PARAMS;
 nonterminal Instruccion START;
 nonterminal LinkedList<Instruccion> PARAMSCALL;
-nonterminal Instruccion DECLARACION_LIST, ASIGNACION_LIST, NATIVO_LIST;
+nonterminal Instruccion DECLARACION_LIST, ASIGNACION_LIST, APPEND_LIST;
 nonterminal Instruccion DECLARACION_VECTOR, ASIGNACION_VECTOR;
 nonterminal LinkedList<Instruccion> LISTAVALORES1;
 nonterminal LinkedList<LinkedList<Instruccion>> LISTAVALORES2;
-nonterminal Instruccion LLAMADA;
+nonterminal Instruccion DECLARACION_STRUCT, INSTANCIA_STRUCT, ASIGNACION_STRUCT;
+nonterminal LinkedList<HashMap> LISTA_STRUCT, VALORES_STRUCT;
+nonterminal Instruccion LLAMADA, REMOVE_LISTA;
 nonterminal Instruccion RETORNO;
 
 precedence left OR;
@@ -132,10 +142,14 @@ INSTRUCCION ::= IMPRESION:a                       {:    RESULT=a;    :}
             | START:a                             {:    RESULT=a;    :}
             | DECLARACION_LIST:a                  {:    RESULT=a;    :}
             | ASIGNACION_LIST:a                   {:    RESULT=a;    :}
-            | NATIVO_LIST:a                       {:    RESULT=a;    :}
+            | APPEND_LIST:a                       {:    RESULT=a;    :}
             | DECLARACION_VECTOR:a                {:    RESULT=a;    :}
             | ASIGNACION_VECTOR:a                 {:    RESULT=a;    :}
+            | DECLARACION_STRUCT:a                {:    RESULT=a;    :}
+            | INSTANCIA_STRUCT:a                  {:    RESULT=a;    :}
+            | ASIGNACION_STRUCT:a                 {:    RESULT=a;    :}
             | LLAMADA:a  FININSTRUCCION           {:    RESULT=a;    :}
+            | REMOVE_LISTA:a  FININSTRUCCION      {:    RESULT=a;    :}
             | RETORNO:a                           {:    RESULT=a;    :}
             | error FININSTRUCCION
             | error        
@@ -158,6 +172,7 @@ METODO ::= TIPOS:a ID:b PAR1 PARAMS:p PAR2 LLAVE1 INSTRUCCIONES:c LLAVE2    {:  
 ;
 
 RETORNO ::= RETURN EXPRESION:a FININSTRUCCION {:    RESULT = new Return(aleft, aright, a);    :}
+          | RETURN:a FININSTRUCCION           {:    RESULT = new Return(aleft, aright, null); :}
 ;
 
 PARAMS ::= PARAMS:a COMA TIPOS:b ID:c   {:  RESULT = a;
@@ -177,11 +192,14 @@ START ::= STARTWITH ID:a PAR1 PARAMSCALL:b PAR2 FININSTRUCCION      {:  RESULT =
         | STARTWITH ID:a PAR1 PAR2 FININSTRUCCION                   {:  RESULT = new StartWith(aleft, aright, a, new LinkedList<Instruccion>());       :}
 ;
 
+REMOVE_LISTA ::= ID:a PUNTO REMOVE PAR1 EXPRESION:b PAR2                       {:  RESULT = new Remove(aleft, aright, a, b);   :}
+;
+
 LLAMADA ::= ID:a PAR1 PARAMSCALL:b PAR2               {:  RESULT = new Llamada(aleft, aright, a, b);     :}
           | ID:a PAR1 PAR2                            {:  RESULT = new Llamada(aleft, aright, a, new LinkedList<Instruccion>());     :}
 ;
 
-PARAMSCALL ::= PARAMSCALL:a COMA EXPRESION:e      {:  RESULT = a;
+PARAMSCALL ::= PARAMSCALL:a COMA EXPRESION:e    {:  RESULT = a;
                                                     RESULT.add(e);    
                                                 :}
              | EXPRESION:a                      {:  RESULT = new LinkedList<Instruccion>();
@@ -219,8 +237,8 @@ SMATCH ::= MATCH EXPRESION:a LLAVE1 CASOS:b DEFAULT:c LLAVE2 {:     RESULT = new
         |  MATCH EXPRESION:a LLAVE1 DEFAULT:c LLAVE2         {:     RESULT = new Match(aleft, aright, a, new LinkedList<Caso>(), (Caso) c); :}//cuando hay un match solo con default
 ;
 
-CASOS ::= CASOS:a CASO:b            {:  RESULT = a; RESULT.add(b);                      :}//agregando el caso a la lista de casos
-        | CASO:a                    {:  RESULT = new LinkedList<>(); RESULT.add(a);     :}//creando lista de casos con un caso
+CASOS ::= CASOS:a CASO:b      {:      RESULT = a; RESULT.add(b);                      :}//agregando el caso a la lista de casos
+        | CASO:a              {:      RESULT = new LinkedList<>(); RESULT.add(a);     :}//creando lista de casos con un caso
 ;
 
 CASO ::= EXPRESION:a IGUAL MAYORQUE LLAVE1 INSTRUCCIONES:b LLAVE2    {:      RESULT = new Caso(a, b, true);        :}//creando un caso, con sus instrucciones 
@@ -230,8 +248,7 @@ CASO ::= EXPRESION:a IGUAL MAYORQUE LLAVE1 INSTRUCCIONES:b LLAVE2    {:      RES
 DECLARACION_LIST ::= LIST MENORQUE TIPOS:a MAYORQUE ID:b IGUAL NEW LIST PAR1 PAR2 FININSTRUCCION        {:      RESULT = new DeclaracionList(a, aleft, aright, b);         :}
 ;
 
-NATIVO_LIST ::= ID:a PUNTO APPEND PAR1 EXPRESION:b PAR2 FININSTRUCCION                  {:      RESULT = new Append(aleft, aright, a, b);              :}
-              | ID:a PUNTO REMOVE PAR1 EXPRESION:b PAR2 FININSTRUCCION                  {:      RESULT = new Remove(aleft, aright, a, b);              :} 
+APPEND_LIST ::= ID:a PUNTO APPEND PAR1 EXPRESION:b PAR2 FININSTRUCCION    {:      RESULT = new Append(aleft, aright, a, b);     :}        
 ;
 
 DECLARACION_VECTOR ::= MUTABILIDAD:a ID:b DOSPUNTOS TIPOS:c CORCH1 CORCH2 IGUAL CORCH1 LISTAVALORES1:d CORCH2 FININSTRUCCION      
@@ -250,8 +267,48 @@ LISTAVALORES2 ::= LISTAVALORES2:a COMA CORCH1 LISTAVALORES1:b CORCH2 {:     RESU
                 | CORCH1 LISTAVALORES1:a CORCH2                        {:     RESULT = new LinkedList<LinkedList<Instruccion>>();     RESULT.add(a);  :}
 ;
 
-ASIGNACION_VECTOR ::= ID:a CORCH1 EXPRESION:b CORCH2 IGUAL EXPRESION:c FININSTRUCCION                               {:  RESULT = new AsignacionVector(aleft, aright, a, b, null, c);    :}
+ASIGNACION_VECTOR ::= ID:a CORCH1 EXPRESION:b CORCH2 IGUAL EXPRESION:c FININSTRUCCION   {:  RESULT = new AsignacionVector(aleft, aright, a, b, null, c);    :}
                     | ID:a CORCH1 EXPRESION:b CORCH2 CORCH1 EXPRESION:c CORCH2 IGUAL EXPRESION:d FININSTRUCCION     {:  RESULT = new AsignacionVector(aleft, aright, a, b, c, d);    :}    
+;
+
+DECLARACION_STRUCT ::= STRUCT LLAVE1 LISTA_STRUCT:a LLAVE2 ID:b FININSTRUCCION {:    RESULT = new DeclaracionStruct(new Tipo(tipoDato.STRUCT), aleft, aright, b, a);   :}
+;
+
+LISTA_STRUCT ::= LISTA_STRUCT:a ID:b DOSPUNTOS TIPOS:c FININSTRUCCION   {:  RESULT = a;
+                                                                            var hm2 = new HashMap<String, Object>();
+                                                                            hm2.put("id", b);
+                                                                            hm2.put("tipo", c);
+                                                                            hm2.put("valor", null);
+                                                                            RESULT.add(hm2);
+                                                                        :}
+               | ID:a DOSPUNTOS TIPOS:b FININSTRUCCION                  {:  RESULT = new LinkedList<HashMap>();
+                                                                            var hm = new HashMap<String, Object>();
+                                                                            hm.put("id", a);
+                                                                            hm.put("tipo", b);
+                                                                            hm.put("valor", null);
+                                                                            RESULT.add(hm);
+                                                                        :}
+;
+
+INSTANCIA_STRUCT ::= MUTABILIDAD:a ID:b DOSPUNTOS ID:c IGUAL LLAVE1 VALORES_STRUCT:d LLAVE2 FININSTRUCCION
+                        {:  RESULT = new InstanciaStruct(aleft, aright, a, b, c, d);     :}
+;
+
+VALORES_STRUCT ::= VALORES_STRUCT:a ID:b DOSPUNTOS EXPRESION:c FININSTRUCCION   {:  RESULT = a;
+                                                                                    var hm2 = new HashMap<String, Object>();
+                                                                                    hm2.put("id", b);
+                                                                                    hm2.put("valor", c);
+                                                                                    RESULT.add(hm2);
+                                                                                :}
+                | ID:a DOSPUNTOS EXPRESION:b FININSTRUCCION                     {:  RESULT = new LinkedList<HashMap>();
+                                                                                    var hm = new HashMap<String, Object>();
+                                                                                    hm.put("id", a);
+                                                                                    hm.put("valor", b);
+                                                                                    RESULT.add(hm);
+                                                                                :}
+;
+
+ASIGNACION_STRUCT ::= ID:a PUNTO ID:b IGUAL EXPRESION:c FININSTRUCCION  {:  RESULT = new AsignacionStruct(aleft, aright, a, b, c);    :}
 ;
 
 EXPRESION ::= MENOS EXPRESION:a                       {:  RESULT = new Aritmeticas(aleft, aright, OperadoresAritmeticos.NEGACION, a);                   :}%prec UMENOS
@@ -286,8 +343,15 @@ EXPRESION ::= MENOS EXPRESION:a                       {:  RESULT = new Aritmetic
 
             | ID:a                                                          {:  RESULT = new AccesoVar(aleft, aright, a);                               :}
             | ID:a CORCH1 EXPRESION:b CORCH2                                {:  RESULT = new AccesoVector(aleft, aright, a, b, null);                   :}
-            | ID:a CORCH1 EXPRESION:b CORCH2 CORCH1 EXPRESION:c CORCH2      {:  RESULT = new AccesoVector(aleft, aright, a, b, c); :}  
-            | LLAMADA:a                             {:  RESULT=a; :}                                           
+            | ID:a CORCH1 EXPRESION:b CORCH2 CORCH1 EXPRESION:c CORCH2      {:  RESULT = new AccesoVector(aleft, aright, a, b, c);                      :}
+            | ID:a PUNTO ID:b                                               {:  RESULT = new AccesoStruct(aleft, aright, a, b);                         :}
+            | LLAMADA:a                                                     {:  RESULT = a;                                                             :}
+            
+            | ROUND PAR1 EXPRESION:a PAR2                                   {:  RESULT = new Round(aleft, aright, a);       :}
+            | LENGTH PAR1 EXPRESION:a PAR2                                  {:  RESULT = new Length(aleft, aright, a);      :}
+            | TOSTRING PAR1 EXPRESION:a PAR2                                {:  RESULT = new ToString(aleft, aright, a);    :}
+            | ID:a PUNTO FIND PAR1 EXPRESION:b PAR2                         {:  RESULT = new Find(aleft, aright, a, b);     :} 
+            | REMOVE_LISTA:a                                                {:  RESULT = a;                                 :}           
 ;
 
 TIPOS ::= INT       {:  RESULT = new Tipo(tipoDato.ENTERO);     :}
@@ -296,4 +360,5 @@ TIPOS ::= INT       {:  RESULT = new Tipo(tipoDato.ENTERO);     :}
         | CHAR      {:  RESULT = new Tipo(tipoDato.CARACTER);   :}
         | BOOL      {:  RESULT = new Tipo(tipoDato.BOOLEANO);   :}
         | VOID      {:  RESULT = new Tipo(tipoDato.VOID);       :}
+        | STRUCT    {:  RESULT = new Tipo(tipoDato.STRUCT);     :}
 ;
