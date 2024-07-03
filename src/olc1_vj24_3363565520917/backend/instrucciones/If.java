@@ -25,7 +25,6 @@ public class If extends Instruccion {
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
         System.out.println("hay if");
         var cond = this.condicion.interpretar(arbol, tabla);
-
         if (cond instanceof Errores) {
             return cond;
         }
@@ -36,17 +35,22 @@ public class If extends Instruccion {
 
         var newTabla = new tablaSimbolos(tabla);// creando tabla que contiene una tabla anterior de la que nos dan
         newTabla.setNombre(tabla.getNombre() + " IF (linea: " + this.linea + ")");
-       // System.out.println("newTabla if: "+ newTabla.getNombre());
 
         if ((boolean) cond) {
-            arbol.agregarSimbolos(newTabla.obtenerSimbolos());
+            System.out.println("se cumple cond if");
             for (var i : this.instrucciones) {// recorriendo las instrucciones de adentro del bloque
-                if (i instanceof Break || i instanceof Continue || i instanceof Return) {
+                if (i instanceof Break || i instanceof Continue ) {
+                    System.out.println("hay break/continue en if");
                     arbol.agregarSimbolos(newTabla.obtenerSimbolos());
                     return i;
                 }
+                if (i instanceof Return) {
+                    System.out.println("return en if");
+                    return i.interpretar(arbol, newTabla);
+                }
                 var resultado = i.interpretar(arbol, newTabla);// le mandamos la tabla del bloque y que la interprete
                 if (resultado instanceof Break || resultado instanceof Continue || resultado instanceof Return) {
+                    System.out.println("interpretando break/continue/return en if");
                     arbol.agregarSimbolos(newTabla.obtenerSimbolos());
                     return resultado;
                 }

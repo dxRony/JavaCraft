@@ -34,15 +34,18 @@ public class IfElse extends Instruccion {
         }
         var newTabla = new tablaSimbolos(tabla);
         newTabla.setNombre(tabla.getNombre() + " IF ElSE (linea: " + this.linea + ")");
-        
+
         if ((boolean) cond) {
+            System.out.println("se cumple la cond en if else");
             for (var i : this.instruccionesA) {
                 if (i instanceof Break || i instanceof Continue || i instanceof Return) {
                     arbol.agregarSimbolos(newTabla.obtenerSimbolos());
+                    System.out.println("retorno 1");
                     return i;
                 }
                 var resultado = i.interpretar(arbol, newTabla);
                 if (resultado instanceof Return) {
+                    System.out.println("retorno 1");
                     arbol.agregarSimbolos(newTabla.obtenerSimbolos());
                     return resultado;
                 }
@@ -54,13 +57,15 @@ public class IfElse extends Instruccion {
             arbol.agregarSimbolos(newTabla.obtenerSimbolos());
         } else {
             arbol.agregarSimbolos(newTabla.obtenerSimbolos());
-            System.out.println("cond no se cumple");
+            System.out.println("cond no se cumple en ifelse");
             for (var i : this.instruccionesB) {
-                if ( i instanceof Return) {
-                    arbol.agregarSimbolos(newTabla.obtenerSimbolos());
+                if (i instanceof Return) {
+                    System.out.println("hay return en if elsekk");
+                    arbol.agregarSimbolos(newTabla.obtenerSimbolos());                   
                     return i;
                 }
                 var resultado = i.interpretar(arbol, newTabla);
+                System.out.println("resultado: " + i.interpretar(arbol, newTabla));
                 if (resultado instanceof Break || resultado instanceof Continue
                         || resultado instanceof Return) {
                     arbol.agregarSimbolos(newTabla.obtenerSimbolos());

@@ -1,0 +1,15 @@
+var global:int = 10;
+
+start_with miFuncion(20);
+
+void miFuncion(int b){
+     println("Desde funcion 1 con parametros");
+     println(b);
+     var c : int = 222;
+     miFuncion2(c);
+}
+
+void miFuncion2(int a) {
+    println("estoy en funcion 2");
+    println(a);
+}

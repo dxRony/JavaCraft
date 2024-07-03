@@ -1,0 +1,32 @@
+Struct{
+    nombre: string;
+    edad: int;
+    estatura: double;
+} persona;
+
+Struct{
+    cui: string;
+    p: int;    
+} identificacion;
+
+START_WITH main();
+
+var global: int = 10;
+
+void main(){
+    println("Prueba structs");
+
+    //prueba instanciacion:
+    var p1 : persona = {nombre: "Rony";  edad: 22; estatura: 1.64;  };
+
+     //prueba acceso
+     const edadRony : int = p1.edad;
+     println(edadRony);
+
+     //prueba asignacion
+      p1.edad = 28;
+      var edadActualizada : int = p1.edad;
+      println(edadActualizada);
+
+
+}

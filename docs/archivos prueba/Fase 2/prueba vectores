@@ -1,0 +1,12 @@
+start_with miFuncion(20);
+
+void miFuncion(int b){
+     println("Desde funcion con parametros");
+     var vector1 : int [] = [1,2,3]; //declaracion vector 1D
+     var valor1 : int = vector1 [0]; //acceso vector 1D
+     vector1 [1] = 34;  //asignacion vector 1D
+
+      var vector2 : int [] [] = [[1, 2], [3, 4]]; //declaración vector 2D
+      var valor2 : int = vector2 [0] [1];
+      vector2 [1] [1] = 99;
+}

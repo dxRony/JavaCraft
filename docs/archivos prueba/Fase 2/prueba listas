@@ -1,0 +1,22 @@
+var global:int = 10;
+list <int> lista1 = new list();
+
+start_with miFuncion(20);
+
+void miFuncion(int b){
+     println("Desde funcion con parametros");
+     lista1.append(23);
+     lista1.append(34);
+     lista1.append(45);
+     lista1.append(55);
+
+     var d: int = lista1.remove(2);
+     println(d);
+    
+     lista1[ 2 ] = 98;
+
+     var valor2 : int = lista1[ 2 ];
+     println(valor2);
+     lista1.remove(2);
+    
+}

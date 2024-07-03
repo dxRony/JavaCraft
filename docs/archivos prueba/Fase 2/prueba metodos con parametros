@@ -1,0 +1,9 @@
+var global:int = 10;
+
+start_with miFuncion(20);
+
+void miFuncion(int b){
+     println("Desde funcion con parametros");
+     println(b);
+     println(global);
+}

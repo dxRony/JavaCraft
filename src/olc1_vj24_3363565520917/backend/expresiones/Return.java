@@ -2,6 +2,7 @@ package olc1_vj24_3363565520917.backend.expresiones;
 
 import olc1_vj24_3363565520917.backend.abstracto.Instruccion;
 import olc1_vj24_3363565520917.backend.excepciones.Errores;
+import olc1_vj24_3363565520917.backend.instrucciones.Break;
 import olc1_vj24_3363565520917.backend.simbolo.Arbol;
 import olc1_vj24_3363565520917.backend.simbolo.Tipo;
 import olc1_vj24_3363565520917.backend.simbolo.tablaSimbolos;
@@ -19,17 +20,19 @@ public class Return extends Instruccion {
 
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
+        System.out.println("entrando a return...");
         // interpretando el valor
         if (valor != null) {// si hay valor de retorno, se interpreta y se retorna
-            var resultado = valor.interpretar(arbol, tabla);            
-            if (resultado instanceof Errores) {
-                System.out.println("res: " + valor.interpretar(arbol, tabla));
+            var resultado = valor.interpretar(arbol, tabla);    
+            System.out.println("res: " + valor.interpretar(arbol, tabla));        
+            if (resultado instanceof Errores) {      
                 return resultado;
             }            
             this.tipo.setTipo(valor.tipo.getTipo());
             return resultado;
         } else {// si no hay valor se retorna null
-            return null;
+            return new Break(linea, columna);
+           // return null;
         }
     }
 }

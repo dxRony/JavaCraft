@@ -1,0 +1,25 @@
+start_with main();
+
+void main(){
+  var m : int = 3;
+  var n : int = 2;
+  println("Ackermann(" + m + ", " + n + ") = " + ackermann(m, n));
+
+}
+
+int Ackermann(int m, int n){
+    if (m == 0) {
+      return n + 1;
+    } else if (m > 0 && n == 0) {
+      return ackermann(m - 1, 1);
+    } else if (m > 0 && n > 0) {
+      return ackermann(m - 1, ackermann(m, n - 1));
+    } else {
+      println("Los valores de m y n deben ser no negativos.");
+    }
+}
+
+//SALIDA
+/*
+Ackermann(3, 2) = 29
+*/

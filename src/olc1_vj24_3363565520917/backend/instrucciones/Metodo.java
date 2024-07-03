@@ -37,15 +37,8 @@ public class Metodo extends Instruccion {
             if (resultado instanceof Return) {// cuando la instruccion sea retorno se finaliza la ejecucion del metodo
                 return resultado;
             }
-            if (resultado instanceof Return) {
-                var retorno = (Return) resultado;
-                if (this.tipo.getTipo() != tipoDato.VOID && retorno.valor == null) {
-                    return new Errores("SEMANTICO", "El metodo debe retornar un valor", this.linea, this.columna);
-                }
-                if (this.tipo.getTipo() == tipoDato.VOID && retorno.valor != null) {
-                    return new Errores("SEMANTICO", "El metodo VOID no debe retornar un valor", this.linea, this.columna);
-                }
-                return retorno.interpretar(arbol, tabla); // retorna el valor interpretado
+            if (resultado instanceof Return) {                
+                return resultado; // retorna el valor interpretado
             }
         }
         return null;

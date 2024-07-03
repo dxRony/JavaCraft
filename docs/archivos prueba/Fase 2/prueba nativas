@@ -1,0 +1,67 @@
+var global:int = 10;
+list <int> lista1 = new list();
+
+Struct{
+    nombre: string;
+    edad: int;
+    estatura: double;
+} persona;
+
+
+start_with miFuncion(20);
+
+void miFuncion(int b){
+     println("Prueba funciones nativas");
+
+    //prueba ROUND
+     var d : double = 45.9;
+     var f : int = round(d);
+    println("valor redondeado: "+f);
+
+     //prueba LENGTH - cadena
+     var cad : string = "cadenas largas";
+     println("tamanio cadena: "+length(cad));
+
+     // prueba length - lista
+     lista1.append(23);
+     lista1.append(34);
+     lista1.append(45);
+     lista1.append(55);
+     println("tamanio lista1: "+ length(lista1));
+
+     //prueba length - vector 1D
+      var vector1 : int [] = [1,2,3];
+      println("tamanio vector 1D: "+length(vector1));
+
+     // prueba length - vector 2D
+      var vector2 : int [] [] = [[1, 2], [3, 4]];
+     println("tamanio vector 2D: "+length(vector2));
+
+    //prueba toString - nativos
+    var string1 : string = toString(22);
+    var string2 : string = toString(22.22);
+    var string3: string = toString('a');
+    var string4: string = toString(true);
+
+    println("entero a string: "+string1);
+    println("double a string: "+string2);
+    println("char a string: "+string3);
+    println("bool a string: "+string4);
+
+    //prueba toString - structs
+     var p1 : persona = { nombre: "Rony"; edad: 30; estatura: 2.0;  };
+     var string5 : string = toString(p1);
+     println(string5);
+
+    //prueba find - lista
+    const bool1 : bool = lista1.Find(23);
+    println("existe dato en lista1: "+bool1);
+    
+    //prueba find - vector 1D
+    const bool2 : bool = vector1.Find(1);
+    println("existe dato en vector1D: " + bool2);
+
+    //prueba find - vector2D
+   const bool3: bool = vector2.Find(4);
+   println("existe dato en vector2D: " + bool3);
+}
